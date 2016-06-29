@@ -11,3 +11,18 @@
      private static final IItemPropertyGetter DAMAGED_GETTER = new IItemPropertyGetter() {
          @Strippable(
              side = Side.CLIENT
+@@ -463,6 +463,14 @@
+         return HashMultimap.create();
+     }
+ 
++    // OML
++    /**
++     * Called to tick the armor item when it is being worn.
++     * @param player The player wearing the armor
++     * @param stack The armor stack being worn
++     */
++    public void onArmorTick(EntityPlayer player, ItemStack stack) {}
++
+     public static void registerItems() {
+         registerItemBlock(Blocks.STONE, (new ItemMultiTexture(Blocks.STONE, Blocks.STONE, new Function<ItemStack, String>() {
+             @Nullable

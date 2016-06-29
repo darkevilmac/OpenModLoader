@@ -1,8 +1,11 @@
 package xyz.openmodloader.event.impl;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.event.Event;
 
 /**
@@ -129,6 +132,64 @@ public class UpdateEvent extends Event {
          */
         public MinecraftServer getServer() {
             return server;
+        }
+    }
+
+    /**
+     * Fired every time a player's armor stack is ticked.
+     */
+    public static class ArmorUpdate extends UpdateEvent {
+
+        /**
+         * The player whose armor is being ticked.
+         *
+         * @see #getPlayer()
+         */
+        private final EntityPlayer player;
+
+        /**
+         * The stack that contains the armor.
+         *
+         * @see #getStack()
+         */
+        private final ItemStack stack;
+
+        /**
+         * Creates a new instance of the armor update event.
+         * @param player The player whose armor is being ticked
+         * @param stack The stack containing the armor being ticked
+         */
+        private ArmorUpdate(EntityPlayer player, ItemStack stack) {
+            this.player = player;
+            this.stack = stack;
+        }
+
+        /**
+         * Gets the player whose armor is being ticked.
+         *
+         * @return The player whose armor is being ticked
+         */
+        public EntityPlayer getPlayer() {
+            return player;
+        }
+
+        /**
+         * Gets the armor stack that is being ticked.
+         *
+         * @return The stack that contains the armor
+         */
+        public ItemStack getStack() {
+            return stack;
+        }
+
+        /**
+         * Internal handle method that posts the event and invokes the {@link net.minecraft.item.Item#onArmorTick(EntityPlayer, ItemStack)} method of the armor
+         * @param player The player whose armor is being ticked
+         * @param stack The stack containing the armor being ticked
+         */
+        public static void handle(EntityPlayer player, ItemStack stack) {
+            OpenModLoader.getEventBus().post(new ArmorUpdate(player, stack));
+            stack.getItem().onArmorTick(player, stack);
         }
     }
 }

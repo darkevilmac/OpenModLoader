@@ -1,0 +1,11 @@
+--- /net/minecraft/entity/player
++++ /net/minecraft/entity/player
+@@ -270,6 +270,8 @@
+             }
+         }
+ 
++        for (ItemStack armor : this.armorInventory)
++            if (armor != null) xyz.openmodloader.event.impl.UpdateEvent.ArmorUpdate.handle(player, armor);
+     }
+ 
+     public boolean addItemStackToInventory(@Nullable final ItemStack var1) {
