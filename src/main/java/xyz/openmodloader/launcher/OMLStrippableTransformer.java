@@ -14,6 +14,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
+import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.launcher.strippable.Environment;
 import xyz.openmodloader.launcher.strippable.InterfaceContainer;
 import xyz.openmodloader.launcher.strippable.Side;
@@ -29,32 +30,39 @@ public class OMLStrippableTransformer implements IClassTransformer {
         ClassReader classReader = new ClassReader(basicClass);
         classReader.accept(classNode, 0);
 
-        if (classNode.visibleAnnotations != null) {
-            for (AnnotationNode an: classNode.visibleAnnotations) {
-                Type anType = Type.getType(an.desc);
-                if (anType.equals(Type.getType(Strippable.Interface.class))) {
-                    handleStrippableInterface(classNode, an);
-                } else if (anType.equals(Type.getType(InterfaceContainer.class))) {
-                    for (Object o: (Iterable<?>) an.values.get(1)) {
-                        handleStrippableInterface(classNode, (AnnotationNode) o);
-                    }
-                }
-            }
-        }
-
         if (remove(classNode.visibleAnnotations)) {
             throw new RuntimeException(String.format("Loading class %s on wrong side %s", name, SIDE.toString()));
         }
 
-        classNode.methods.removeIf(method -> remove(method.visibleAnnotations));
-        classNode.fields.removeIf(fields -> remove(fields.visibleAnnotations));
-
-        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        classNode.accept(writer);
-        return writer.toByteArray();
+        if (removeInterfaces(classNode) ||
+                classNode.methods.removeIf(method -> remove(method.visibleAnnotations)) ||
+                classNode.fields.removeIf(fields -> remove(fields.visibleAnnotations))) {
+            OpenModLoader.getLogger().debug("Stripping elements from class '%s'", classNode.name);
+            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+            classNode.accept(writer);
+            return writer.toByteArray();
+        }
+        return basicClass;
     }
 
-    private void handleStrippableInterface(ClassNode classNode, AnnotationNode an) {
+    private boolean removeInterfaces(ClassNode classNode) {
+        boolean b = false;
+        if (classNode.visibleAnnotations != null) {
+            for (AnnotationNode an: classNode.visibleAnnotations) {
+                Type anType = Type.getType(an.desc);
+                if (anType.equals(Type.getType(Strippable.Interface.class))) {
+                    b = b | handleStrippableInterface(classNode, an);
+                } else if (anType.equals(Type.getType(InterfaceContainer.class))) {
+                    for (Object o: (Iterable<?>) an.values.get(1)) {
+                        b = b | handleStrippableInterface(classNode, (AnnotationNode) o);
+                    }
+                }
+            }
+        }
+        return b;
+    }
+
+    private boolean handleStrippableInterface(ClassNode classNode, AnnotationNode an) {
         List<Object> values = an.values;
         String side = Side.UNIVERSAL.name();
         String envo = Environment.UNIVERSAL.name();
@@ -77,27 +85,24 @@ public class OMLStrippableTransformer implements IClassTransformer {
             }
         }
         if (!side.equals("UNIVERSAL") && !SIDE.toString().equals(side)) {
-            classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
-            return;
+            return classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
         }
         if (!envo.equals("UNIVERSAL") && !getEnvironment().toString().equals(side)) {
-            classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
-            return;
+            return classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
         }
         for (String mod: mods) {
             if (!MODS.contains(mod)) {
-                classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
-                return;
+                return classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
             }
         }
         for (String cls: classes) {
             try {
                 Class.forName(cls, false, Launch.classLoader);
             } catch (ClassNotFoundException e) {
-                classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
-                return;
+                return classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
             }
         }
+        return false;
     }
 
     public boolean remove(List<AnnotationNode> annotations) {
