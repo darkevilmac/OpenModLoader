@@ -19,10 +19,12 @@ Documentation is very important for keeping the project accessible to everyone. 
 All code that is part of Open Mod Loader should use the same code style for the sake of consistency. A formatter file for IntelliJ can be found [here](https://github.com/OpenModLoader/OpenModLoader/blob/master/OML-IDEA-code-formatter.xml). An eclipse one will be live soon. The following is a list of guidelines for our code style.
 - Spaces should be used in place of tabs. Four spaces for every tab.
 - Method braces should be kept on the same line as the method descriptor. 
-- New lines should be added after the start of a class and between methods. New lines should not be added after the start of a method, but they should be added between significant code blocks. 
+- New lines should be added after the start of a class and between methods. New lines should not be added after the start of a method, but they should be added between significant code blocks.
 - Field, variable and parameter names should use actual names. Stuff like var1 or par2 are not acceptable. 
-- Java 8 code should be used where possible
+- Java 8 code should be used where possible.
 - No line wrapping. Small exception made for large streams.
+- Interface names should not be prefixed with 'I'.
+- All identifier names should abide by the official [Java naming conventions](http://www.oracle.com/technetwork/java/javase/documentation/codeconventions-135099.html).
 
 ## GitHub Etiquette
 This section contains a list of best practices when using git.
