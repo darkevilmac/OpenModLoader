@@ -91,7 +91,7 @@ public class OMLTestMod implements Mod {
         OpenModLoader.getEventBus().register(EntityEvent.ChangeDimension.class, this::onChangeDimension);
 
         OpenModLoader.getEventBus().register(EntityEvent.Mount.class, this::onMount);
-        OpenModLoader.getEventBus().register(EntityEvent.Unmount.class, this::onUnmount);
+        OpenModLoader.getEventBus().register(EntityEvent.Dismount.class, this::onDismount);
 
         OpenModLoader.getEventBus().register(BiomeColor.Grass.class, this::onGrassColor);
         OpenModLoader.getEventBus().register(BiomeColor.Foliage.class, this::onFoliageColor);
@@ -289,7 +289,7 @@ public class OMLTestMod implements Mod {
         }
     }
 
-    private void onUnmount(EntityEvent.Unmount event) {
+    private void onDismount(EntityEvent.Dismount event) {
         if (event.getRiding() instanceof EntityHorse) {
             event.setCanceled(true);
         }
