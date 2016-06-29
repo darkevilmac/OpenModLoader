@@ -1,0 +1,10 @@
+--- /net/minecraft/world/storage
++++ /net/minecraft/world/storage
+@@ -113,6 +113,7 @@
+         NBTTagCompound var4 = new NBTTagCompound();
+         var4.setTag("Data", var3);
+ 
++        xyz.openmodloader.world.storage.OMLSaveHandler.save(var1, var4);
+         try {
+             File var5 = new File(this.worldDirectory, "level.dat_new");
+             File var6 = new File(this.worldDirectory, "level.dat_old");

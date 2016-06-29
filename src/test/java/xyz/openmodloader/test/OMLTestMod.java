@@ -8,10 +8,10 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 
@@ -39,6 +39,7 @@ import xyz.openmodloader.modloader.version.UpdateManager;
 import xyz.openmodloader.network.Channel;
 import xyz.openmodloader.network.ChannelManager;
 import xyz.openmodloader.network.DataTypes;
+import xyz.openmodloader.registry.GameRegistry;
 
 public class OMLTestMod implements Mod {
     private Channel channel;
@@ -132,7 +133,10 @@ public class OMLTestMod implements Mod {
     }
 
     private void testBlock() {
-        Block.REGISTRY.register(512, new ResourceLocation("omltest:test"), new BlockTest());
+        GameRegistry.registerBlock(new BlockEmpty(), new ResourceLocation("oml:blank"));
+        GameRegistry.registerBlock(new BlockTest(), new ResourceLocation("oml:test"));
+
+        GameRegistry.registerItem(new Item(),new ResourceLocation("oml:blank_item"));
     }
 
     public void onChat(MessageEvent.Chat event) {

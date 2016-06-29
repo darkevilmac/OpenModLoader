@@ -1,5 +1,14 @@
 --- /net/minecraft/block
 +++ /net/minecraft/block
+@@ -192,7 +192,7 @@
+ 
+ public class Block {
+     private static final ResourceLocation AIR_ID = new ResourceLocation("air");
+-    public static final RegistryNamespacedDefaultedByKey<ResourceLocation, Block> REGISTRY = new RegistryNamespacedDefaultedByKey(AIR_ID);
++    public static final xyz.openmodloader.registry.NamespacedRegistry<ResourceLocation, Block> REGISTRY = xyz.openmodloader.registry.OMLRegistry.getRegistry(Block.class);
+     public static final ObjectIntIdentityMap<IBlockState> BLOCK_STATE_IDS = new ObjectIntIdentityMap();
+     public static final AxisAlignedBB FULL_BLOCK_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+     public static final AxisAlignedBB NULL_AABB = null;
 @@ -591,15 +591,20 @@
          if(!var1.isRemote) {
              int var6 = this.quantityDroppedWithBonus(var5, var1.rand);

@@ -1,0 +1,10 @@
+--- /net/minecraft/world/storage
++++ /net/minecraft/world/storage
+@@ -90,6 +90,7 @@
+         try {
+             NBTTagCompound var2 = CompressedStreamTools.readCompressed(new FileInputStream(var0));
+             NBTTagCompound var3 = var2.getCompoundTag("Data");
++            xyz.openmodloader.world.storage.OMLSaveHandler.load(var2);
+             return new WorldInfo(var1.process(FixTypes.LEVEL, var3));
+         } catch (Exception var4) {
+             LOGGER.error("Exception reading {}", new Object[]{var0, var4});

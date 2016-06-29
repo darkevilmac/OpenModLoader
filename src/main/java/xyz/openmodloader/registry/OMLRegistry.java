@@ -4,40 +4,30 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraft.util.ObjectIntIdentityMap;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.RegistryNamespaced;
-import net.minecraft.util.registry.RegistryNamespacedDefaultedByKey;
 
 public class OMLRegistry {
-
-    private static RegistryNamespacedDefaultedByKey<ResourceLocation, Block> REGISTRY_BLOCK;
-    private static ObjectIntIdentityMap<IBlockState> blockIDMap;
-    private static RegistryNamespaced<ResourceLocation, Item> REGISTRY_ITEM;
     private static Map<Block, Item> blockItemMap;
+    private static Map<String, NamespacedRegistry<ResourceLocation, Object>> REGISTRY_MAP = new HashMap<>();
 
-    public static RegistryNamespacedDefaultedByKey<ResourceLocation, Block> getBlockRegistry() {
-        if (REGISTRY_BLOCK == null) {
-            REGISTRY_BLOCK = new RegistryNamespacedDefaultedByKey<>(new ResourceLocation("air"));
-        }
-
-        return REGISTRY_BLOCK;
+    public static <T> NamespacedRegistry<ResourceLocation, T> getRegistry(Class<T> classRegistry) {
+        return getRegistry(classRegistry, new ResourceLocation("air"));
     }
 
-    public static ObjectIntIdentityMap<IBlockState> getBlockIDMap() {
-        if (blockIDMap == null) {
-            blockIDMap = new ObjectIntIdentityMap<>();
+    public static <T> NamespacedRegistry<ResourceLocation, T> getRegistry(Class<T> classRegistry, ResourceLocation defaultKey) {
+        if (!REGISTRY_MAP.containsKey(classRegistry.getName())) {
+            registerRegistry(classRegistry, defaultKey);
         }
-        return blockIDMap;
+
+        return (NamespacedRegistry<ResourceLocation, T>) REGISTRY_MAP.get(classRegistry.getName());
     }
 
-    public static RegistryNamespaced<ResourceLocation, Item> getItemRegistry() {
-        if (REGISTRY_ITEM == null) {
-            REGISTRY_ITEM = new RegistryNamespacedDefaultedByKey<>(new ResourceLocation("air"));
-        }
-        return REGISTRY_ITEM;
+
+    public static NamespacedRegistry<ResourceLocation, ?> registerRegistry(Class<?> classRegistry, ResourceLocation defaultKey) {
+        REGISTRY_MAP.put(classRegistry.getName(), new NamespacedRegistry<>(defaultKey));
+
+        return REGISTRY_MAP.get(classRegistry.getName());
     }
 
     public static Map<Block, Item> getBlockItemMap() {
@@ -46,5 +36,9 @@ public class OMLRegistry {
         }
 
         return blockItemMap;
+    }
+
+    public static Map<String, NamespacedRegistry<ResourceLocation, Object>> getRegistryMap() {
+        return REGISTRY_MAP;
     }
 }
