@@ -28,7 +28,7 @@
  
      public void dismountRidingEntity() {
          if(this.ridingEntity != null) {
-+            if (!xyz.openmodloader.OpenModLoader.getEventBus().post(new xyz.openmodloader.event.impl.EntityEvent.Unmount(this, ridingEntity))) return;
++            if (!isDead && !xyz.openmodloader.OpenModLoader.getEventBus().post(new xyz.openmodloader.event.impl.EntityEvent.Dismount(this, ridingEntity))) return;
              Entity var1 = this.ridingEntity;
              this.ridingEntity = null;
              var1.removePassenger(this);

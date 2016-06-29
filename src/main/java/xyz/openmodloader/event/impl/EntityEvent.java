@@ -202,7 +202,7 @@ public class EntityEvent extends Event {
     /**
      * This event is fired when an entity unmounts from another entity.
      */
-    public static class Unmount extends Mount {
+    public static class Dismount extends Mount {
 
         /**
          * Constructor for the new event that is fired when an entity mounts another entity.
@@ -210,7 +210,7 @@ public class EntityEvent extends Event {
          * @param entity The entity that has fired this event.
          * @param riding The entity this entity was riding.
          */
-        public Unmount(Entity entity, Entity riding) {
+        public Dismount(Entity entity, Entity riding) {
             super(entity, riding);
         }
     }
