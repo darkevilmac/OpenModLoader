@@ -1,7 +1,6 @@
 package xyz.openmodloader.network;
 
 import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableBiMap;
 import net.minecraft.network.PacketBuffer;
 
@@ -10,44 +9,14 @@ import net.minecraft.network.PacketBuffer;
  */
 public class Channel extends AbstractChannel<Packet> {
 
-    final String id;
+    final String name;
     private final BiMap<String, PacketSpec> specs;
     private final BiMap<String, Integer> specIDs;
 
-    Channel(String id) {
-        this.id = id;
-        this.specs = HashBiMap.create();
-        this.specIDs = HashBiMap.create();
-    }
-
-    private Channel(Channel channel) {
-        this.id = channel.id;
-        this.specs = ImmutableBiMap.copyOf(channel.specs);
-        this.specIDs = ImmutableBiMap.copyOf(channel.specIDs);
-    }
-
-    /**
-     * Creates a new packet spec used for building.
-     * @param name The ID of the new packet.
-     * @return The new packet spec to be used for building the spec.
-     */
-    public PacketSpec createPacket(String name) {
-        return new PacketSpec(this, name);
-    }
-
-    void addPacket(PacketSpec spec) {
-        specs.put(spec.name, spec);
-    }
-
-    /**
-     * Finalize this channel.
-     * This creates an immutable copy of this builder channel which is then registered with the {@link ChannelManager}
-     * @return The finalized channel
-     */
-    public Channel build() {
-        Channel immutable = new Channel(this);
-        ChannelManager.register(id, immutable);
-        return immutable;
+    Channel(ChannelBuilder builder) {
+        this.name = builder.name;
+        this.specs = ImmutableBiMap.copyOf(builder.specs);
+        this.specIDs = ImmutableBiMap.copyOf(builder.specIDs);
     }
 
     /**
@@ -55,9 +24,9 @@ public class Channel extends AbstractChannel<Packet> {
      * @param id The ID of the packet to create the builder for
      * @return The builder packet
      */
-    public Packet send(String id) {
+    public PacketBuilder send(String id) {
         if (!specs.containsKey(id)) throw new IllegalArgumentException("Invalid PacketSpec name " + id);
-        return new Packet(this, specs.get(id));
+        return new PacketBuilder(this, specs.get(id));
     }
 
     /**
@@ -78,7 +47,7 @@ public class Channel extends AbstractChannel<Packet> {
     @Override
     public Packet read(PacketBuffer buf) {
         PacketSpec spec = getSpec(buf.readInt());
-        Packet packet = new Packet(this, spec);
+        Packet packet = new Packet(new PacketBuilder(this, spec));
         packet.read(buf);
         return packet;
     }

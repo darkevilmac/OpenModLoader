@@ -4,7 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 /**
- * Manages Name <-> Channel <-> ID mappigns
+ * Manages Name <-> Channel <-> ID mappings
  */
 public class ChannelManager {
 
@@ -16,9 +16,9 @@ public class ChannelManager {
      * @param name The name of the channel
      * @return The channel builder
      */
-    public static Channel create(String name) {
+    public static ChannelBuilder create(String name) {
         if (exists(name)) throw new IllegalArgumentException(String.format("Channel %s already exists", name));
-        return new Channel(name);
+        return new ChannelBuilder(name);
     }
 
     /**
