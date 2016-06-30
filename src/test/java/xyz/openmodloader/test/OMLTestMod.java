@@ -150,7 +150,7 @@ public class OMLTestMod implements Mod {
     }
 
     private void testGUI() {
-        GUIManager.register("omltest", new GUIHandler().registerContainer("test", ContainerTest.class).registerGUI("test", GUITest.class));
+        GUIManager.register("omltest", new GUIHandler().registerContainer("test", ContainerTest::new).registerGUI("test", GUITest::new));
     }
 
     public void onChat(MessageEvent.Chat event) {
