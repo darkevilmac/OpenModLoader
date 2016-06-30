@@ -1,0 +1,20 @@
+--- /net/minecraft/entity/passive
++++ /net/minecraft/entity/passive
+@@ -57,14 +57,14 @@
+     }
+ 
+     public static HorseArmorType getByItemStack(@Nullable ItemStack var0) {
+-        return var0 == null?NONE:getByItem(var0.getItem());
++        return var0 == null?NONE:var0.getItem() instanceof xyz.openmodloader.item.IHorseArmor?((xyz.openmodloader.item.IHorseArmor) var0.getItem()).getArmorType(var0):getByItem(var0.getItem());
+     }
+ 
+     public static HorseArmorType getByItem(@Nullable Item var0) {
+-        return var0 == Items.IRON_HORSE_ARMOR?IRON:(var0 == Items.GOLDEN_HORSE_ARMOR?GOLD:(var0 == Items.DIAMOND_HORSE_ARMOR?DIAMOND:NONE));
++        return var0 instanceof xyz.openmodloader.item.IHorseArmor?((xyz.openmodloader.item.IHorseArmor) var0).getArmorType(new ItemStack(var0)):var0 == Items.IRON_HORSE_ARMOR?IRON:(var0 == Items.GOLDEN_HORSE_ARMOR?GOLD:(var0 == Items.DIAMOND_HORSE_ARMOR?DIAMOND:NONE));
+     }
+ 
+     public static boolean isHorseArmor(@Nullable Item var0) {
+-        return getByItem(var0) != NONE;
++        return var0 instanceof xyz.openmodloader.item.IHorseArmor || getByItem(var0) != NONE;
+     }
+ }

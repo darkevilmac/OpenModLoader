@@ -20,6 +20,7 @@ import net.minecraft.client.gui.GuiLanguage;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.HorseArmorType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
@@ -40,12 +41,14 @@ import xyz.openmodloader.network.Channel;
 import xyz.openmodloader.network.ChannelManager;
 import xyz.openmodloader.network.DataTypes;
 import xyz.openmodloader.registry.GameRegistry;
+import xyz.openmodloader.util.EnumUtils;
 
 public class OMLTestMod implements Mod {
     private Channel channel;
 
     @Override
     public void onInitialize() {
+        
         OpenModLoader.getLogger().info("Loading test mod");
 
         OpenModLoader.getEventBus().register(BlockEvent.Place.class, this::onBlockPlace);
@@ -137,6 +140,7 @@ public class OMLTestMod implements Mod {
         GameRegistry.registerBlock(new BlockTest(), new ResourceLocation("oml:test"));
 
         GameRegistry.registerItem(new Item(),new ResourceLocation("oml:blank_item"));
+        GameRegistry.registerItem(new ItemTestHorseArmor(),new ResourceLocation("oml:horse_armor"));
     }
 
     public void onChat(MessageEvent.Chat event) {

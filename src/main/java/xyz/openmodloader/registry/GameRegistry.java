@@ -1,14 +1,30 @@
 package xyz.openmodloader.registry;
 
 import xyz.openmodloader.OpenModLoader;
-
+import xyz.openmodloader.util.EnumUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.passive.HorseArmorType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 
 public class GameRegistry {
+    
+    /**
+     * Creates a new HorseArmorType and adds it to the HorseArmorType enum.
+     * 
+     * @param fieldName The name of the field to add in the enum. Should be all
+     *        upper case and unique.
+     * @param protection The protection value for the armor type.
+     * @param texture The texture name to use for the armor type.
+     * @param hash A string to use for creating the hash of the armor type.
+     * @return The newly created horse armor type.
+     */
+    public static HorseArmorType addHorseArmorType(String fieldName, int protection, String texture, String hash) {
+        return EnumUtils.addEnum(HorseArmorType.class, fieldName, new Class[] { int.class, String.class, String.class }, new Object[] { protection, texture, hash });
+    }
+    
     public static void registerBlock(Block block, ResourceLocation identifier) {
         registerBlock(block, new ItemBlock(block), identifier);
     }
