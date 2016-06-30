@@ -34,6 +34,8 @@ import xyz.openmodloader.client.gui.GuiModList;
 import xyz.openmodloader.config.Config;
 import xyz.openmodloader.event.impl.*;
 import xyz.openmodloader.event.impl.BiomeEvent.BiomeColor;
+import xyz.openmodloader.gui.GUIHandler;
+import xyz.openmodloader.gui.GUIManager;
 import xyz.openmodloader.launcher.strippable.Side;
 import xyz.openmodloader.modloader.Mod;
 import xyz.openmodloader.modloader.version.UpdateManager;
@@ -120,6 +122,7 @@ public class OMLTestMod implements Mod {
         testNetwork();
         testBlock();   
         testHorseArmor();
+        testGUI();
     }
 
     private void testNetwork() {
@@ -144,6 +147,10 @@ public class OMLTestMod implements Mod {
     
     private void testHorseArmor() {
         GameRegistry.registerHorseArmor(new ResourceLocation("oml:test_armor"), ItemTestHorseArmor.TYPE);
+    }
+
+    private void testGUI() {
+        GUIManager.register("omltest", new GUIHandler().registerContainer("test", ContainerTest.class).registerGUI("test", GUITest.class));
     }
 
     public void onChat(MessageEvent.Chat event) {

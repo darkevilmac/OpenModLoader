@@ -14,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import xyz.openmodloader.gui.Context;
 
 public class BlockTest extends Block {
     public BlockTest() {
@@ -23,8 +24,8 @@ public class BlockTest extends Block {
     }
 
     @Override
-    public boolean onBlockActivated(World var1, BlockPos var2, IBlockState var3, EntityPlayer var4, EnumHand var5, @Nullable ItemStack var6, EnumFacing var7, float var8, float var9, float var10) {
-        var4.addChatMessage(new TextComponentString("You right clicked the block"));
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack stack, EnumFacing side, float hitX, float hitY, float hitZ) {
+        player.openGUI("omltest", "test", new Context().set("pos", pos).set("inv", player.inventory));
         return true;
     }
 }
