@@ -45,8 +45,8 @@
      }
  
 +//  OML
-+    public void openGUI(String modID, String guiID, xyz.openmodloader.gui.Context context) {
-+        xyz.openmodloader.gui.GUIManager.open(this, modID, guiID, context);
++    public void openGUI(String owner, String guiID, xyz.openmodloader.gui.Context context) {
++        xyz.openmodloader.gui.GUIManager.open(this, owner, guiID, context);
 +    }
 +
      public static enum b {
