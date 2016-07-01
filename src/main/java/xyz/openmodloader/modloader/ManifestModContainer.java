@@ -126,7 +126,6 @@ class ManifestModContainer implements ModContainer {
                 InputStream in = null;
                 if (logoBytes == null) {
                     in = new URL(getModFile().toURI().toURL().toString() + '/' + logo).openStream();
-                    ;
                 } else {
                     in = new ByteArrayInputStream(logoBytes);
                 }
