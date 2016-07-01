@@ -1,17 +1,19 @@
 package xyz.openmodloader.launcher;
 
-import java.io.File;
-import java.net.Proxy;
-
 import com.google.gson.GsonBuilder;
+
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 
-import net.minecraft.launchwrapper.Launch;
+import java.io.File;
+import java.net.Proxy;
+
 import xyz.openmodloader.launcher.strippable.Side;
+
+import net.minecraft.launchwrapper.Launch;
 
 public class OpenModLoaderClient {
     public static void main(String[] args) {
@@ -45,8 +47,11 @@ public class OpenModLoaderClient {
 
         arguments.addArgument("version", "1.10.2");
         arguments.addArgument("assetIndex", "1.10");
-        arguments.addArgument("accessToken", "OpenModLoader");
         arguments.addArgument("tweakClass", "xyz.openmodloader.launcher.OMLTweaker");
+
+        if (arguments.containsArgument("accessToken")) {
+            arguments.addArgument("accessToken", "OpenModLoader");
+        }
 
         Launch.main(arguments.getArguments());
     }

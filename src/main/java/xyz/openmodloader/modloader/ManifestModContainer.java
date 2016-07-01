@@ -61,6 +61,8 @@ class ManifestModContainer implements ModContainer {
     private String logo;
     @SerializedName("Transformers")
     private String transformers;
+    @SerializedName("Transformer-Exclusions")
+    private String transformerExclusions;
     @SerializedName("Dependencies")
     private String dependencies;
 
@@ -79,7 +81,7 @@ class ManifestModContainer implements ModContainer {
                 String name = field.getAnnotation(SerializedName.class).value();
                 if (attributeNames.contains(new Attributes.Name(name))) {
                     try {
-                        field.set(container, attributes.getValue(name));
+                        field.set(container, attributes.getValue(name).split("\\s*//")[0]);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                         return null;
@@ -214,6 +216,11 @@ class ManifestModContainer implements ModContainer {
     @Override
     public String[] getTransformers() {
         return transformers == null ? ArrayUtils.EMPTY_STRING_ARRAY : transformers.split("\\s*,\\s*");
+    }
+
+    @Override
+    public String[] getTransformerExclusions() {
+        return transformerExclusions == null ? ArrayUtils.EMPTY_STRING_ARRAY : transformerExclusions.split("\\s*,\\s*");
     }
 
     @Override

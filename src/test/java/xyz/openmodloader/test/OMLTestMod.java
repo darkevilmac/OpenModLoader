@@ -12,6 +12,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 
@@ -32,6 +33,8 @@ import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.client.gui.GuiModInfo;
 import xyz.openmodloader.client.gui.GuiModList;
 import xyz.openmodloader.config.Config;
+import xyz.openmodloader.dictionary.ShapedMaterialRecipe;
+import xyz.openmodloader.dictionary.ShapelessMaterialRecipe;
 import xyz.openmodloader.event.impl.*;
 import xyz.openmodloader.event.impl.BiomeEvent.BiomeColor;
 import xyz.openmodloader.gui.GUIHandler;
@@ -123,6 +126,7 @@ public class OMLTestMod implements Mod {
         testBlock();   
         testHorseArmor();
         testGUI();
+        testDictionary();
     }
 
     private void testNetwork() {
@@ -151,6 +155,11 @@ public class OMLTestMod implements Mod {
 
     private void testGUI() {
         GUIManager.register("omltest", new GUIHandler().registerContainer("test", ContainerTest::new).registerGUI("test", GUITest::new));
+    }
+
+    private void testDictionary() {
+        CraftingManager.getInstance().addRecipe(new ShapedMaterialRecipe(new ItemStack(Items.STICK, 16), "L", "L", 'L', "logWood"));
+        CraftingManager.getInstance().addRecipe(new ShapelessMaterialRecipe(new ItemStack(Items.STICK, 32), "logWood", "logWood", "logWood"));
     }
 
     public void onChat(MessageEvent.Chat event) {

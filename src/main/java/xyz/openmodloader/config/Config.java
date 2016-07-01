@@ -35,7 +35,7 @@ public class Config {
      * @param file The name of the config file. Must be a .conf file.
      */
     public Config(String file) {
-        this(new File(CONFIG_DIR, file));
+        this(new File(CONFIG_DIR, file.contains(".") ? file : file.concat(".conf")));
     }
 
     /**

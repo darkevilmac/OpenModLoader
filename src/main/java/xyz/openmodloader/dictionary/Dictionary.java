@@ -1,21 +1,16 @@
 package xyz.openmodloader.dictionary;
 
-import java.util.Set;
+import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimaps;
-import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
-public class Dictionary<E> {
+import xyz.openmodloader.util.CollectionPredicate;
 
-    /**
-     * The material dictionary.
-     */
-    public static final ItemStackDictionary MATERIALS = new ItemStackDictionary();
+public class Dictionary<K, V> {
 
-    private final SetMultimap<String, E> map = 
-            Multimaps.newSetMultimap(Maps.newConcurrentMap(), () -> Sets.newConcurrentHashSet());
+    private final Map<K, CollectionPredicate<V>> map = Maps.newConcurrentMap();
 
     /**
      * Registers a value.
@@ -23,19 +18,28 @@ public class Dictionary<E> {
      * @param key the key
      * @param value the value
      */
-    public void register(String key, E value) {
-        map.put(key, value);
+    public void register(K key, Predicate<V> value) {
+        getOrCreate(key).add(value);
     }
 
     /**
-     * Gets the registered elements for the specified key.
-     * This set is automatically updated when new elements
-     * are registered. Cache this.
+     * Gets the registered predicate for the specified key.
+     * The predicate is automatically updated when a new
+     * element is registered. Cache this.
      *
      * @param key the key
-     * @return the sets the
+     * @return the predicate
      */
-    public Set<E> get(String key) {
-        return map.get(key);
+    public Predicate<V> get(K key) {
+        return getOrCreate(key);
+    }
+
+    private CollectionPredicate<V> getOrCreate(K key) {
+        CollectionPredicate<V> value = map.get(key);
+        if (value == null) {
+            value = new CollectionPredicate<>(Sets.newConcurrentHashSet());
+            map.put(key, value);
+        }
+        return value;
     }
 }

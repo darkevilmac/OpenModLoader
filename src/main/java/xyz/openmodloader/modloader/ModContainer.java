@@ -111,6 +111,8 @@ public interface ModContainer {
      */
     String[] getTransformers();
 
+    String[] getTransformerExclusions();
+
     /**
      * Gets the list of dependencies for this mod. Each string should contain the
      * mod ID of the dependency, and optionally, a minimum version. Example:
