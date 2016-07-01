@@ -109,7 +109,18 @@ public class ModLoader {
                     } else if (field.isAnnotationPresent(Delegate.class)) {
                         // populate @Delegate fields
 
-                        Object delegate = OpenModLoader.getSidedHandler().getSide() == Side.SERVER ? mod.getServerDelegate() : mod.getClientDelegate();
+                        Delegate d = field.getAnnotation(Delegate.class);
+                        Class<?> clazz = OpenModLoader.getSidedHandler().getSide() == Side.SERVER ? d.server() : d.client();
+                        Object delegate = null;
+                        try {
+                            if (clazz == Delegate.class) {
+                                continue;
+                            }
+                            delegate = clazz.newInstance();
+                        } catch (ClassCastException | InstantiationException | IllegalAccessException e) {
+                            throw new RuntimeException(e);
+                        }
+
                         if (delegate != null) {
                             try {
                                 field.setAccessible(true);

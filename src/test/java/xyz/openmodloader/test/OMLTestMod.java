@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 public class OMLTestMod implements Mod {
     private Channel channel;
 
-    @Delegate
+    @Delegate(client = OMLClientDelegate.class, server = OMLServerDelegate.class)
     private OMLServerDelegate delegate;
 
     @Override

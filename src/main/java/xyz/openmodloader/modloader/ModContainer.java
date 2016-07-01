@@ -124,21 +124,4 @@ public interface ModContainer {
      */
     String[] getDependencies();
 
-    /**
-     * Gets the Client Delegate instance for the mod and sets the field in the the mod
-     * instance which has the @{@link xyz.openmodloader.registry.Delegate}. This will only
-     * get called when the game is run on the client side
-     *
-     * @return the client delegate class of the mod specified in the manifest
-     */
-    Object getClientDelegate();
-
-    /**
-     * Gets the Server Delegate instance for the mod and sets the field in the the mod
-     * instance which has the @{@link xyz.openmodloader.registry.Delegate}. This will
-     * only get called when the game is run on the server side
-     *
-     * @return the server delegate class of the mod specified in the manifest
-     */
-    Object getServerDelegate();
 }

@@ -237,46 +237,6 @@ class ManifestModContainer implements ModContainer {
         return dependencies.split("\\s*,\\s*");
     }
 
-    @Override
-    public Object getClientDelegate() {
-        if (clientDelegate == null) {
-            return null;
-        }
-
-        if (clientDelegateInstance == null) {
-            try {
-                Class<?> clazz = Class.forName(clientDelegate);
-                if (clazz == null) {
-                    return null;
-                }
-                this.clientDelegateInstance = clazz.newInstance();
-            } catch (ClassCastException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return clientDelegateInstance;
-    }
-
-    @Override
-    public Object getServerDelegate() {
-        if (serverDelegate == null) {
-            return null;
-        }
-
-        if (serverDelegateInstance == null) {
-            try {
-                Class<?> clazz = Class.forName(serverDelegate);
-                if (clazz == null) {
-                    return null;
-                }
-                this.serverDelegateInstance = clazz.newInstance();
-            } catch (ClassCastException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return serverDelegateInstance;
-    }
-
     /**
      * INTERNAL
      */

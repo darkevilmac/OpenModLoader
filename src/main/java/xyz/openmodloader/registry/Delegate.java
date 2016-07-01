@@ -12,4 +12,9 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Delegate {
+
+    Class<?> client() default Delegate.class;
+
+    Class<?> server() default Delegate.class;
+
 }
