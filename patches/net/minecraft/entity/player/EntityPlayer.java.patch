@@ -40,11 +40,17 @@
          }
  
      }
-@@ -1867,6 +1869,11 @@
+@@ -1867,6 +1869,17 @@
          return this.capabilities.isCreativeMode && this.canCommandSenderUseCommand(2, "");
      }
  
 +//  OML
++    /**
++     * Opens a GUI for this player from the given owner, GUI ID, and context
++     * @param owner The owner of the GUI handler
++     * @param guiID The ID of the GUI
++     * @param context The context
++     */
 +    public void openGUI(String owner, String guiID, xyz.openmodloader.gui.GUIContext context) {
 +        xyz.openmodloader.gui.GUIManager.open(this, owner, guiID, context);
 +    }
