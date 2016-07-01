@@ -28,7 +28,7 @@ public class Dictionary<K, V> {
      * element is registered. Cache this.
      *
      * @param key the key
-     * @return the sets the
+     * @return the predicate
      */
     public Predicate<V> get(K key) {
         CollectionPredicate<V> value = map.get(key);

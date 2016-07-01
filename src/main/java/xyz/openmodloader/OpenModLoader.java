@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.dedicated.DedicatedServer;
+import xyz.openmodloader.dictionary.Dictionaries;
 import xyz.openmodloader.event.EventBus;
 import xyz.openmodloader.launcher.OMLStrippableTransformer;
 import xyz.openmodloader.launcher.strippable.Environment;
@@ -38,6 +39,7 @@ public final class OpenModLoader {
         OpenModLoader.sidedHandler = sidedHandler;
         getLogger().info("Loading OpenModLoader " + getVersion());
         getLogger().info("Running Minecraft %s on %s using Java %s", mcversion, SystemUtils.OS_NAME, SystemUtils.JAVA_VERSION);
+        Dictionaries.init();
         ModLoader.loadMods();
         UpdateManager.checkForUpdates();
         getSidedHandler().onInitialize();
