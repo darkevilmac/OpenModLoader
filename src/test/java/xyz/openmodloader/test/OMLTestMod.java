@@ -18,7 +18,7 @@ public class OMLTestMod implements Mod {
     private Channel channel;
 
     @Delegate
-    private OMLClientDelegate delegate;
+    private OMLServerDelegate delegate;
 
     @Override
     public void onInitialize() {
