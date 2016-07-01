@@ -39,6 +39,7 @@ public final class OpenModLoader {
         OpenModLoader.sidedHandler = sidedHandler;
         getLogger().info("Loading OpenModLoader " + getVersion());
         getLogger().info("Running Minecraft %s on %s using Java %s", mcversion, SystemUtils.OS_NAME, SystemUtils.JAVA_VERSION);
+        GameRegistry.init();
         Dictionaries.init();
         ModLoader.loadMods();
         UpdateManager.checkForUpdates();
@@ -48,7 +49,6 @@ public final class OpenModLoader {
                     .with("component", DataTypes.TEXT_COMPONENT)
                     .handle((context, packet) -> getSidedHandler().openSnackbar(packet.get("component", DataTypes.TEXT_COMPONENT)))
                 .build();
-        GameRegistry.init();
     }
 
     /**
