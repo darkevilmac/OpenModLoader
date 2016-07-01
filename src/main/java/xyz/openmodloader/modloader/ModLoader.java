@@ -62,7 +62,7 @@ public class ModLoader {
      * it is intended for internal use only!
      * <p>
      * <br>This is called from {@link OMLTweaker#injectIntoClassLoader(LaunchClassLoader)}}.
-     *
+     * </p>
      * @throws Exception the exception
      */
     public static void registerMods() throws Exception {
@@ -79,6 +79,7 @@ public class ModLoader {
      * issue in registering the mod, it will be disabled.
      * <p>
      * <br>This is called from {@link OpenModLoader#minecraftConstruction(SidedHandler)}.
+     * </p>
      */
     public static void loadMods() {
         // load the instances
@@ -119,7 +120,7 @@ public class ModLoader {
                                 }
                                 field.set(instance, delegate);
                             } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-                                OpenModLoader.getLogger().error("Could not set @Instance field", e);
+                                OpenModLoader.getLogger().error("Could not set @Delegate field", e);
                             }
                         }
                     }
