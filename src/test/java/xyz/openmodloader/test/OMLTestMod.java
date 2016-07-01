@@ -33,8 +33,6 @@ import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.client.gui.GuiModInfo;
 import xyz.openmodloader.client.gui.GuiModList;
 import xyz.openmodloader.config.Config;
-import xyz.openmodloader.dictionary.Dictionaries;
-import xyz.openmodloader.dictionary.ItemStackDictionary;
 import xyz.openmodloader.dictionary.ShapedMaterialRecipe;
 import xyz.openmodloader.dictionary.ShapelessMaterialRecipe;
 import xyz.openmodloader.event.impl.*;
@@ -153,10 +151,8 @@ public class OMLTestMod implements Mod {
     }
 
     private void testDictionary() {
-        Dictionaries.MATERIALS.register("log", new ItemStack(Blocks.LOG, 1, ItemStackDictionary.WILDCARD_METADATA));
-        Dictionaries.MATERIALS.register("log", new ItemStack(Blocks.LOG2, 1, ItemStackDictionary.WILDCARD_METADATA));
-        CraftingManager.getInstance().addRecipe(new ShapedMaterialRecipe(new ItemStack(Items.STICK, 16), "L", "L", 'L', "log"));
-        CraftingManager.getInstance().addRecipe(new ShapelessMaterialRecipe(new ItemStack(Items.STICK, 32), "log", "log", "log"));
+        CraftingManager.getInstance().addRecipe(new ShapedMaterialRecipe(new ItemStack(Items.STICK, 16), "L", "L", 'L', "logWood"));
+        CraftingManager.getInstance().addRecipe(new ShapelessMaterialRecipe(new ItemStack(Items.STICK, 32), "logWood", "logWood", "logWood"));
     }
 
     public void onChat(MessageEvent.Chat event) {

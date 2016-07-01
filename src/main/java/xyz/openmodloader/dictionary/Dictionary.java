@@ -19,7 +19,7 @@ public class Dictionary<K, V> {
      * @param value the value
      */
     public void register(K key, Predicate<V> value) {
-        ((CollectionPredicate<V>) get(key)).add(value);
+        getOrCreate(key).add(value);
     }
 
     /**
@@ -31,13 +31,15 @@ public class Dictionary<K, V> {
      * @return the predicate
      */
     public Predicate<V> get(K key) {
+        return getOrCreate(key);
+    }
+
+    private CollectionPredicate<V> getOrCreate(K key) {
         CollectionPredicate<V> value = map.get(key);
-        if (value != null) {
-            return value;
-        } else {
+        if (value == null) {
             value = new CollectionPredicate<>(Sets.newConcurrentHashSet());
             map.put(key, value);
-            return value;
         }
+        return value;
     }
 }

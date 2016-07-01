@@ -1,6 +1,7 @@
 package xyz.openmodloader.dictionary;
 
 import java.util.List;
+import java.util.ListIterator;
 
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapelessRecipes;
+import org.apache.commons.lang3.text.WordUtils;
 
 public final class Dictionaries {
 
@@ -32,108 +34,101 @@ public final class Dictionaries {
      * recipes.
      */
     public static void init() {
-        registerMaterial("logWood", Blocks.LOG, Blocks.LOG2);
-        registerMaterial("stickWood", Items.STICK);
-        registerMaterial("planksWood", Blocks.PLANKS);
-        registerMaterial("stairsWood", Blocks.ACACIA_STAIRS, Blocks.BIRCH_STAIRS,
+        MATERIALS.register("logWood", Blocks.LOG, Blocks.LOG2);
+        MATERIALS.register("stickWood", Items.STICK);
+        MATERIALS.register("planksWood", Blocks.PLANKS);
+        MATERIALS.register("stairsWood", Blocks.ACACIA_STAIRS, Blocks.BIRCH_STAIRS,
                 Blocks.DARK_OAK_STAIRS, Blocks.JUNGLE_STAIRS,
                 Blocks.OAK_STAIRS, Blocks.SPRUCE_STAIRS);
-        registerMaterial("slabWood", Blocks.WOODEN_SLAB);
-        registerMaterial("ladderWood", Blocks.LADDER);
-        registerMaterial("chestWood", Blocks.CHEST);
-        registerMaterial("saplingTree", Blocks.SAPLING);
-        registerMaterial("leavesTree", Blocks.LEAVES, Blocks.LEAVES2);
+        MATERIALS.register("slabWood", Blocks.WOODEN_SLAB);
+        MATERIALS.register("ladderWood", Blocks.LADDER);
+        MATERIALS.register("chestWood", Blocks.CHEST);
+        MATERIALS.register("saplingTree", Blocks.SAPLING);
+        MATERIALS.register("leavesTree", Blocks.LEAVES, Blocks.LEAVES2);
 
-        registerMaterial("oreCoal", Blocks.COAL_ORE);
-        registerMaterial("oreDiamond", Blocks.DIAMOND_ORE);
-        registerMaterial("oreEmerald", Blocks.EMERALD_ORE);
-        registerMaterial("oreGold", Blocks.GOLD_ORE);
-        registerMaterial("oreIron", Blocks.IRON_ORE);
-        registerMaterial("oreLapiz", Blocks.LAPIS_ORE);
-        registerMaterial("oreQuartz", Blocks.QUARTZ_ORE);
-        registerMaterial("oreRedstone", Blocks.LIT_REDSTONE_ORE, Blocks.REDSTONE_ORE);
+        MATERIALS.register("oreCoal", Blocks.COAL_ORE);
+        MATERIALS.register("oreDiamond", Blocks.DIAMOND_ORE);
+        MATERIALS.register("oreEmerald", Blocks.EMERALD_ORE);
+        MATERIALS.register("oreGold", Blocks.GOLD_ORE);
+        MATERIALS.register("oreIron", Blocks.IRON_ORE);
+        MATERIALS.register("oreLapiz", Blocks.LAPIS_ORE);
+        MATERIALS.register("oreQuartz", Blocks.QUARTZ_ORE);
+        MATERIALS.register("oreRedstone", Blocks.LIT_REDSTONE_ORE, Blocks.REDSTONE_ORE);
 
-        registerMaterial("blockCoal", Blocks.COAL_BLOCK);
-        registerMaterial("blockDiamond", Blocks.DIAMOND_BLOCK);
-        registerMaterial("blockEmerald", Blocks.EMERALD_BLOCK);
-        registerMaterial("blockGold", Blocks.GOLD_BLOCK);
-        registerMaterial("blockIron", Blocks.IRON_BLOCK);
-        registerMaterial("blockLapiz", Blocks.LAPIS_BLOCK);
-        registerMaterial("blockQuartz", Blocks.QUARTZ_BLOCK);
-        registerMaterial("blockRedstone", Blocks.REDSTONE_BLOCK);
+        MATERIALS.register("blockCoal", Blocks.COAL_BLOCK);
+        MATERIALS.register("blockDiamond", Blocks.DIAMOND_BLOCK);
+        MATERIALS.register("blockEmerald", Blocks.EMERALD_BLOCK);
+        MATERIALS.register("blockGold", Blocks.GOLD_BLOCK);
+        MATERIALS.register("blockIron", Blocks.IRON_BLOCK);
+        MATERIALS.register("blockLapiz", Blocks.LAPIS_BLOCK);
+        MATERIALS.register("blockQuartz", Blocks.QUARTZ_BLOCK);
+        MATERIALS.register("blockRedstone", Blocks.REDSTONE_BLOCK);
 
-        registerMaterial("ingotGold", Items.GOLD_INGOT);
-        registerMaterial("ingotIron", Items.IRON_INGOT);
-        registerMaterial("gemDiamond", Items.DIAMOND);
-        registerMaterial("gemEmerald", Items.EMERALD);
-        registerMaterial("dustRedstone", Items.REDSTONE);
+        MATERIALS.register("ingotGold", Items.GOLD_INGOT);
+        MATERIALS.register("ingotIron", Items.IRON_INGOT);
+        MATERIALS.register("gemDiamond", Items.DIAMOND);
+        MATERIALS.register("gemEmerald", Items.EMERALD);
+        MATERIALS.register("dustRedstone", Items.REDSTONE);
 
-        registerMaterial("record", Items.RECORD_11, Items.RECORD_13, Items.RECORD_BLOCKS,
+        MATERIALS.register("record", Items.RECORD_11, Items.RECORD_13, Items.RECORD_BLOCKS,
                 Items.RECORD_CAT, Items.RECORD_CHIRP, Items.RECORD_FAR, Items.RECORD_MALL,
                 Items.RECORD_MELLOHI, Items.RECORD_STAL, Items.RECORD_STRAD, Items.RECORD_WAIT,
                 Items.RECORD_WARD);
 
-        registerMaterial("dirt", Blocks.DIRT);
-        registerMaterial("grass", Blocks.GRASS);
-        registerMaterial("stone", Blocks.STONE);
-        registerMaterial("cobblestone", Blocks.COBBLESTONE);
+        MATERIALS.register("dirt", Blocks.DIRT);
+        MATERIALS.register("grass", Blocks.GRASS);
+        MATERIALS.register("stone", Blocks.STONE);
+        MATERIALS.register("cobblestone", Blocks.COBBLESTONE);
 
-        registerMaterial("dye", Items.DYE);
-        MATERIALS.register("dyeRed", new ItemStack(Blocks.RED_FLOWER, 1, 0));
-        MATERIALS.register("dyeYellow", new ItemStack(Blocks.RED_FLOWER, 1, 0));
+        MATERIALS.register("wool", Blocks.WOOL);
+        MATERIALS.register("dye", Items.DYE);
 
-        for (int i = 0; i < 16; i++) {
-            String name = EnumDyeColor.values()[i].toString();
-            name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-            MATERIALS.register("dye" + name, new ItemStack(Items.DYE, 1, 15 - i));
-        }
-
-        registerMaterial("blockGlass", Blocks.GLASS, Blocks.STAINED_GLASS);
-        registerMaterial("blockGlassClear", Blocks.GLASS);
-        registerMaterial("blockGlassColored", Blocks.STAINED_GLASS);
-        registerMaterial("paneGlass", Blocks.GLASS_PANE, Blocks.STAINED_GLASS_PANE);
-        registerMaterial("paneGlassClear", Blocks.GLASS_PANE);
-        registerMaterial("paneGlassColored", Blocks.STAINED_GLASS_PANE);
+        MATERIALS.register("glass", Blocks.GLASS, Blocks.STAINED_GLASS);
+        MATERIALS.register("glassClear", Blocks.GLASS);
+        MATERIALS.register("glassColored", Blocks.STAINED_GLASS);
+        MATERIALS.register("paneGlass", Blocks.GLASS_PANE, Blocks.STAINED_GLASS_PANE);
+        MATERIALS.register("paneGlassClear", Blocks.GLASS_PANE);
+        MATERIALS.register("paneGlassColored", Blocks.STAINED_GLASS_PANE);
 
         List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
-        Item itemChest = Item.getItemFromBlock(Blocks.CHEST);
-        Item itemFurnace = Item.getItemFromBlock(Blocks.FURNACE);
-        Item itemCraftingTable = Item.getItemFromBlock(Blocks.CRAFTING_TABLE);
-        Item itemWool = Item.getItemFromBlock(Blocks.WOOL);
-        Item itemHardenedClay = Item.getItemFromBlock(Blocks.STAINED_HARDENED_CLAY);
-        Item itemStainedGlass = Item.getItemFromBlock(Blocks.STAINED_GLASS);
-        for (int i = 0; i < recipes.size(); i++) {
-            IRecipe recipe = recipes.get(i);
+
+        for (ListIterator<IRecipe> recipeIterator = recipes.listIterator(); recipeIterator.hasNext(); ) {
+            IRecipe recipe = recipeIterator.next();
             ItemStack output = recipe.getRecipeOutput();
             if (output == null) {
                 continue;
-            } else if (output.getItem() == itemChest) {
-                recipes.set(i, new ShapedMaterialRecipe(itemChest, "###", "# #", "###", '#', "planksWood"));
-            } else if (output.getItem() == itemFurnace) {
-                recipes.set(i, new ShapedMaterialRecipe(itemFurnace, "###", "# #", "###", '#', "cobblestone"));
-            } else if (output.getItem() == itemCraftingTable) {
-                recipes.set(i, new ShapedMaterialRecipe(itemCraftingTable, "##", "##", '#', "planksWood"));
-            } else if (output.getItem() == itemWool && recipe instanceof ShapelessRecipes) {
-                recipes.remove(i);
-            } else if (output.getItem() == itemHardenedClay || output.getItem() == itemStainedGlass) {
-                recipes.remove(i);
+            }
+            Item item = output.getItem();
+            Block block = Block.getBlockFromItem(item);
+            if (block == Blocks.CHEST) {
+                recipeIterator.set(new ShapedMaterialRecipe(output, "PPP", "P P", "PPP", 'P', "planksWood"));
+            } else if (block == Blocks.FURNACE) {
+                recipeIterator.set(new ShapedMaterialRecipe(output, "CCC", "C C", "CCC", 'C', "cobblestone"));
+            } else if (block == Blocks.CRAFTING_TABLE) {
+                recipeIterator.set(new ShapedMaterialRecipe(output, "PP", "PP", 'P', "planksWood"));
+            } else if (block == Blocks.WOOL && recipe instanceof ShapelessRecipes) {
+                recipeIterator.remove();
+            } else if (block == Blocks.STAINED_HARDENED_CLAY || block == Blocks.STAINED_GLASS) {
+                recipeIterator.remove();
             }
         }
-        for (int i = 0; i < EnumDyeColor.values().length; ++i) {
-            String dye = EnumDyeColor.values()[i].toString();
-            dye = "dye" + Character.toUpperCase(dye.charAt(0)) + dye.substring(1);
-            recipes.add(new ShapelessMaterialRecipe(new ItemStack(itemWool, 1, i), dye, itemWool));
-            recipes.add(new ShapedMaterialRecipe(new ItemStack(itemHardenedClay, 8, i), "###", "#X#", "###", '#', new ItemStack(Blocks.HARDENED_CLAY), 'X', dye));
-            recipes.add(new ShapedMaterialRecipe(new ItemStack(itemStainedGlass, 8, i), "###", "#X#", "###", '#', new ItemStack(Blocks.GLASS), 'X', dye));
-            recipes.add(new ShapelessMaterialRecipe(new ItemStack(Blocks.CARPET, 3, i), "##", '#', new ItemStack(Blocks.WOOL, 1, i)));
+
+        for (EnumDyeColor dyeColor : EnumDyeColor.values()) {
+            String name = WordUtils.capitalize(dyeColor.toString());
+            String wool = "wool" + name;
+            String glass = "glass" + name;
+            String glassPane = "paneGlass" + name;
+            String dye = "dye" + name;
+            int blockMeta = dyeColor.getMetadata();
+            int dyeMeta = dyeColor.getDyeDamage();
+            MATERIALS.register(wool, new ItemStack(Blocks.WOOL, 1, blockMeta));
+            MATERIALS.register(glass, new ItemStack(Blocks.STAINED_GLASS, 1, blockMeta));
+            MATERIALS.register(glassPane, new ItemStack(Blocks.STAINED_GLASS_PANE, 1, blockMeta));
+            MATERIALS.register(dye, new ItemStack(Items.DYE, 1, dyeMeta));
+            recipes.add(new ShapelessMaterialRecipe(new ItemStack(Blocks.WOOL, 1, blockMeta), dye, new ItemStack(Blocks.WOOL)));
+            recipes.add(new ShapedMaterialRecipe(new ItemStack(Blocks.STAINED_HARDENED_CLAY, 8, blockMeta), "CCC", "CDC", "CCC", 'C', new ItemStack(Blocks.HARDENED_CLAY), 'D', dye));
+            recipes.add(new ShapedMaterialRecipe(new ItemStack(Blocks.STAINED_GLASS, 8, blockMeta), "GGG", "GDG", "GGG", 'G', new ItemStack(Blocks.GLASS), 'D', dye));
+            recipes.add(new ShapelessMaterialRecipe(new ItemStack(Blocks.CARPET, 3, blockMeta), "WW", 'W', wool));
         }
-    }
-
-    private static void registerMaterial(String key, Block... values) {
-        MATERIALS.register(key, values);
-    }
-
-    private static void registerMaterial(String key, Item... values) {
-        MATERIALS.register(key, values);
     }
 }

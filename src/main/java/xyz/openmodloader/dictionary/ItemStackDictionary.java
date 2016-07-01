@@ -25,7 +25,7 @@ public class ItemStackDictionary extends Dictionary<String, ItemStack> {
     /**
      * Creates an item stack matcher.
      *
-     * @param value    the value
+     * @param value the value
      * @param checkNBT set to true to check NBT tags
      * @return the matcher
      */
@@ -72,7 +72,7 @@ public class ItemStackDictionary extends Dictionary<String, ItemStack> {
     /**
      * Registers an item stack.
      *
-     * @param key   the key
+     * @param key the key
      * @param value the value
      */
     public void register(String key, ItemStack value) {
@@ -82,7 +82,7 @@ public class ItemStackDictionary extends Dictionary<String, ItemStack> {
     /**
      * Registers item stacks.
      *
-     * @param key    the key
+     * @param key the key
      * @param values the values
      */
     public void register(String key, ItemStack... values) {
@@ -104,7 +104,7 @@ public class ItemStackDictionary extends Dictionary<String, ItemStack> {
     /**
      * Registers items.
      *
-     * @param key    the key
+     * @param key the key
      * @param values the values
      */
     public void register(String key, Item... values) {
@@ -126,7 +126,7 @@ public class ItemStackDictionary extends Dictionary<String, ItemStack> {
     /**
      * Registers blocks.
      *
-     * @param key    the key
+     * @param key the key
      * @param values the values
      */
     public void register(String key, Block... values) {
