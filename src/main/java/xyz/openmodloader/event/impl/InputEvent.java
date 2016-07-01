@@ -1,9 +1,11 @@
 package xyz.openmodloader.event.impl;
 
-import org.lwjgl.input.Keyboard;
 import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.event.Event;
+import xyz.openmodloader.launcher.strippable.Side;
+import xyz.openmodloader.launcher.strippable.Strippable;
 
+@Strippable(side = Side.CLIENT)
 public class InputEvent extends Event {
 
     /**
@@ -67,7 +69,7 @@ public class InputEvent extends Event {
         public static boolean handle() {
             if (org.lwjgl.input.Keyboard.getEventKeyState()) {
                 int keyCode = org.lwjgl.input.Keyboard.getEventKey() == 0 ? org.lwjgl.input.Keyboard.getEventCharacter() + 256 : org.lwjgl.input.Keyboard.getEventKey();
-                xyz.openmodloader.event.impl.InputEvent.Keyboard event = new xyz.openmodloader.event.impl.InputEvent.Keyboard(org.lwjgl.input.Keyboard.getEventCharacter(), keyCode);
+                InputEvent.Keyboard event = new InputEvent.Keyboard(org.lwjgl.input.Keyboard.getEventCharacter(), keyCode);
                 return OpenModLoader.getEventBus().post(event);
             }
             return true;

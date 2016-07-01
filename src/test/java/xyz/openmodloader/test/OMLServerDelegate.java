@@ -17,8 +17,18 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.WorldServer;
 
+/**
+ * The server delegate of the test mod, this will get run on both server and client as long as super.registerEvents(channel) is called
+ */
 public class OMLServerDelegate {
     public Channel channel;
+
+
+    /**
+     * A method to register sided events,
+     *
+     * @param channel The channel for the test mod
+     */
     public void registerEvents(Channel channel) {
         this.channel = channel;
 

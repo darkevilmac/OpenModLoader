@@ -5,12 +5,15 @@ import java.io.File;
 
 import net.minecraft.util.text.ITextComponent;
 import xyz.openmodloader.event.Event;
+import xyz.openmodloader.launcher.strippable.Side;
+import xyz.openmodloader.launcher.strippable.Strippable;
 
 /**
  * An event that is fired when a screenshot is taken. This is fired after the
  * screenshot has been generated but before it has been saved. This event can be
  * canceled to prevent the screenshot from being saved.
  */
+@Strippable(side = Side.CLIENT)
 public class ScreenshotEvent extends Event {
 
     /**

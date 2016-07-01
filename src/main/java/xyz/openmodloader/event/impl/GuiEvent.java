@@ -5,12 +5,15 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import xyz.openmodloader.event.Event;
+import xyz.openmodloader.launcher.strippable.Side;
+import xyz.openmodloader.launcher.strippable.Strippable;
 
 /**
  * Parent class for GUI related events. All events that fall within this scope
  * should extend this class. They should also be added as an inner class however
  * that is not required.
  */
+@Strippable(side = Side.CLIENT)
 public class GuiEvent extends Event {
 
     /**

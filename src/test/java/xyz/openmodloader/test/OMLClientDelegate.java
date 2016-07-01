@@ -23,8 +23,10 @@ import net.minecraft.util.text.TextComponentString;
 
 import org.lwjgl.input.Keyboard;
 
+/**
+ * The client delegate of the test mod, this will only run on the client
+ */
 public class OMLClientDelegate extends OMLServerDelegate {
-
 
     @Override
     public void registerEvents(Channel channel) {

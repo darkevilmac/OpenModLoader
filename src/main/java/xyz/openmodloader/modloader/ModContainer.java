@@ -2,11 +2,12 @@ package xyz.openmodloader.modloader;
 
 import java.io.File;
 
-import net.minecraft.launchwrapper.IClassTransformer;
-import net.minecraft.util.ResourceLocation;
 import xyz.openmodloader.launcher.strippable.Side;
 import xyz.openmodloader.modloader.version.UpdateManager;
 import xyz.openmodloader.modloader.version.Version;
+
+import net.minecraft.launchwrapper.IClassTransformer;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * The Interface ModContainer.
@@ -123,7 +124,21 @@ public interface ModContainer {
      */
     String[] getDependencies();
 
+    /**
+     * Gets the Client Delegate instance for the mod and sets the field in the the mod
+     * instance which has the @{@link xyz.openmodloader.registry.Delegate}. This will only
+     * get called when the game is run on the client side
+     *
+     * @return the client delegate class of the mod specified in the manifest
+     */
     Object getClientDelegate();
 
+    /**
+     * Gets the Server Delegate instance for the mod and sets the field in the the mod
+     * instance which has the @{@link xyz.openmodloader.registry.Delegate}. This will
+     * only get called when the game is run on the server side
+     *
+     * @return the server delegate class of the mod specified in the manifest
+     */
     Object getServerDelegate();
 }
