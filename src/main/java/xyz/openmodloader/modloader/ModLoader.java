@@ -5,19 +5,17 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import net.minecraft.launchwrapper.LaunchClassLoader;
 import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.SidedHandler;
 import xyz.openmodloader.launcher.OMLTweaker;
 import xyz.openmodloader.launcher.strippable.Side;
 import xyz.openmodloader.modloader.version.JsonUpdateContainer;
 import xyz.openmodloader.modloader.version.UpdateManager;
+import xyz.openmodloader.registry.Delegate;
+
+import net.minecraft.launchwrapper.LaunchClassLoader;
 
 /**
  * The class responsible for registering and loading mods.
@@ -62,7 +60,7 @@ public class ModLoader {
     /**
      * Attempts to load all mods from the mods directory and the classpath. While this is public,
      * it is intended for internal use only!
-     * 
+     * <p>
      * <br>This is called from {@link OMLTweaker#injectIntoClassLoader(LaunchClassLoader)}}.
      *
      * @throws Exception the exception
@@ -79,7 +77,7 @@ public class ModLoader {
     /**
      * Iterates through all registered mods and enables them. If there is an
      * issue in registering the mod, it will be disabled.
-     * 
+     * <p>
      * <br>This is called from {@link OpenModLoader#minecraftConstruction(SidedHandler)}.
      */
     public static void loadMods() {
@@ -92,9 +90,10 @@ public class ModLoader {
             Mod instance = mod.getInstance();
             if (instance != null) {
                 MODS_MAP.put(instance, mod);
-                // populate @Instance fields
-                for (Field field: instance.getClass().getDeclaredFields()) {
+
+                for (Field field : instance.getClass().getDeclaredFields()) {
                     if (field.isAnnotationPresent(Instance.class)) {
+                        // populate @Instance fields
                         try {
                             field.setAccessible(true);
                             if (Modifier.isFinal(field.getModifiers())) {
@@ -105,6 +104,23 @@ public class ModLoader {
                             field.set(null, instance);
                         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
                             OpenModLoader.getLogger().error("Could not set @Instance field", e);
+                        }
+                    } else if (field.isAnnotationPresent(Delegate.class)) {
+                        // populate @Delegate fields
+
+                        Object delegate = OpenModLoader.getSidedHandler().getSide() == Side.SERVER ? mod.getServerDelegate() : mod.getClientDelegate();
+                        if (delegate != null) {
+                            try {
+                                field.setAccessible(true);
+                                if (Modifier.isFinal(field.getModifiers())) {
+                                    Field modifiersField = Field.class.getDeclaredField("modifiers");
+                                    modifiersField.setAccessible(true);
+                                    modifiersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+                                }
+                                field.set(instance, delegate);
+                            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+                                OpenModLoader.getLogger().error("Could not set @Instance field", e);
+                            }
                         }
                     }
                 }

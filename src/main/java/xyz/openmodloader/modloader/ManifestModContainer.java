@@ -1,5 +1,8 @@
 package xyz.openmodloader.modloader;
 
+import com.google.common.collect.Sets;
+import com.google.gson.annotations.SerializedName;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -12,19 +15,17 @@ import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
-import org.apache.commons.lang3.ArrayUtils;
-
-import com.google.common.collect.Sets;
-import com.google.gson.annotations.SerializedName;
+import xyz.openmodloader.OpenModLoader;
+import xyz.openmodloader.launcher.strippable.Side;
+import xyz.openmodloader.modloader.version.Version;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.ResourceLocation;
-import xyz.openmodloader.OpenModLoader;
-import xyz.openmodloader.launcher.strippable.Side;
-import xyz.openmodloader.modloader.version.Version;
+
+import org.apache.commons.lang3.ArrayUtils;
 
 class ManifestModContainer implements ModContainer {
 
@@ -36,6 +37,8 @@ class ManifestModContainer implements ModContainer {
     private transient Side side;
     private transient File modFile;
     private transient byte[] logoBytes;
+    private transient Object clientDelegateInstance;
+    private transient Object serverDelegateInstance;
 
     @SerializedName("Mod-Class")
     private String classString;
@@ -63,6 +66,11 @@ class ManifestModContainer implements ModContainer {
     private String transformers;
     @SerializedName("Dependencies")
     private String dependencies;
+
+    @SerializedName("Client-Delegate")
+    private String clientDelegate;
+    @SerializedName("Server-Delegate")
+    private String serverDelegate;
 
     /**
      * Uses a manifest to create a mod container.
@@ -117,7 +125,8 @@ class ManifestModContainer implements ModContainer {
             try {
                 InputStream in = null;
                 if (logoBytes == null) {
-                    in = new URL(getModFile().toURI().toURL().toString() + '/' + logo).openStream();;
+                    in = new URL(getModFile().toURI().toURL().toString() + '/' + logo).openStream();
+                    ;
                 } else {
                     in = new ByteArrayInputStream(logoBytes);
                 }
@@ -138,8 +147,9 @@ class ManifestModContainer implements ModContainer {
         if (this.instance == null) {
             try {
                 Class<?> clazz = this.getMainClass();
-                if (clazz == null)
+                if (clazz == null) {
                     return null;
+                }
                 this.instance = (Mod) clazz.newInstance();
             } catch (ClassCastException | InstantiationException | IllegalAccessException e) {
                 throw new RuntimeException(e);
@@ -158,11 +168,13 @@ class ManifestModContainer implements ModContainer {
 
     @Override
     public Version getMinecraftVersion() {
-        if (mcversion == null)
-            if (mcversionString == null)
+        if (mcversion == null) {
+            if (mcversionString == null) {
                 mcversion = OpenModLoader.getMinecraftVersion();
-            else
+            } else {
                 mcversion = new Version(mcversionString);
+            }
+        }
         return mcversion;
     }
 
@@ -178,11 +190,13 @@ class ManifestModContainer implements ModContainer {
 
     @Override
     public Side getSide() {
-        if (side == null)
-            if (sideString == null)
+        if (side == null) {
+            if (sideString == null) {
                 side = Side.UNIVERSAL;
-            else
+            } else {
                 side = Side.valueOf(sideString);
+            }
+        }
         return side;
     }
 
@@ -222,6 +236,46 @@ class ManifestModContainer implements ModContainer {
             return ArrayUtils.EMPTY_STRING_ARRAY;
         }
         return dependencies.split("\\s*,\\s*");
+    }
+
+    @Override
+    public Object getClientDelegate() {
+        if (clientDelegate == null) {
+            return null;
+        }
+
+        if (clientDelegateInstance == null) {
+            try {
+                Class<?> clazz = Class.forName(clientDelegate);
+                if (clazz == null) {
+                    return null;
+                }
+                this.clientDelegateInstance = clazz.newInstance();
+            } catch (ClassCastException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return clientDelegateInstance;
+    }
+
+    @Override
+    public Object getServerDelegate() {
+        if (serverDelegate == null) {
+            return null;
+        }
+
+        if (serverDelegateInstance == null) {
+            try {
+                Class<?> clazz = Class.forName(serverDelegate);
+                if (clazz == null) {
+                    return null;
+                }
+                this.serverDelegateInstance = clazz.newInstance();
+            } catch (ClassCastException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return serverDelegateInstance;
     }
 
     /**

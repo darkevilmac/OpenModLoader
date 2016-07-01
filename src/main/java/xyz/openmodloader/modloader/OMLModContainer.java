@@ -99,6 +99,16 @@ class OMLModContainer implements ModContainer {
     }
 
     @Override
+    public Object getClientDelegate() {
+        return null;
+    }
+
+    @Override
+    public Object getServerDelegate() {
+        return null;
+    }
+
+    @Override
     public Side getSide() {
         return Side.UNIVERSAL;
     }

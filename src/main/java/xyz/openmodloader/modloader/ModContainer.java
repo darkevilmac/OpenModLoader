@@ -122,4 +122,8 @@ public interface ModContainer {
      * @return the dependencies
      */
     String[] getDependencies();
+
+    Object getClientDelegate();
+
+    Object getServerDelegate();
 }
