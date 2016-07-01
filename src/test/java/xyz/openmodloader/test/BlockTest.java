@@ -10,11 +10,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import xyz.openmodloader.gui.Context;
+import xyz.openmodloader.gui.GUIContext;
 
 public class BlockTest extends Block {
     public BlockTest() {
@@ -25,7 +23,7 @@ public class BlockTest extends Block {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, @Nullable ItemStack stack, EnumFacing side, float hitX, float hitY, float hitZ) {
-        player.openGUI("omltest", "test", new Context().set("pos", pos).set("inv", player.inventory));
+        player.openGUI("omltest", "test", new GUIContext().set("pos", pos).set("inv", player.inventory));
         return true;
     }
 }

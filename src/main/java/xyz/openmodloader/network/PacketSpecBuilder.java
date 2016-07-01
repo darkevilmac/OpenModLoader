@@ -15,7 +15,7 @@ public class PacketSpecBuilder {
     private final ChannelBuilder builder;
     final String name;
     final Map<String, DataType> types;
-    BiConsumer<Context, Packet> handler;
+    BiConsumer<PacketContext, Packet> handler;
 
     PacketSpecBuilder(ChannelBuilder builder, String name) {
         this.builder = builder;
@@ -43,7 +43,7 @@ public class PacketSpecBuilder {
      * @param handler The packet handler
      * @return The channel builder
      */
-    public ChannelBuilder handle(BiConsumer<Context, Packet> handler) {
+    public ChannelBuilder handle(BiConsumer<PacketContext, Packet> handler) {
         if (this.handler != null) throw new IllegalStateException(String.format("Packet %s already has a handler, %s", name, this.handler));
 
         this.handler = handler;
@@ -59,7 +59,7 @@ public class PacketSpecBuilder {
      * @param serverHandler The server-side handler
      * @return The channel builder
      */
-    public ChannelBuilder handle(BiConsumer<Context, Packet> clientHandler, BiConsumer<Context, Packet> serverHandler) {
+    public ChannelBuilder handle(BiConsumer<PacketContext, Packet> clientHandler, BiConsumer<PacketContext, Packet> serverHandler) {
         if (this.handler != null) throw new IllegalStateException(String.format("Packet %s already has a handler, %s", name, this.handler));
 
         this.handler = (context, packet) -> {
@@ -81,7 +81,7 @@ public class PacketSpecBuilder {
      * @param handler The handler
      * @return The channel builder
      */
-    public ChannelBuilder handleOnMainThread(BiConsumer<Context, Packet> handler) {
+    public ChannelBuilder handleOnMainThread(BiConsumer<PacketContext, Packet> handler) {
         return handle((context, packet) -> {
             OpenModLoader.getSidedHandler().handleOnMainThread(() -> {
                 handler.accept(context, packet);
@@ -96,7 +96,7 @@ public class PacketSpecBuilder {
      * @param serverHandler The server-side handler
      * @return The channel builder
      */
-    public ChannelBuilder handleOnMainThread(BiConsumer<Context, Packet> clientHandler, BiConsumer<Context, Packet> serverHandler) {
+    public ChannelBuilder handleOnMainThread(BiConsumer<PacketContext, Packet> clientHandler, BiConsumer<PacketContext, Packet> serverHandler) {
         return handle((context, packet) -> {
             if (context.getSide() == Side.CLIENT) {
                 OpenModLoader.getSidedHandler().handleOnMainThread(() -> {

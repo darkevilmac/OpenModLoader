@@ -62,7 +62,7 @@ public class Packet extends AbstractPacket {
      */
     @Override
     public void handle() {
-        spec.handler.accept(new Context(), this);
+        spec.handler.accept(new PacketContext(), this);
     }
 
 }

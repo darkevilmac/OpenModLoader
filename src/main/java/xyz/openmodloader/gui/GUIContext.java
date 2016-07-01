@@ -3,11 +3,11 @@ package xyz.openmodloader.gui;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Context {
+public class GUIContext {
 
     private final Map<String, Object> data = new HashMap<>();
 
-    public Context set(String id, Object value) {
+    public GUIContext set(String id, Object value) {
         if (data.containsKey(id)) throw new IllegalArgumentException(String.format("Key %s already has value %s", id, data.get(id)));
         data.put(id, value);
         return this;

@@ -3,7 +3,7 @@ package xyz.openmodloader.test;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import xyz.openmodloader.gui.Context;
+import xyz.openmodloader.gui.GUIContext;
 
 public class GUITest extends GuiContainer {
 
@@ -11,7 +11,7 @@ public class GUITest extends GuiContainer {
 
     private int x, y, z;
 
-    public GUITest(Context context) {
+    public GUITest(GUIContext context) {
         super(new ContainerTest(context));
         BlockPos pos = context.get("pos");
         x = pos.getX();

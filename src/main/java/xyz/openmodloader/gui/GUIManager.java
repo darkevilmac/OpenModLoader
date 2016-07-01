@@ -2,6 +2,8 @@ package xyz.openmodloader.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import xyz.openmodloader.launcher.strippable.Side;
+import xyz.openmodloader.launcher.strippable.Strippable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +20,7 @@ public class GUIManager {
         return handlers.get(owner);
     }
 
-    public static void open(EntityPlayer player, String owner, String guiID, Context context) {
+    public static void open(EntityPlayer player, String owner, String guiID, GUIContext context) {
         if (player.worldObj.isRemote) {
             openClient(player, owner, guiID, context);
         } else {
@@ -26,11 +28,12 @@ public class GUIManager {
         }
     }
 
-    private static void openClient(EntityPlayer player, String owner, String guiID, Context context) {
+    @Strippable(side = Side.CLIENT)
+    private static void openClient(EntityPlayer player, String owner, String guiID, GUIContext context) {
         Minecraft.getMinecraft().displayGuiScreen(handlers.get(owner).getGUI(guiID, context));
     }
 
-    private static void openServer(EntityPlayer player, String modID, String owner, Context context) {
+    private static void openServer(EntityPlayer player, String modID, String owner, GUIContext context) {
         player.openContainer = handlers.get(modID).getContainer(owner, context);
     }
 

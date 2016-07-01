@@ -6,18 +6,18 @@ import xyz.openmodloader.launcher.strippable.Side;
 /**
  * The context in which this packet is being handled
  */
-public class Context {
+public class PacketContext {
 
     private final Side side;
 
     /**
      * Default context constructor, using the physical side
      */
-    public Context() {
+    public PacketContext() {
         this(OpenModLoader.getSidedHandler().getSide());
     }
 
-    public Context(Side side) {
+    public PacketContext(Side side) {
         this.side = side;
     }
 

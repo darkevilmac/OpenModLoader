@@ -4,11 +4,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import xyz.openmodloader.gui.Context;
+import xyz.openmodloader.gui.GUIContext;
 
 public class ContainerTest extends Container {
 
-    public ContainerTest(Context context) {
+    public ContainerTest(GUIContext context) {
         InventoryPlayer inventory = context.get("inv");
 
         for(int i = 0; i < 3; ++i) {

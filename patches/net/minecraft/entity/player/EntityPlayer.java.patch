@@ -45,7 +45,7 @@
      }
  
 +//  OML
-+    public void openGUI(String owner, String guiID, xyz.openmodloader.gui.Context context) {
++    public void openGUI(String owner, String guiID, xyz.openmodloader.gui.GUIContext context) {
 +        xyz.openmodloader.gui.GUIManager.open(this, owner, guiID, context);
 +    }
 +
