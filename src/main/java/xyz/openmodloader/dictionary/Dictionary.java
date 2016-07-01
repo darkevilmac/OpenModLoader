@@ -1,21 +1,16 @@
 package xyz.openmodloader.dictionary;
 
-import java.util.Set;
+import java.util.Map;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Multimaps;
-import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import xyz.openmodloader.util.CollectionPredicate;
 
-public class Dictionary<E> {
+public class Dictionary<K, V> {
 
-    /**
-     * The material dictionary.
-     */
-    public static final ItemStackDictionary MATERIALS = new ItemStackDictionary();
-
-    private final SetMultimap<String, E> map = 
-            Multimaps.newSetMultimap(Maps.newConcurrentMap(), () -> Sets.newConcurrentHashSet());
+    private final Map<K, CollectionPredicate<V>> map = Maps.newConcurrentMap();
+    private final Predicate<V> defaultValue = (v) -> false;
 
     /**
      * Registers a value.
@@ -23,8 +18,13 @@ public class Dictionary<E> {
      * @param key the key
      * @param value the value
      */
-    public void register(String key, E value) {
-        map.put(key, value);
+    public void register(K key, Predicate<V> value) {
+        CollectionPredicate<V> collection = map.get(key);
+        if (collection != null) {
+            collection = new CollectionPredicate<>(Sets.newConcurrentHashSet());
+            map.put(key, collection);
+        }
+        collection.add(value);
     }
 
     /**
@@ -35,7 +35,12 @@ public class Dictionary<E> {
      * @param key the key
      * @return the sets the
      */
-    public Set<E> get(String key) {
-        return map.get(key);
+    public Predicate<V> get(K key) {
+        Predicate<V> value = map.get(key);
+        if (value != null) {
+            return value;
+        } else {
+            return defaultValue;
+        }
     }
 }
