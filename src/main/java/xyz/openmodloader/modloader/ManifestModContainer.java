@@ -37,8 +37,6 @@ class ManifestModContainer implements ModContainer {
     private transient Side side;
     private transient File modFile;
     private transient byte[] logoBytes;
-    private transient Object clientDelegateInstance;
-    private transient Object serverDelegateInstance;
 
     @SerializedName("Mod-Class")
     private String classString;
@@ -66,11 +64,6 @@ class ManifestModContainer implements ModContainer {
     private String transformers;
     @SerializedName("Dependencies")
     private String dependencies;
-
-    @SerializedName("Client-Delegate")
-    private String clientDelegate;
-    @SerializedName("Server-Delegate")
-    private String serverDelegate;
 
     /**
      * Uses a manifest to create a mod container.
