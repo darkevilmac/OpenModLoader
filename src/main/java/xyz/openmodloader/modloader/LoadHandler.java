@@ -80,6 +80,9 @@ class LoadHandler {
         if (checkDependencies() && duplicates.isEmpty()) {
             // if everything is okay, load the mod transformers and return true
             for (ModContainer mod: modList) {
+                for (String exclusion: mod.getTransformerExclusions()) {
+                    Launch.classLoader.addTransformerExclusion(exclusion);
+                }
                 for (String transformer : mod.getTransformers()) {
                     Launch.classLoader.registerTransformer(transformer);
                 }

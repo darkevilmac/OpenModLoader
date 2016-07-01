@@ -8,6 +8,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
@@ -90,12 +92,12 @@ class OMLModContainer implements ModContainer {
 
     @Override
     public String[] getTransformers() {
-        return new String[0];
+        return ArrayUtils.EMPTY_STRING_ARRAY;
     }
 
     @Override
     public String[] getDependencies() {
-        return new String[0];
+        return ArrayUtils.EMPTY_STRING_ARRAY;
     }
 
     @Override
@@ -106,5 +108,10 @@ class OMLModContainer implements ModContainer {
     @Override
     public File getModFile() {
         return modFile;
+    }
+
+    @Override
+    public String[] getTransformerExclusions() {
+        return ArrayUtils.EMPTY_STRING_ARRAY;
     }
 }
