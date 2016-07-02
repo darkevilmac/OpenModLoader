@@ -78,7 +78,7 @@ public class Config {
      */
     public boolean getBoolean(String name, boolean defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -99,7 +99,7 @@ public class Config {
      */
     public int getInt(String name, int defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -120,7 +120,7 @@ public class Config {
      */
     public long getLong(String name, long defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -141,7 +141,7 @@ public class Config {
      */
     public double getDouble(String name, double defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -162,7 +162,7 @@ public class Config {
      */
     public String getString(String name, String defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -204,7 +204,7 @@ public class Config {
      */
     public List<Boolean> getBooleanList(String name, List<Boolean> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -225,7 +225,7 @@ public class Config {
      */
     public List<Integer> getIntList(String name, List<Integer> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -246,7 +246,7 @@ public class Config {
      */
     public List<Long> getLongList(String name, List<Long> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -267,7 +267,7 @@ public class Config {
      */
     public List<Double> getDoubleList(String name, List<Double> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -288,7 +288,7 @@ public class Config {
      */
     public List<String> getStringList(String name, List<String> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromIterable(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
