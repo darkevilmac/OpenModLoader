@@ -1,13 +1,12 @@
 --- /net/minecraft/entity/item
 +++ /net/minecraft/entity/item
-@@ -136,8 +136,9 @@
-             this.handItems[var1.getIndex()] = var2;
-             break;
-         case ARMOR:
-+            xyz.openmodloader.event.impl.ArmorEvent event = xyz.openmodloader.event.impl.ArmorEvent.handle(this, var2, var1);
-+            if (event != null) this.armorItems[event.getSlot().getIndex()] = event.getArmor(); else return;
-             this.playEquipSound(var2);
--            this.armorItems[var1.getIndex()] = var2;
-         }
- 
+@@ -130,6 +130,9 @@
      }
+ 
+     public void setItemStackToSlot(EntityEquipmentSlot var1, @Nullable ItemStack var2) {
++        xyz.openmodloader.event.impl.EquipmentEvent event = xyz.openmodloader.event.impl.EquipmentEvent.Equip.handle(this, var2, var1);
++        if (event == null) return;
++        var1 = event.getSlot(); var2 = event.getEquipment();
+         switch(var1.getSlotType()) {
+         case HAND:
+             this.playEquipSound(var2);
