@@ -8,7 +8,15 @@
          if(this.getNetworkSystem() != null) {
              this.getNetworkSystem().terminateEndpoints();
          }
-@@ -389,7 +390,7 @@
+@@ -382,6 +383,7 @@
+             for(WorldServer var8 : this.worldServers) {
+                 if(var8 != null) {
+                     var8.flush();
++                    xyz.openmodloader.event.impl.WorldEvent.Unload.handle(var8);
+                 }
+             }
+         }
+@@ -389,7 +391,7 @@
          if(this.usageSnooper.isSnooperRunning()) {
              this.usageSnooper.stopSnooper();
          }
@@ -17,7 +25,7 @@
      }
  
      public boolean isServerRunning() {
-@@ -523,6 +524,7 @@
+@@ -523,6 +525,7 @@
      }
  
      public void tick() {

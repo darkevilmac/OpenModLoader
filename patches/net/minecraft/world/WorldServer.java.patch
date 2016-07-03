@@ -1,6 +1,26 @@
 --- /net/minecraft/world
 +++ /net/minecraft/world
-@@ -856,6 +856,7 @@
+@@ -157,6 +157,7 @@
+             this.getWorldBorder().setTransition(this.worldInfo.getBorderSize());
+         }
+ 
++        xyz.openmodloader.event.impl.WorldEvent.Load.handle(this);
+         return this;
+     }
+ 
+@@ -761,8 +762,9 @@
+                     break;
+                 }
+             }
+-
+-            this.worldInfo.setSpawn(new BlockPos(var6, var7, var8));
++            xyz.openmodloader.event.impl.WorldEvent.SetSpawn event = xyz.openmodloader.event.impl.WorldEvent.SetSpawn.handle(this, new BlockPos(var6, var7, var8));
++            if (event.isCanceled()) return;
++            this.worldInfo.setSpawn(event.getSpawnPoint());
+             this.findingSpawnPoint = false;
+             if(var1.isBonusChestEnabled()) {
+                 this.createBonusChest();
+@@ -856,6 +858,7 @@
      }
  
      private boolean canAddEntity(Entity var1) {
@@ -8,7 +28,7 @@
          if(var1.isDead) {
              LOGGER.warn("Tried to add entity {} but it was marked as removed already", new Object[]{EntityList.getEntityString(var1)});
              return false;
-@@ -925,7 +926,8 @@
+@@ -925,7 +928,8 @@
      }
  
      public Explosion newExplosion(@Nullable Entity var1, double var2, double var4, double var6, float var8, boolean var9, boolean var10) {
