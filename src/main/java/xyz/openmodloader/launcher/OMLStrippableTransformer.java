@@ -1,12 +1,8 @@
 package xyz.openmodloader.launcher;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Type;
+import org.objectweb.asm.*;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 
@@ -15,10 +11,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 import xyz.openmodloader.OpenModLoader;
-import xyz.openmodloader.launcher.strippable.Environment;
-import xyz.openmodloader.launcher.strippable.InterfaceContainer;
-import xyz.openmodloader.launcher.strippable.Side;
-import xyz.openmodloader.launcher.strippable.Strippable;
+import xyz.openmodloader.launcher.strippable.*;
 
 public class OMLStrippableTransformer implements IClassTransformer {
     static Set<String> MODS;
@@ -30,9 +23,7 @@ public class OMLStrippableTransformer implements IClassTransformer {
         ClassReader classReader = new ClassReader(basicClass);
         classReader.accept(classNode, 0);
 
-        if (remove(classNode.visibleAnnotations)) {
-            throw new RuntimeException(String.format("Loading class %s on wrong side %s", name, SIDE.toString()));
-        }
+        checkClass(classNode);
 
         if (removeInterfaces(classNode) ||
                 classNode.methods.removeIf(method -> remove(method.visibleAnnotations)) ||
@@ -153,6 +144,70 @@ public class OMLStrippableTransformer implements IClassTransformer {
             }
         }
         return false;
+    }
+
+    private void checkClass(ClassNode classNode) {
+        List<AnnotationNode> annotations = classNode.visibleAnnotations;
+        if (annotations != null) {
+            for (AnnotationNode annotation : annotations) {
+                if (Type.getType(annotation.desc).equals(Type.getType(Strippable.class))) {
+                    List<Object> values = annotation.values;
+                    for (int i = 0; i < values.size() - 1; i += 2) {
+                        Object key = values.get(i);
+                        Object value = values.get(i + 1);
+                        if (key instanceof String && ((String) key).equals("side")) {
+                            if (value instanceof String[]) {
+                                String side = ((String[]) value)[1];
+                                if (!side.equals("UNIVERSAL") && !side.equals(SIDE.toString())) {
+                                    throw new RuntimeException(
+                                            String.format("Loading class %s on wrong side %s", classNode.name, SIDE));
+                                }
+                            }
+                        } else if (key instanceof String && ((String) key).equals("environment")) {
+                            if (value instanceof String[]) {
+                                String side = ((String[]) value)[1];
+                                if (!side.equals("UNIVERSAL") && !side.equals(getEnvironment().toString())) {
+                                    throw new RuntimeException(String.format("Loading class %s in wrong environment %s",
+                                            classNode.name, environment));
+                                }
+                            }
+                        } else if (key instanceof String && ((String) key).equals("mods")) {
+                            if (value instanceof List) {
+                                List<?> mods = (List<?>) value;
+                                List<Object> missingMods = new ArrayList<>();
+                                for (Object mod : mods) {
+                                    if (!MODS.contains(mod)) {
+                                        missingMods.add(mod);
+                                    }
+                                }
+                                if (!missingMods.isEmpty()) {
+                                    throw new RuntimeException(
+                                            String.format("Loading class %s without required mods %s loaded",
+                                                    classNode.name, missingMods));
+                                }
+                            }
+                        } else if (key instanceof String && ((String) key).equals("classes")) {
+                            if (value instanceof List) {
+                                List<?> classes = (List<?>) value;
+                                List<Object> missingClasses = new ArrayList<>();
+                                for (Object cls : classes) {
+                                    try {
+                                        Class.forName((String) cls, false, Launch.classLoader);
+                                    } catch (ClassNotFoundException e) {
+                                        missingClasses.add(cls);
+                                    }
+                                }
+                                if (!missingClasses.isEmpty()) {
+                                    throw new RuntimeException(String.format(
+                                            "Loading class %s without required classes %s on the classpath",
+                                            classNode.name, missingClasses));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static Environment environment;
