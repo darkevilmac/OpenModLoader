@@ -1,13 +1,9 @@
 package xyz.openmodloader.modloader;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -71,7 +67,7 @@ class ManifestModContainer implements ModContainer {
      */
     public static ManifestModContainer create(File modFile, Manifest manifest) {
         Set<Object> attributeNames = manifest.getMainAttributes().keySet();
-        if (!attributeNames.containsAll(Arrays.asList(new Attributes.Name("ID"), new Attributes.Name("Version")))) {
+        if (!attributeNames.contains(new Attributes.Name("ID"))) {
             return null;
         }
         ManifestModContainer container = new ManifestModContainer();
@@ -81,9 +77,9 @@ class ManifestModContainer implements ModContainer {
                 String name = field.getAnnotation(SerializedName.class).value();
                 if (attributeNames.contains(new Attributes.Name(name))) {
                     try {
-                        field.set(container, attributes.getValue(name).split("\\s*//")[0]);
+                        field.set(container, attributes.getValue(name).split("\\s*<-->")[0]);
                     } catch (IllegalAccessException e) {
-                        e.printStackTrace();
+                        OpenModLoader.getLogger().catching(e);
                         return null;
                     }
                 }

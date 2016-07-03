@@ -281,6 +281,10 @@ class LoadHandler {
         if (container.getModID().equals("oml")) {
             throw new RuntimeException("'oml' is a reserved mod id!");
         }
+        if (container.getName() == null || container.getName().isEmpty()) {
+        	throw new RuntimeException("The mod must set a non-empty name!");
+        }
+        container.getVersion();
         if (!container.getMinecraftVersion().equals(OpenModLoader.getMinecraftVersion())) {
             log.warn("Mod '%s' is expecting Minecraft %s, but we are running on Minecraft %s!", container.getName(), container.getMinecraftVersion(), OpenModLoader.getMinecraftVersion());
         }
