@@ -21,7 +21,6 @@ import net.minecraft.client.gui.GuiLanguage;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.HorseArmorType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
@@ -90,8 +89,8 @@ public class OMLTestMod implements Mod {
         OpenModLoader.getEventBus().register(EntityEvent.Constructing.class, this::onEntityConstruct);
         OpenModLoader.getEventBus().register(EntityEvent.Join.class, this::onEntityJoinWorld);
 
-        OpenModLoader.getEventBus().register(ArmorEvent.Equip.class, this::onArmorEquip);
-        OpenModLoader.getEventBus().register(ArmorEvent.Unequip.class, this::onArmorUnequip);
+        OpenModLoader.getEventBus().register(EquipmentEvent.Equip.class, this::onArmorEquip);
+        OpenModLoader.getEventBus().register(EquipmentEvent.Unequip.class, this::onArmorUnequip);
 
         OpenModLoader.getEventBus().register(EntityEvent.ChangeDimension.class, this::onChangeDimension);
 
@@ -282,13 +281,13 @@ public class OMLTestMod implements Mod {
         }
     }
 
-    private void onArmorEquip(ArmorEvent.Equip event){
-        OpenModLoader.getLogger().info("Entity: " + event.getEntity().getName() + " equipped " + Objects.toString(event.getArmor()) + " to the " + event.getSlot().getName() + " slot");
+    private void onArmorEquip(EquipmentEvent.Equip event){
+        OpenModLoader.getLogger().info("Entity: " + event.getEntity().getName() + " equipped " + Objects.toString(event.getEquipment()) + " to the " + event.getSlot().getName() + " slot");
         event.setCanceled(true);
     }
 
-    private void onArmorUnequip(ArmorEvent.Unequip event){
-        OpenModLoader.getLogger().info("Entity: " + event.getEntity().getName() + " unequipped " + Objects.toString(event.getArmor()) + " to the " + event.getSlot().getName() + " slot");
+    private void onArmorUnequip(EquipmentEvent.Unequip event){
+        OpenModLoader.getLogger().info("Entity: " + event.getEntity().getName() + " unequipped " + Objects.toString(event.getEquipment()) + " to the " + event.getSlot().getName() + " slot");
         event.setCanceled(true);
     }
 
