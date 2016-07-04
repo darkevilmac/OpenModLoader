@@ -6,7 +6,6 @@ import net.minecraft.entity.passive.HorseArmorType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import xyz.openmodloader.item.HorseArmor;
-import xyz.openmodloader.registry.GameRegistry;
 
 public class ItemTestHorseArmor extends Item implements HorseArmor {
 
