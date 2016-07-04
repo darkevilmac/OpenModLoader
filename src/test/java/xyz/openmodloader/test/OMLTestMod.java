@@ -1,31 +1,26 @@
 package xyz.openmodloader.test;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiLanguage;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Biomes;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Enchantments;
+import net.minecraft.init.*;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.WorldServer;
 import xyz.openmodloader.OpenModLoader;
@@ -39,9 +34,7 @@ import xyz.openmodloader.event.impl.BiomeEvent.BiomeColor;
 import xyz.openmodloader.launcher.strippable.Side;
 import xyz.openmodloader.modloader.Mod;
 import xyz.openmodloader.modloader.version.UpdateManager;
-import xyz.openmodloader.network.Channel;
-import xyz.openmodloader.network.ChannelManager;
-import xyz.openmodloader.network.DataTypes;
+import xyz.openmodloader.network.*;
 import xyz.openmodloader.registry.GameRegistry;
 
 public class OMLTestMod implements Mod {
@@ -138,11 +131,11 @@ public class OMLTestMod implements Mod {
     }
 
     private void testBlock() {
-        GameRegistry.registerBlock(new BlockEmpty(), new ResourceLocation("oml:blank"));
-        GameRegistry.registerBlock(new BlockTest(), new ResourceLocation("oml:test"));
+        GameRegistry.registerBlock(new ResourceLocation("oml:blank"), new BlockEmpty());
+        GameRegistry.registerBlock(new ResourceLocation("oml:test"), new BlockTest());
 
-        GameRegistry.registerItem(new Item(), new ResourceLocation("oml:blank_item"));
-        GameRegistry.registerItem(new ItemTestHorseArmor(), new ResourceLocation("oml:horse_armor"));
+        GameRegistry.registerItem(new ResourceLocation("oml:blank_item"), new Item());
+        GameRegistry.registerItem(new ResourceLocation("oml:horse_armor"), new ItemTestHorseArmor());
     }
     
     private void testHorseArmor() {
