@@ -1,6 +1,8 @@
 package xyz.openmodloader.test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Arrays;
@@ -16,7 +18,10 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.*;
+import net.minecraft.init.Biomes;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -29,12 +34,24 @@ import xyz.openmodloader.client.gui.GuiModList;
 import xyz.openmodloader.config.Config;
 import xyz.openmodloader.dictionary.ShapedMaterialRecipe;
 import xyz.openmodloader.dictionary.ShapelessMaterialRecipe;
-import xyz.openmodloader.event.impl.*;
 import xyz.openmodloader.event.impl.BiomeEvent.BiomeColor;
+import xyz.openmodloader.event.impl.BlockEvent;
+import xyz.openmodloader.event.impl.CommandEvent;
+import xyz.openmodloader.event.impl.EnchantmentEvent;
+import xyz.openmodloader.event.impl.EntityEvent;
+import xyz.openmodloader.event.impl.EquipmentEvent;
+import xyz.openmodloader.event.impl.ExplosionEvent;
+import xyz.openmodloader.event.impl.GuiEvent;
+import xyz.openmodloader.event.impl.InputEvent;
+import xyz.openmodloader.event.impl.MessageEvent;
+import xyz.openmodloader.event.impl.PlayerEvent;
+import xyz.openmodloader.event.impl.ScreenshotEvent;
 import xyz.openmodloader.launcher.strippable.Side;
 import xyz.openmodloader.modloader.Mod;
 import xyz.openmodloader.modloader.version.UpdateManager;
-import xyz.openmodloader.network.*;
+import xyz.openmodloader.network.Channel;
+import xyz.openmodloader.network.ChannelManager;
+import xyz.openmodloader.network.DataTypes;
 import xyz.openmodloader.registry.GameRegistry;
 
 public class OMLTestMod implements Mod {
@@ -42,7 +59,7 @@ public class OMLTestMod implements Mod {
 
     @Override
     public void onInitialize() {
-        
+
         OpenModLoader.getLogger().info("Loading test mod");
 
         OpenModLoader.getEventBus().register(BlockEvent.Place.class, this::onBlockPlace);
@@ -69,10 +86,7 @@ public class OMLTestMod implements Mod {
         OpenModLoader.getEventBus().register(MessageEvent.Chat.class, event -> {
             if (event.getSide() == Side.CLIENT) {
                 String message = event.getMessage().getUnformattedText();
-                if (message.equals(I18n.format("tile.bed.occupied")) ||
-                        message.equals(I18n.format("tile.bed.noSleep")) ||
-                        message.equals(I18n.format("tile.bed.notSafe")) ||
-                        message.equals(I18n.format("tile.bed.notValid"))) {
+                if (message.equals(I18n.format("tile.bed.occupied")) || message.equals(I18n.format("tile.bed.noSleep")) || message.equals(I18n.format("tile.bed.notSafe")) || message.equals(I18n.format("tile.bed.notValid"))) {
                     OpenModLoader.getSidedHandler().openSnackbar(event.getMessage());
                     event.setCanceled(true);
                 }
@@ -113,21 +127,17 @@ public class OMLTestMod implements Mod {
         config.save();
 
         testNetwork();
-        testBlock();   
+        testBlock();
         testHorseArmor();
         testDictionary();
     }
 
     private void testNetwork() {
-        channel = ChannelManager.create("OMLTest")
-                .createPacket("test")
-                    .with("str", DataTypes.STRING)
-                    .handle((context, packet) -> {
-                        System.out.println("PHYSICAL SIDE: " + OpenModLoader.getSidedHandler().getSide());
-                        System.out.println("THREAD: " + Thread.currentThread().getName());
-                        System.out.println("DATA: " + packet.get("str", DataTypes.STRING));
-                    })
-                .build();
+        channel = ChannelManager.create("OMLTest").createPacket("test").with("str", DataTypes.STRING).handle((context, packet) -> {
+            System.out.println("PHYSICAL SIDE: " + OpenModLoader.getSidedHandler().getSide());
+            System.out.println("THREAD: " + Thread.currentThread().getName());
+            System.out.println("DATA: " + packet.get("str", DataTypes.STRING));
+        }).build();
     }
 
     private void testBlock() {
@@ -137,7 +147,7 @@ public class OMLTestMod implements Mod {
         GameRegistry.registerItem(new ResourceLocation("oml:blank_item"), new Item());
         GameRegistry.registerItem(new ResourceLocation("oml:horse_armor"), new ItemTestHorseArmor());
     }
-    
+
     private void testHorseArmor() {
         GameRegistry.registerHorseArmor(new ResourceLocation("oml:test_armor"), ItemTestHorseArmor.TYPE);
     }
@@ -150,10 +160,7 @@ public class OMLTestMod implements Mod {
     public void onChat(MessageEvent.Chat event) {
         if (event.getSide() == Side.CLIENT) {
             String message = event.getMessage().getUnformattedText();
-            if (message.equals(I18n.format("tile.bed.occupied")) ||
-                    message.equals(I18n.format("tile.bed.noSleep")) ||
-                    message.equals(I18n.format("tile.bed.notSafe")) ||
-                    message.equals(I18n.format("tile.bed.notValid"))) {
+            if (message.equals(I18n.format("tile.bed.occupied")) || message.equals(I18n.format("tile.bed.noSleep")) || message.equals(I18n.format("tile.bed.notSafe")) || message.equals(I18n.format("tile.bed.notValid"))) {
                 OpenModLoader.getSidedHandler().openSnackbar(event.getMessage());
                 event.setCanceled(true);
             }
@@ -164,10 +171,9 @@ public class OMLTestMod implements Mod {
         OpenModLoader.getLogger().info("Placed block: " + event.getBlockState() + " isRemote: " + event.getWorld().isRemote);
         if (event.getBlockState().getBlock() == Blocks.GRASS) {
             event.setBlockState(Blocks.DIRT.getDefaultState());
-        } if (event.getWorld() instanceof WorldServer && event.getBlockState().getBlock() == Blocks.BEDROCK) {
-            channel.send("test")
-                    .set("str", "Hello, Client!")
-                    .toAllInRadius((WorldServer)event.getWorld(), event.getPos(), 8);
+        }
+        if (event.getWorld() instanceof WorldServer && event.getBlockState().getBlock() == Blocks.BEDROCK) {
+            channel.send("test").set("str", "Hello, Client!").toAllInRadius((WorldServer) event.getWorld(), event.getPos(), 8);
         }
     }
 
@@ -246,9 +252,7 @@ public class OMLTestMod implements Mod {
         OpenModLoader.getLogger().info(String.format("Key pressed %c (%d)", event.getCharacter(), event.getKey()));
 
         if (event.getKey() == Keyboard.KEY_SEMICOLON) {
-            channel.send("test")
-                    .set("str", "Hello, Server!")
-                    .toServer();
+            channel.send("test").set("str", "Hello, Server!").toServer();
         }
     }
 
@@ -274,12 +278,12 @@ public class OMLTestMod implements Mod {
         }
     }
 
-    private void onArmorEquip(EquipmentEvent.Equip event){
+    private void onArmorEquip(EquipmentEvent.Equip event) {
         OpenModLoader.getLogger().info("Entity: " + event.getEntity().getName() + " equipped " + Objects.toString(event.getEquipment()) + " to the " + event.getSlot().getName() + " slot");
         event.setCanceled(true);
     }
 
-    private void onArmorUnequip(EquipmentEvent.Unequip event){
+    private void onArmorUnequip(EquipmentEvent.Unequip event) {
         OpenModLoader.getLogger().info("Entity: " + event.getEntity().getName() + " unequipped " + Objects.toString(event.getEquipment()) + " to the " + event.getSlot().getName() + " slot");
         event.setCanceled(true);
     }
@@ -304,19 +308,19 @@ public class OMLTestMod implements Mod {
     }
 
     private void onGrassColor(BiomeColor.Grass event) {
-        if(event.getBiome() == Biomes.FOREST) {
+        if (event.getBiome() == Biomes.FOREST) {
             event.setColorModifier(Color.RED.getRGB());
         }
     }
 
     private void onFoliageColor(BiomeColor.Foliage event) {
-        if(event.getBiome() == Biomes.FOREST) {
+        if (event.getBiome() == Biomes.FOREST) {
             event.setColorModifier(Color.RED.getRGB());
         }
     }
 
     private void onWaterColor(BiomeColor.Water event) {
-        if(event.getBiome() == Biomes.FOREST) {
+        if (event.getBiome() == Biomes.FOREST) {
             event.setColorModifier(Color.RED.getRGB());
         }
     }

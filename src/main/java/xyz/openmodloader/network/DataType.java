@@ -1,12 +1,13 @@
 package xyz.openmodloader.network;
 
-import net.minecraft.network.PacketBuffer;
-
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import net.minecraft.network.PacketBuffer;
+
 /**
  * Network data type for serialization/deserialization
+ * 
  * @param <T> The data type
  */
 public class DataType<T> {
@@ -16,6 +17,7 @@ public class DataType<T> {
 
     /**
      * Creates a new data type
+     * 
      * @param clazz The type
      * @param writer The function that handles writing to a buffer
      * @param reader THe function that handles reading from a buffer
@@ -28,6 +30,7 @@ public class DataType<T> {
 
     /**
      * Writes an instance of the data type to the buffer
+     * 
      * @param buf The buffer to serialize to
      * @param value The value to serialize
      */
@@ -37,6 +40,7 @@ public class DataType<T> {
 
     /**
      * Reads an instance of the data type from the buffer
+     * 
      * @param buf The buffer to deserialize form
      * @return The deserialized value
      */
@@ -53,8 +57,6 @@ public class DataType<T> {
 
     @Override
     public String toString() {
-        return "DataType{" +
-                "clazz=" + clazz +
-                '}';
+        return "DataType{" + "clazz=" + clazz + '}';
     }
 }

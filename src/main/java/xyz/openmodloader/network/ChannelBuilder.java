@@ -20,6 +20,7 @@ public class ChannelBuilder {
 
     /**
      * Creates a new {@link PacketSpecBuilder} to build a new packet spec
+     * 
      * @param name The name of the new packet
      * @return The packet spec builder
      */
@@ -33,6 +34,7 @@ public class ChannelBuilder {
 
     /**
      * Builds this channel and registers it with the {@link ChannelManager}
+     * 
      * @return The finalized channel
      */
     public Channel build() {
@@ -40,6 +42,5 @@ public class ChannelBuilder {
         ChannelManager.register(name, channel);
         return channel;
     }
-
 
 }

@@ -12,8 +12,8 @@ import xyz.openmodloader.server.OMLServerHandler;
 
 /**
  * Parent class for message related events. All events that fall within this
- * scope should extend this class. They should usually also be added as
- * inner classes, although this is not an absolute requirement.
+ * scope should extend this class. They should usually also be added as inner
+ * classes, although this is not an absolute requirement.
  */
 public abstract class MessageEvent extends Event {
 
@@ -33,9 +33,11 @@ public abstract class MessageEvent extends Event {
     }
 
     /**
-     * Fired whenever a chat message is received.
-     * Fired from {@link PlayerList#sendChatMsgImpl(ICommandSender, ITextComponent, boolean)}
-     * and {@link NetHandlerPlayClient#handleChat(net.minecraft.network.play.server.SPacketChat)}.
+     * Fired whenever a chat message is received. Fired from
+     * {@link PlayerList#sendChatMsgImpl(ICommandSender, ITextComponent, boolean)}
+     * and
+     * {@link NetHandlerPlayClient#handleChat(net.minecraft.network.play.server.SPacketChat)}
+     * .
      * 
      * This event is cancelable.
      */
@@ -60,9 +62,8 @@ public abstract class MessageEvent extends Event {
         }
 
         /**
-         * Gets the player who sent the message.
-         * Always null on the client. May also be null
-         * on the server, if the message was sent from code.
+         * Gets the player who sent the message. Always null on the client. May
+         * also be null on the server, if the message was sent from code.
          * 
          * @return the player who sent the chat message - MAY BE NULL!
          */
@@ -85,9 +86,9 @@ public abstract class MessageEvent extends Event {
     }
 
     /**
-     * Fired whenever a snackbar is opened.
-     * Fired from {@link OMLClientHandler#openSnackbar(ITextComponent)}
-     * and {@link OMLServerHandler#openSnackbar(ITextComponent)}.
+     * Fired whenever a snackbar is opened. Fired from
+     * {@link OMLClientHandler#openSnackbar(ITextComponent)} and
+     * {@link OMLServerHandler#openSnackbar(ITextComponent)}.
      * 
      * This event is cancelable.
      */

@@ -9,7 +9,7 @@ public class CollectionPredicate<T> implements Predicate<T> {
     public CollectionPredicate(Collection<Predicate<T>> collection) {
         this.collection = collection;
     }
-    
+
     public void add(Predicate<T> predicate) {
         collection.add(predicate);
     }

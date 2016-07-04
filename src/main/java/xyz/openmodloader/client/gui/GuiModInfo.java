@@ -41,7 +41,8 @@ public class GuiModInfo extends GuiScreen {
         this.drawDefaultBackground();
 
         int width = this.mc.fontRendererObj.getStringWidth(this.container.getName() + " " + this.container.getVersion().toString()) + 94;
-        if (UpdateManager.isModOutdated(container)) width = Math.max(width, 94 + this.mc.fontRendererObj.getStringWidth(I18n.format("oml.mod.update", UpdateManager.getUpdateContainer(container).getLatestVersion())));
+        if (UpdateManager.isModOutdated(container))
+            width = Math.max(width, 94 + this.mc.fontRendererObj.getStringWidth(I18n.format("oml.mod.update", UpdateManager.getUpdateContainer(container).getLatestVersion())));
         int left = this.width / 2 - width / 2;
         int right = left + width;
         int top = 10;

@@ -20,10 +20,9 @@ import xyz.openmodloader.modloader.version.JsonUpdateContainer;
 import xyz.openmodloader.modloader.version.UpdateManager;
 
 /**
- * The class responsible for registering and loading mods.
- * Loads mods from the mods folder and the classpath.
- * Mods are defined by the MANIFEST.MF file of the mod jar.
- * See {@link ManifestModContainer} for more info.
+ * The class responsible for registering and loading mods. Loads mods from the
+ * mods folder and the classpath. Mods are defined by the MANIFEST.MF file of
+ * the mod jar. See {@link ManifestModContainer} for more info.
  */
 public class ModLoader {
 
@@ -33,12 +32,14 @@ public class ModLoader {
     private static final List<ModContainer> MODS = new ArrayList<>();
 
     /**
-     * A map of all loaded mods. Key is the mod class and value is the ModContainer.
+     * A map of all loaded mods. Key is the mod class and value is the
+     * ModContainer.
      */
     private static final Map<Mod, ModContainer> MODS_MAP = new HashMap<>();
 
     /**
-     * A map of all loaded mods. Key is the mod id and value is the ModContainer.
+     * A map of all loaded mods. Key is the mod id and value is the
+     * ModContainer.
      */
     private static final Map<String, ModContainer> ID_MAP = new HashMap<>();
 
@@ -60,10 +61,12 @@ public class ModLoader {
     private static final Map<String, ModContainer> UNM_ID_MAP = Collections.unmodifiableMap(ID_MAP);
 
     /**
-     * Attempts to load all mods from the mods directory and the classpath. While this is public,
-     * it is intended for internal use only!
+     * Attempts to load all mods from the mods directory and the classpath.
+     * While this is public, it is intended for internal use only!
      * 
-     * <br>This is called from {@link OMLTweaker#injectIntoClassLoader(LaunchClassLoader)}}.
+     * <br>
+     * This is called from
+     * {@link OMLTweaker#injectIntoClassLoader(LaunchClassLoader)}}.
      *
      * @throws Exception the exception
      */
@@ -80,7 +83,9 @@ public class ModLoader {
      * Iterates through all registered mods and enables them. If there is an
      * issue in registering the mod, it will be disabled.
      * 
-     * <br>This is called from {@link OpenModLoader#minecraftConstruction(SidedHandler)}.
+     * <br>
+     * This is called from
+     * {@link OpenModLoader#minecraftConstruction(SidedHandler)}.
      */
     public static void loadMods() {
         // load the instances
@@ -93,7 +98,7 @@ public class ModLoader {
             if (instance != null) {
                 MODS_MAP.put(instance, mod);
                 // populate @Instance fields
-                for (Field field: instance.getClass().getDeclaredFields()) {
+                for (Field field : instance.getClass().getDeclaredFields()) {
                     if (field.isAnnotationPresent(Instance.class)) {
                         try {
                             field.setAccessible(true);
@@ -150,11 +155,10 @@ public class ModLoader {
     }
 
     /**
-     * Returns an immutable map of mod objects to mod containers.
-     * <br>
+     * Returns an immutable map of mod objects to mod containers. <br>
      * <b>This map may be smaller than {@link #getModList()} and
-     * {@link #getIndexedModList()}. It only contains mods that
-     * specify a mod class.
+     * {@link #getIndexedModList()}. It only contains mods that specify a mod
+     * class.
      *
      * @return an immutable map of mod objects to mod containers
      */

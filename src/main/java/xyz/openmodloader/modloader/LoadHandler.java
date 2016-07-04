@@ -55,9 +55,9 @@ class LoadHandler {
     }
 
     /**
-     * Searches the mod directory and the classpath for mods, and registers
-     * all applicable files. Also responsible for mod sorting, duplication
-     * checks and dependency checks.
+     * Searches the mod directory and the classpath for mods, and registers all
+     * applicable files. Also responsible for mod sorting, duplication checks
+     * and dependency checks.
      *
      * @return true, if no errors were found, and loading can continue
      */
@@ -79,8 +79,8 @@ class LoadHandler {
         // check dependencies and duplicates
         if (checkDependencies() && duplicates.isEmpty()) {
             // if everything is okay, load the mod transformers and return true
-            for (ModContainer mod: modList) {
-                for (String exclusion: mod.getTransformerExclusions()) {
+            for (ModContainer mod : modList) {
+                for (String exclusion : mod.getTransformerExclusions()) {
                     Launch.classLoader.addTransformerExclusion(exclusion);
                 }
                 for (String transformer : mod.getTransformers()) {
@@ -89,29 +89,31 @@ class LoadHandler {
             }
             return true;
         } else {
-            // if anything is wrong, show a GUI (client) or throw an exception (server), and return false
+            // if anything is wrong, show a GUI (client) or throw an exception
+            // (server), and return false
             if (OMLStrippableTransformer.getSide() == Side.CLIENT) {
                 List<String> missingDeps = new ArrayList<>();
-                for (Entry<String, Version> e: this.missingDeps.entrySet()) {
+                for (Entry<String, Version> e : this.missingDeps.entrySet()) {
                     if (e.getValue().getMajor() == 0 && e.getValue().getMinor() == 0 && e.getValue().getPatch() == 0)
                         missingDeps.add(e.getKey());
                     else
                         missingDeps.add(e.getKey() + " v" + e.getValue() + " or higher");
                 }
                 List<String> outdatedDeps = new ArrayList<>();
-                for (Entry<ModContainer, Version> e: this.outdatedDeps.entrySet()) {
+                for (Entry<ModContainer, Version> e : this.outdatedDeps.entrySet()) {
                     outdatedDeps.add(e.getKey().getName() + " v" + e.getKey().getVersion() + " (requires v" + e.getValue() + " or higher)");
                 }
                 List<String> duplicates = new ArrayList<>();
-                for (String modid: this.duplicates.keySet()) {
+                for (String modid : this.duplicates.keySet()) {
                     StringBuilder b = new StringBuilder();
                     b.append(modid).append(": ");
-                    for (ModContainer mod: this.duplicates.get(modid)) {
+                    for (ModContainer mod : this.duplicates.get(modid)) {
                         b.append(mod.getModFile().getName()).append(", ");
                     }
                     duplicates.add(b.substring(0, b.length() - 2));
                 }
-                // something weird is going on, see the comment for InternalUtils.openErrorGui()
+                // something weird is going on, see the comment for
+                // InternalUtils.openErrorGui()
                 InternalUtils.openErrorGui(missingDeps, outdatedDeps, duplicates);
             } else {
                 throw new RuntimeException("Errors during load - see log for more information");
@@ -256,8 +258,8 @@ class LoadHandler {
     }
 
     /**
-     * Attempts to load a mod from an input stream. This will parse the
-     * manifest file.
+     * Attempts to load a mod from an input stream. This will parse the manifest
+     * file.
      *
      * @param file the file
      * @param manifest the manifest instance
@@ -282,7 +284,7 @@ class LoadHandler {
             throw new RuntimeException("'oml' is a reserved mod id!");
         }
         if (container.getName() == null || container.getName().isEmpty()) {
-        	throw new RuntimeException("The mod must set a non-empty name!");
+            throw new RuntimeException("The mod must set a non-empty name!");
         }
         container.getVersion();
         if (!container.getMinecraftVersion().equals(OpenModLoader.getMinecraftVersion())) {
@@ -296,14 +298,13 @@ class LoadHandler {
 
     private void sort() {
         LinkedList<ModContainer> sorted = Lists.newLinkedList();
-        for (ModContainer mod: modList) {
+        for (ModContainer mod : modList) {
             if (sorted.isEmpty() || mod.getDependencies().length == 0)
                 sorted.addFirst(mod);
             else {
                 boolean b = false;
-                l1:
-                for (int i = 0; i < sorted.size(); i++)
-                    for (String dep: sorted.get(i).getDependencies()) {
+                l1: for (int i = 0; i < sorted.size(); i++)
+                    for (String dep : sorted.get(i).getDependencies()) {
                         if (dep.split("\\s:\\s")[0].equals(mod.getModID())) {
                             sorted.add(i, mod);
                             b = true;

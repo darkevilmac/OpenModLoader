@@ -1,8 +1,5 @@
 package xyz.openmodloader.registry;
 
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,11 +7,14 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.Validate;
+
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+
 import net.minecraft.util.IObjectIntIterable;
 import net.minecraft.util.IntIdentityHashBiMap;
 import net.minecraft.util.registry.RegistrySimple;
-
-import org.apache.commons.lang3.Validate;
 
 public class NamespacedRegistry<ResourceLocation, V> extends RegistrySimple<ResourceLocation, V> implements IObjectIntIterable<V> {
     protected final IntIdentityHashBiMap<V> underlyingIntegerMap = new IntIdentityHashBiMap<>(Short.MAX_VALUE - 1);

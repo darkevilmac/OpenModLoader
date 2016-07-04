@@ -3,6 +3,8 @@ package xyz.openmodloader.dictionary;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -12,34 +14,30 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapelessRecipes;
-import org.apache.commons.lang3.text.WordUtils;
 
 public final class Dictionaries {
 
-    private Dictionaries() {}
+    private Dictionaries() {
+    }
 
     /**
-     * The material dictionary.
-     * Each material has a string ID and can have multiple item stack matchers.
+     * The material dictionary. Each material has a string ID and can have
+     * multiple item stack matchers.
      *
      * @see ShapedMaterialRecipe
      * @see ShapelessMaterialRecipe
      */
     public static final ItemStackDictionary MATERIALS = new ItemStackDictionary();
 
-
     /**
-     * Registers Vanilla items to the material registry,
-     * and replaces some Vanilla recipes with material
-     * recipes.
+     * Registers Vanilla items to the material registry, and replaces some
+     * Vanilla recipes with material recipes.
      */
     public static void init() {
         MATERIALS.register("logWood", Blocks.LOG, Blocks.LOG2);
         MATERIALS.register("stickWood", Items.STICK);
         MATERIALS.register("planksWood", Blocks.PLANKS);
-        MATERIALS.register("stairsWood", Blocks.ACACIA_STAIRS, Blocks.BIRCH_STAIRS,
-                Blocks.DARK_OAK_STAIRS, Blocks.JUNGLE_STAIRS,
-                Blocks.OAK_STAIRS, Blocks.SPRUCE_STAIRS);
+        MATERIALS.register("stairsWood", Blocks.ACACIA_STAIRS, Blocks.BIRCH_STAIRS, Blocks.DARK_OAK_STAIRS, Blocks.JUNGLE_STAIRS, Blocks.OAK_STAIRS, Blocks.SPRUCE_STAIRS);
         MATERIALS.register("slabWood", Blocks.WOODEN_SLAB);
         MATERIALS.register("ladderWood", Blocks.LADDER);
         MATERIALS.register("chestWood", Blocks.CHEST);
@@ -70,10 +68,7 @@ public final class Dictionaries {
         MATERIALS.register("gemEmerald", Items.EMERALD);
         MATERIALS.register("dustRedstone", Items.REDSTONE);
 
-        MATERIALS.register("record", Items.RECORD_11, Items.RECORD_13, Items.RECORD_BLOCKS,
-                Items.RECORD_CAT, Items.RECORD_CHIRP, Items.RECORD_FAR, Items.RECORD_MALL,
-                Items.RECORD_MELLOHI, Items.RECORD_STAL, Items.RECORD_STRAD, Items.RECORD_WAIT,
-                Items.RECORD_WARD);
+        MATERIALS.register("record", Items.RECORD_11, Items.RECORD_13, Items.RECORD_BLOCKS, Items.RECORD_CAT, Items.RECORD_CHIRP, Items.RECORD_FAR, Items.RECORD_MALL, Items.RECORD_MELLOHI, Items.RECORD_STAL, Items.RECORD_STRAD, Items.RECORD_WAIT, Items.RECORD_WARD);
 
         MATERIALS.register("dirt", Blocks.DIRT);
         MATERIALS.register("grass", Blocks.GRASS);
@@ -92,7 +87,7 @@ public final class Dictionaries {
 
         List<IRecipe> recipes = CraftingManager.getInstance().getRecipeList();
 
-        for (ListIterator<IRecipe> recipeIterator = recipes.listIterator(); recipeIterator.hasNext(); ) {
+        for (ListIterator<IRecipe> recipeIterator = recipes.listIterator(); recipeIterator.hasNext();) {
             IRecipe recipe = recipeIterator.next();
             ItemStack output = recipe.getRecipeOutput();
             if (output == null) {

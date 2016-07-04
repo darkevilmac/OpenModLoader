@@ -4,9 +4,7 @@ import xyz.openmodloader.launcher.OMLStrippableTransformer;
 
 public enum Environment {
 
-    PRODUCTION,
-    DEVELOPMENT,
-    UNIVERSAL;
+    PRODUCTION, DEVELOPMENT, UNIVERSAL;
 
     public static boolean isDevelopment() {
         return getCurrent() == DEVELOPMENT;

@@ -1,9 +1,9 @@
 package xyz.openmodloader.network;
 
+import java.io.IOException;
+
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.PacketBuffer;
-
-import java.io.IOException;
 
 /**
  * Minecraft wrapper packet for actually sending packets on the network.
@@ -15,6 +15,7 @@ public class PacketWrapper implements net.minecraft.network.Packet<INetHandler> 
 
     /**
      * Creates a new wrapper packet
+     * 
      * @param channel The OML channel this packet belongs to
      * @param packet The OML packet this wrapper corresponds to
      */
@@ -32,6 +33,7 @@ public class PacketWrapper implements net.minecraft.network.Packet<INetHandler> 
 
     /**
      * Reads the packet from the given buffer
+     * 
      * @param buf The buffer
      * @throws IOException
      */
@@ -43,6 +45,7 @@ public class PacketWrapper implements net.minecraft.network.Packet<INetHandler> 
 
     /**
      * Writes the packet to the given buffer
+     * 
      * @param buf The buffer
      * @throws IOException
      */
@@ -54,6 +57,7 @@ public class PacketWrapper implements net.minecraft.network.Packet<INetHandler> 
 
     /**
      * Handles receiving this packet
+     * 
      * @param netHandler
      */
     @Override

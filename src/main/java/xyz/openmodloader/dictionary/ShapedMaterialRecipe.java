@@ -1,14 +1,17 @@
 package xyz.openmodloader.dictionary;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
-
-import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * Shaped recipe that uses the material dictionary
@@ -24,10 +27,10 @@ public class ShapedMaterialRecipe implements IRecipe {
     /**
      * Creates a new shaped material recipe
      *
-     * @param width    recipe width
-     * @param height   recipe height
+     * @param width recipe width
+     * @param height recipe height
      * @param matchers recipe input
-     * @param output   recipe output
+     * @param output recipe output
      */
     public ShapedMaterialRecipe(int width, int height, List<Predicate<ItemStack>> matchers, ItemStack output) {
         this.width = width;
@@ -38,13 +41,13 @@ public class ShapedMaterialRecipe implements IRecipe {
     }
 
     /**
-     * Creates a new shaped material recipe.
-     * Example usage: {@code new ShapedMaterialRecipe(Blocks.IRON_BLOCK, "III", "III", "III", 'I', "ingotIron")}
+     * Creates a new shaped material recipe. Example usage:
+     * {@code new ShapedMaterialRecipe(Blocks.IRON_BLOCK, "III", "III", "III", 'I', "ingotIron")}
      *
      * @param output recipe output
-     * @param input  recipe input. Valid ingredients include item stacks,
-     *               items, blocks, {@link Dictionaries#MATERIALS material IDs},
-     *               and {@link ItemStackDictionary item stack matchers}.
+     * @param input recipe input. Valid ingredients include item stacks, items,
+     *        blocks, {@link Dictionaries#MATERIALS material IDs}, and
+     *        {@link ItemStackDictionary item stack matchers}.
      * @see net.minecraft.item.crafting.CraftingManager
      */
     public ShapedMaterialRecipe(Block output, Object... input) {
@@ -52,13 +55,13 @@ public class ShapedMaterialRecipe implements IRecipe {
     }
 
     /**
-     * Creates a new shaped material recipe.
-     * Example usage: {@code new ShapedMaterialRecipe(Items.WOODEN_SHOVEL, "P", "S", "S", 'P', "planksWood", 'S', "stickWood")}
+     * Creates a new shaped material recipe. Example usage:
+     * {@code new ShapedMaterialRecipe(Items.WOODEN_SHOVEL, "P", "S", "S", 'P', "planksWood", 'S', "stickWood")}
      *
      * @param output recipe output
-     * @param input  recipe input. Valid ingredients include item stacks,
-     *               items, blocks, {@link Dictionaries#MATERIALS material IDs},
-     *               and {@link ItemStackDictionary item stack matchers}.
+     * @param input recipe input. Valid ingredients include item stacks, items,
+     *        blocks, {@link Dictionaries#MATERIALS material IDs}, and
+     *        {@link ItemStackDictionary item stack matchers}.
      * @see net.minecraft.item.crafting.CraftingManager
      */
     public ShapedMaterialRecipe(Item output, Object... input) {
@@ -66,13 +69,13 @@ public class ShapedMaterialRecipe implements IRecipe {
     }
 
     /**
-     * Creates a new shaped material recipe.
-     * Example usage: {@code new ShapedMaterialRecipe(new ItemStack(Blocks.QUARTZ_BLOCK, 1, 2), "Q", "Q", 'Q', "blockQuartz")}
+     * Creates a new shaped material recipe. Example usage:
+     * {@code new ShapedMaterialRecipe(new ItemStack(Blocks.QUARTZ_BLOCK, 1, 2), "Q", "Q", 'Q', "blockQuartz")}
      *
      * @param output recipe output
-     * @param input  recipe input. Valid ingredients include item stacks,
-     *               items, blocks, {@link Dictionaries#MATERIALS material IDs},
-     *               and {@link ItemStackDictionary item stack matchers}.
+     * @param input recipe input. Valid ingredients include item stacks, items,
+     *        blocks, {@link Dictionaries#MATERIALS material IDs}, and
+     *        {@link ItemStackDictionary item stack matchers}.
      * @see net.minecraft.item.crafting.CraftingManager
      */
     public ShapedMaterialRecipe(ItemStack output, Object... input) {

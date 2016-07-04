@@ -9,6 +9,7 @@ public abstract class AbstractPacket {
 
     /**
      * Writes this packet to the given buffer
+     * 
      * @param buf The buffer
      * @return The buffer, for convenience
      */
@@ -16,6 +17,7 @@ public abstract class AbstractPacket {
 
     /**
      * Reads this packet from the given buffer
+     * 
      * @param buf The buffer
      */
     public abstract void read(PacketBuffer buf);

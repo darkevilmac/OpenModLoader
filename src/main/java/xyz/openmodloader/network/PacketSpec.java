@@ -1,13 +1,9 @@
 package xyz.openmodloader.network;
 
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.server.MinecraftServer;
-import xyz.openmodloader.OpenModLoader;
-import xyz.openmodloader.launcher.strippable.Side;
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import com.google.common.collect.ImmutableMap;
 
 /**
  * The specification for a packet.
@@ -20,6 +16,7 @@ public class PacketSpec {
 
     /**
      * Creates a finalized immutable packet from the builder
+     * 
      * @param builder The packet spec builder
      */
     PacketSpec(PacketSpecBuilder builder) {

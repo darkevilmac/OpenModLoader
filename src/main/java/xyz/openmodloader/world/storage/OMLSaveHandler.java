@@ -3,9 +3,6 @@ package xyz.openmodloader.world.storage;
 import java.util.HashMap;
 import java.util.Map;
 
-import xyz.openmodloader.registry.OMLRegistry;
-import xyz.openmodloader.registry.NamespacedRegistry;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,6 +12,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.storage.WorldInfo;
+import xyz.openmodloader.registry.NamespacedRegistry;
+import xyz.openmodloader.registry.OMLRegistry;
 
 public class OMLSaveHandler {
 

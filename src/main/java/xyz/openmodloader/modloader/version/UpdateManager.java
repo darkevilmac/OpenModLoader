@@ -1,13 +1,14 @@
 package xyz.openmodloader.modloader.version;
 
-import com.google.common.collect.ImmutableList;
-import xyz.openmodloader.modloader.ModContainer;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import com.google.common.collect.ImmutableList;
+
+import xyz.openmodloader.modloader.ModContainer;
 
 public class UpdateManager {
     private static final Map<ModContainer, UpdateContainer> UPDATE_CONTAINERS = new HashMap<>();

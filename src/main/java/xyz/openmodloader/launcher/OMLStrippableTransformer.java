@@ -1,8 +1,13 @@
 package xyz.openmodloader.launcher;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
-import org.objectweb.asm.*;
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 
@@ -11,7 +16,10 @@ import com.google.common.collect.Sets;
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 import xyz.openmodloader.OpenModLoader;
-import xyz.openmodloader.launcher.strippable.*;
+import xyz.openmodloader.launcher.strippable.Environment;
+import xyz.openmodloader.launcher.strippable.InterfaceContainer;
+import xyz.openmodloader.launcher.strippable.Side;
+import xyz.openmodloader.launcher.strippable.Strippable;
 
 public class OMLStrippableTransformer implements IClassTransformer {
     static Set<String> MODS;
@@ -25,9 +33,7 @@ public class OMLStrippableTransformer implements IClassTransformer {
 
         checkClass(classNode);
 
-        if (removeInterfaces(classNode) ||
-                classNode.methods.removeIf(method -> remove(method.visibleAnnotations)) ||
-                classNode.fields.removeIf(fields -> remove(fields.visibleAnnotations))) {
+        if (removeInterfaces(classNode) || classNode.methods.removeIf(method -> remove(method.visibleAnnotations)) || classNode.fields.removeIf(fields -> remove(fields.visibleAnnotations))) {
             OpenModLoader.getLogger().debug("Stripping elements from class '%s'", classNode.name);
             ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             classNode.accept(writer);
@@ -39,12 +45,12 @@ public class OMLStrippableTransformer implements IClassTransformer {
     private boolean removeInterfaces(ClassNode classNode) {
         boolean b = false;
         if (classNode.visibleAnnotations != null) {
-            for (AnnotationNode an: classNode.visibleAnnotations) {
+            for (AnnotationNode an : classNode.visibleAnnotations) {
                 Type anType = Type.getType(an.desc);
                 if (anType.equals(Type.getType(Strippable.Interface.class))) {
                     b = b | handleStrippableInterface(classNode, an);
                 } else if (anType.equals(Type.getType(InterfaceContainer.class))) {
-                    for (Object o: (Iterable<?>) an.values.get(1)) {
+                    for (Object o : (Iterable<?>) an.values.get(1)) {
                         b = b | handleStrippableInterface(classNode, (AnnotationNode) o);
                     }
                 }
@@ -81,12 +87,12 @@ public class OMLStrippableTransformer implements IClassTransformer {
         if (!envo.equals("UNIVERSAL") && !getEnvironment().toString().equals(side)) {
             return classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
         }
-        for (String mod: mods) {
+        for (String mod : mods) {
             if (!MODS.contains(mod)) {
                 return classNode.interfaces.removeIf((i) -> interfaces.contains(i.replace('/', '.')));
             }
         }
-        for (String cls: classes) {
+        for (String cls : classes) {
             try {
                 Class.forName(cls, false, Launch.classLoader);
             } catch (ClassNotFoundException e) {
@@ -121,7 +127,7 @@ public class OMLStrippableTransformer implements IClassTransformer {
                         } else if (key instanceof String && ((String) key).equals("mods")) {
                             if (value instanceof List) {
                                 List<?> mods = (List<?>) value;
-                                for (Object mod: mods) {
+                                for (Object mod : mods) {
                                     if (!MODS.contains(mod)) {
                                         return true;
                                     }
@@ -130,7 +136,7 @@ public class OMLStrippableTransformer implements IClassTransformer {
                         } else if (key instanceof String && ((String) key).equals("classes")) {
                             if (value instanceof List) {
                                 List<?> classes = (List<?>) value;
-                                for (Object cls: classes) {
+                                for (Object cls : classes) {
                                     try {
                                         Class.forName((String) cls, false, Launch.classLoader);
                                     } catch (ClassNotFoundException e) {
@@ -159,16 +165,14 @@ public class OMLStrippableTransformer implements IClassTransformer {
                             if (value instanceof String[]) {
                                 String side = ((String[]) value)[1];
                                 if (!side.equals("UNIVERSAL") && !side.equals(SIDE.toString())) {
-                                    throw new RuntimeException(
-                                            String.format("Loading class %s on wrong side %s", classNode.name, SIDE));
+                                    throw new RuntimeException(String.format("Loading class %s on wrong side %s", classNode.name, SIDE));
                                 }
                             }
                         } else if (key instanceof String && ((String) key).equals("environment")) {
                             if (value instanceof String[]) {
                                 String side = ((String[]) value)[1];
                                 if (!side.equals("UNIVERSAL") && !side.equals(getEnvironment().toString())) {
-                                    throw new RuntimeException(String.format("Loading class %s in wrong environment %s",
-                                            classNode.name, environment));
+                                    throw new RuntimeException(String.format("Loading class %s in wrong environment %s", classNode.name, environment));
                                 }
                             }
                         } else if (key instanceof String && ((String) key).equals("mods")) {
@@ -181,9 +185,7 @@ public class OMLStrippableTransformer implements IClassTransformer {
                                     }
                                 }
                                 if (!missingMods.isEmpty()) {
-                                    throw new RuntimeException(
-                                            String.format("Loading class %s without required mods %s loaded",
-                                                    classNode.name, missingMods));
+                                    throw new RuntimeException(String.format("Loading class %s without required mods %s loaded", classNode.name, missingMods));
                                 }
                             }
                         } else if (key instanceof String && ((String) key).equals("classes")) {
@@ -198,9 +200,7 @@ public class OMLStrippableTransformer implements IClassTransformer {
                                     }
                                 }
                                 if (!missingClasses.isEmpty()) {
-                                    throw new RuntimeException(String.format(
-                                            "Loading class %s without required classes %s on the classpath",
-                                            classNode.name, missingClasses));
+                                    throw new RuntimeException(String.format("Loading class %s without required classes %s on the classpath", classNode.name, missingClasses));
                                 }
                             }
                         }

@@ -20,7 +20,8 @@ public class PlayerEvent extends EntityEvent {
     protected final EntityPlayer player;
 
     /**
-     * Constructor for the base player events. This constructor should only be accessed through super calls.
+     * Constructor for the base player events. This constructor should only be
+     * accessed through super calls.
      *
      * @param player The player that has fired this event.
      */
@@ -49,7 +50,8 @@ public class PlayerEvent extends EntityEvent {
         protected final ItemStack result;
 
         /**
-         * Constructor for the new event that is fired when a player crafts an item with a crafting table.
+         * Constructor for the new event that is fired when a player crafts an
+         * item with a crafting table.
          *
          * @param player The player that has fired this event.
          * @param result The result from the recipe the player is crafting.
@@ -85,7 +87,8 @@ public class PlayerEvent extends EntityEvent {
         protected float xp;
 
         /**
-         * Constructor for the new event that is fired when a player picks a smelted item out of a furnace.
+         * Constructor for the new event that is fired when a player picks a
+         * smelted item out of a furnace.
          *
          * @param player The player that has fired this event.
          * @param result The result from the smelting recipe.
@@ -174,7 +177,8 @@ public class PlayerEvent extends EntityEvent {
         public static class Start extends Track {
 
             /**
-             * Constructor for new event that is fired when a player starts tracking an entity.
+             * Constructor for new event that is fired when a player starts
+             * tracking an entity.
              *
              * @param player the player tracking the entity.
              * @param tracking the entity being tracked.
@@ -190,7 +194,8 @@ public class PlayerEvent extends EntityEvent {
         public static class Stop extends Track {
 
             /**
-             * Constructor for new event that is fired when a player stops tracking an entity.
+             * Constructor for new event that is fired when a player stops
+             * tracking an entity.
              *
              * @param player the player tracking the entity.
              * @param tracking the entity being tracked.
@@ -202,8 +207,8 @@ public class PlayerEvent extends EntityEvent {
     }
 
     /**
-     * An even that is fired to check if the player can sleep at the given location.
-     * Fired from {@link EntityPlayer#isInBed()}
+     * An even that is fired to check if the player can sleep at the given
+     * location. Fired from {@link EntityPlayer#isInBed()}
      */
     public static class SleepCheck extends PlayerEvent {
 
@@ -215,8 +220,9 @@ public class PlayerEvent extends EntityEvent {
         private final BlockPos pos;
 
         /**
-         * If the player can sleep
-         * By default, this uses the vanilla implementation (if the block at the player's position is a bed, the player can sleep)
+         * If the player can sleep By default, this uses the vanilla
+         * implementation (if the block at the player's position is a bed, the
+         * player can sleep)
          *
          * @see #getResult()
          * @see #setResult(boolean)
@@ -246,14 +252,16 @@ public class PlayerEvent extends EntityEvent {
         /**
          * Set's if the player can sleep
          *
-         * @param result {@code true} if the player can sleep, {@code false} if they can't
+         * @param result {@code true} if the player can sleep, {@code false} if
+         *        they can't
          */
         public void setResult(boolean result) {
             this.result = result;
         }
 
         /**
-         * Convenience method for checking if the given player can sleep at the given position
+         * Convenience method for checking if the given player can sleep at the
+         * given position
          *
          * @param player The player
          * @param pos The player's position

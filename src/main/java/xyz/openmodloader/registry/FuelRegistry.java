@@ -1,22 +1,32 @@
 package xyz.openmodloader.registry;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nonnull;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.*;
-
-import javax.annotation.Nonnull;
-import java.util.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemHoe;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 
 /**
- * FuelRegistry keeps track of fuels used for smelting. It currently allows registering
- * new fuels, getting a list of items which can be used as fuels, getting a list of materials
- * which can be used as fuels and blacklist of items which can't be used as fuels.
+ * FuelRegistry keeps track of fuels used for smelting. It currently allows
+ * registering new fuels, getting a list of items which can be used as fuels,
+ * getting a list of materials which can be used as fuels and blacklist of items
+ * which can't be used as fuels.
  *
- * Purpose of this registry is to improve interoperability between mods and between
- * mods and game.
+ * Purpose of this registry is to improve interoperability between mods and
+ * between mods and game.
  */
 public class FuelRegistry {
 
@@ -52,12 +62,14 @@ public class FuelRegistry {
     }
 
     /**
-     * Registers item and it's burn time into registry. If the item is already registered
-     * old burn time will be replaced with new one. Burn time can't be smaller than 0.
+     * Registers item and it's burn time into registry. If the item is already
+     * registered old burn time will be replaced with new one. Burn time can't
+     * be smaller than 0.
      *
      * @param item item to register burn time for.
      * @param burnTime time in game ticks this item will last as fuel.
-     * @return true if registration was successful, false if burn time is smaller than 0.
+     * @return true if registration was successful, false if burn time is
+     *         smaller than 0.
      */
     public static boolean registerItemBurnTime(@Nonnull Item item, int burnTime) {
         if (burnTime < 0) {
@@ -68,8 +80,9 @@ public class FuelRegistry {
     }
 
     /**
-     * Stores item and it's burn time into registry. If the item is already registered
-     * bigger burn time between already registered one and argument one will be used.
+     * Stores item and it's burn time into registry. If the item is already
+     * registered bigger burn time between already registered one and argument
+     * one will be used.
      *
      * @param item item to register burn time for.
      * @param burnTime time in game ticks this item will last as fuel.
@@ -88,8 +101,9 @@ public class FuelRegistry {
     }
 
     /**
-     * Registers item and it's burn time into registry. If the item is already registered
-     * smaller burn time between already registered one and argument one will be used.
+     * Registers item and it's burn time into registry. If the item is already
+     * registered smaller burn time between already registered one and argument
+     * one will be used.
      *
      * @param item item to register burn time for.
      * @param burnTime time in game ticks this item will last as fuel.
@@ -112,7 +126,8 @@ public class FuelRegistry {
      *
      * @param material block material to register burn time for.
      * @param burnTime time in game ticks this material will last as fuel.
-     * @return true if registration was successful, false if burn time is smaller than 0.
+     * @return true if registration was successful, false if burn time is
+     *         smaller than 0.
      */
     public static boolean registerMaterialBurnTime(@Nonnull Material material, int burnTime) {
         if (burnTime < 0) {
@@ -127,7 +142,8 @@ public class FuelRegistry {
      *
      * @param itemMaterial item material to register burn time for.
      * @param burnTime time in game ticks this material will last as fuel.
-     * @return true if registration was successful, false if burn time is smaller than 0.
+     * @return true if registration was successful, false if burn time is
+     *         smaller than 0.
      */
     public static boolean registerMaterialBurnTime(@Nonnull Item.a itemMaterial, int burnTime) {
         if (burnTime < 0) {
@@ -166,9 +182,9 @@ public class FuelRegistry {
     }
 
     /**
-     * Returns burn time of argument item. This function only returns burn time for
-     * registered item and does not check for item material or if item is blacklisted
-     * as a fuel.
+     * Returns burn time of argument item. This function only returns burn time
+     * for registered item and does not check for item material or if item is
+     * blacklisted as a fuel.
      *
      * @param item item to check burn time for.
      * @return time argument item can last as a fuel.
@@ -212,8 +228,9 @@ public class FuelRegistry {
     }
 
     /**
-     * This is adaptation of {@link #getItemBurnTime(Item)} which accepts item stack.
-     * Check {@link #getItemBurnTime(Item)} for detailed method description.
+     * This is adaptation of {@link #getItemBurnTime(Item)} which accepts item
+     * stack. Check {@link #getItemBurnTime(Item)} for detailed method
+     * description.
      *
      * @param itemStack block to get burn time of.
      * @return item stack burn time.
@@ -226,8 +243,9 @@ public class FuelRegistry {
     }
 
     /**
-     * This is adaptation of {@link #getItemBurnTime(Item)} which accepts blocks.
-     * Check {@link #getItemBurnTime(Item)} for detailed method description.
+     * This is adaptation of {@link #getItemBurnTime(Item)} which accepts
+     * blocks. Check {@link #getItemBurnTime(Item)} for detailed method
+     * description.
      *
      * @param block block to get burn time of.
      * @return block burn time.
@@ -240,16 +258,17 @@ public class FuelRegistry {
     }
 
     /**
-     * Returns item burn time. This method is used by furnaces to determine item burn time.
-     * This method checks if item is blacklisted, if it's not - it checks if item has it's
-     * own burn time specified, if it doesn't have it's own burn time specified it checks
-     * if material of this item has registered burn time and if it's material isn't
-     * registered or this item is blacklisted returns 0.
+     * Returns item burn time. This method is used by furnaces to determine item
+     * burn time. This method checks if item is blacklisted, if it's not - it
+     * checks if item has it's own burn time specified, if it doesn't have it's
+     * own burn time specified it checks if material of this item has registered
+     * burn time and if it's material isn't registered or this item is
+     * blacklisted returns 0.
      *
      * @param item item to get burn time of.
-     * @return 0 if item is blacklisted or doesn't have specified burn time; otherwise
-     *         (with priority from left to right) returns custom item burn time or material
-     *         burn time.
+     * @return 0 if item is blacklisted or doesn't have specified burn time;
+     *         otherwise (with priority from left to right) returns custom item
+     *         burn time or material burn time.
      */
     public static int getItemBurnTime(Item item) {
         if (item == null || isItemBlacklisted(item)) {
@@ -285,7 +304,8 @@ public class FuelRegistry {
     }
 
     /**
-     * Checks if stack item is considered a fuel (has burn time bigger than 0) or not.
+     * Checks if stack item is considered a fuel (has burn time bigger than 0)
+     * or not.
      *
      * @param itemStack item stack to check.
      * @return true if stack item is a fuel.
@@ -314,9 +334,10 @@ public class FuelRegistry {
     }
 
     /**
-     * Used to get read-only access to material burn time registry map.
-     * This map keys are either of type {@link net.minecraft.block.material.Material Material}
-     * or value from {@link net.minecraft.item.Item.a Item.Material} enum.
+     * Used to get read-only access to material burn time registry map. This map
+     * keys are either of type {@link net.minecraft.block.material.Material
+     * Material} or value from {@link net.minecraft.item.Item.a Item.Material}
+     * enum.
      *
      * @return material to burn time (in game ticks) map.
      */
@@ -325,7 +346,8 @@ public class FuelRegistry {
     }
 
     /**
-     * Used to get read-only access to registry list containing blacklisted items.
+     * Used to get read-only access to registry list containing blacklisted
+     * items.
      *
      * @return list containing items blacklisted from being used as fuels.
      */

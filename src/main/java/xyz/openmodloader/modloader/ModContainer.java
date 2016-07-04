@@ -21,8 +21,7 @@ public interface ModContainer {
     ResourceLocation getLogoTexture();
 
     /**
-     * Gets the {@link Mod} instance for this container.
-     * May be null.
+     * Gets the {@link Mod} instance for this container. May be null.
      *
      * @return single instance of ModContainer
      */
@@ -43,9 +42,9 @@ public interface ModContainer {
     Version getMinecraftVersion();
 
     /**
-     * Gets the mod ID. The ID is an unique, non-empty string
-     * containing a combination of the characters a-z, 0-9, _ and -.
-     * This method must always return the same value.
+     * Gets the mod ID. The ID is an unique, non-empty string containing a
+     * combination of the characters a-z, 0-9, _ and -. This method must always
+     * return the same value.
      *
      * @return the mod ID
      */
@@ -66,16 +65,16 @@ public interface ModContainer {
     String getDescription();
 
     /**
-     * Gets the mod side. If the current environment
-     * does not match the expected one, the mod will not load.
+     * Gets the mod side. If the current environment does not match the expected
+     * one, the mod will not load.
      *
      * @return the expected side
      */
     Side getSide();
 
     /**
-     * Gets the mod author. Should be a comma separated list
-     * of contributors. May be null.
+     * Gets the mod author. Should be a comma separated list of contributors.
+     * May be null.
      *
      * @return the author
      */
@@ -89,8 +88,9 @@ public interface ModContainer {
     String getURL();
 
     /**
-     * Gets the URL to the update checker JSON for this mod. May be null.
-     * A custom update checker may be registered via {@link UpdateManager#registerUpdater()}.
+     * Gets the URL to the update checker JSON for this mod. May be null. A
+     * custom update checker may be registered via
+     * {@link UpdateManager#registerUpdater()}.
      *
      * @return the update URL
      */
@@ -105,7 +105,8 @@ public interface ModContainer {
 
     /**
      * Gets the list of transformers for this mod. Each string in the array
-     * should be the full name of a class implementing {@link IClassTransformer}.
+     * should be the full name of a class implementing {@link IClassTransformer}
+     * .
      *
      * @return the transformers
      */
@@ -114,12 +115,12 @@ public interface ModContainer {
     String[] getTransformerExclusions();
 
     /**
-     * Gets the list of dependencies for this mod. Each string should contain the
-     * mod ID of the dependency, and optionally, a minimum version. Example:
-     * <code>examplemod:1.0.0</code>. The string may also start with "optional ",
-     * in which case the loader won't check whether the mod is loaded, but will
-     * sort the mods so that the dependant comes after the dependency if the dependency
-     * is loaded.
+     * Gets the list of dependencies for this mod. Each string should contain
+     * the mod ID of the dependency, and optionally, a minimum version. Example:
+     * <code>examplemod:1.0.0</code>. The string may also start with "optional "
+     * , in which case the loader won't check whether the mod is loaded, but
+     * will sort the mods so that the dependant comes after the dependency if
+     * the dependency is loaded.
      *
      * @return the dependencies
      */

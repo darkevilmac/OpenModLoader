@@ -23,9 +23,8 @@ public class Dictionary<K, V> {
     }
 
     /**
-     * Gets the registered predicate for the specified key.
-     * The predicate is automatically updated when a new
-     * element is registered. Cache this.
+     * Gets the registered predicate for the specified key. The predicate is
+     * automatically updated when a new element is registered. Cache this.
      *
      * @param key the key
      * @return the predicate

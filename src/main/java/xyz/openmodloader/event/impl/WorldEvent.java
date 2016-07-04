@@ -4,7 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.*;
+import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.WorldSettings;
 import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.event.Event;
 
@@ -21,8 +23,7 @@ public abstract class WorldEvent extends Event {
     private final World world;
 
     /**
-     * Creates a new world event.
-     * Only for use by subclasses.
+     * Creates a new world event. Only for use by subclasses.
      * 
      * @param world the world this event was fired from
      */
@@ -47,11 +48,11 @@ public abstract class WorldEvent extends Event {
      */
     public static class Load extends WorldEvent {
 
-    	/**
-    	 * Creates a new Load event. For internal use only!
-    	 * 
-    	 * @param world the world this event was fired from
-    	 */
+        /**
+         * Creates a new Load event. For internal use only!
+         * 
+         * @param world the world this event was fired from
+         */
         public Load(World world) {
             super(world);
         }
@@ -60,7 +61,7 @@ public abstract class WorldEvent extends Event {
          * Internal method for handling Load events.
          */
         public static Load handle(World world) {
-        	Load event = new Load(world);
+            Load event = new Load(world);
             OpenModLoader.getEventBus().post(event);
             return event;
         }
@@ -75,11 +76,11 @@ public abstract class WorldEvent extends Event {
      */
     public static class Unload extends WorldEvent {
 
-    	/**
-    	 * Creates a new Unload event. For internal use only!
-    	 * 
-    	 * @param world the world this event was fired from
-    	 */
+        /**
+         * Creates a new Unload event. For internal use only!
+         * 
+         * @param world the world this event was fired from
+         */
         public Unload(World world) {
             super(world);
         }
@@ -88,7 +89,7 @@ public abstract class WorldEvent extends Event {
          * Internal method for handling Unload events.
          */
         public static Unload handle(World world) {
-        	Unload event = new Unload(world);
+            Unload event = new Unload(world);
             OpenModLoader.getEventBus().post(event);
             return event;
         }

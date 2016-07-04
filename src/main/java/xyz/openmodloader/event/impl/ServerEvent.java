@@ -32,9 +32,9 @@ public abstract class ServerEvent extends Event {
     }
 
     /**
-     * Fired when the server is about to start.
-     * Fired from {@link DedicatedServer#startServer()}
-     * and {@link IntegratedServer#startServer()}.
+     * Fired when the server is about to start. Fired from
+     * {@link DedicatedServer#startServer()} and
+     * {@link IntegratedServer#startServer()}.
      * 
      * This event is not cancelable.
      */
@@ -46,9 +46,9 @@ public abstract class ServerEvent extends Event {
     }
 
     /**
-     * Fired immediately after the server has started.
-     * Fired from {@link DedicatedServer#startServer()}
-     * and {@link IntegratedServer#startServer()}.
+     * Fired immediately after the server has started. Fired from
+     * {@link DedicatedServer#startServer()} and
+     * {@link IntegratedServer#startServer()}.
      * 
      * This event is not cancelable.
      */
@@ -66,8 +66,8 @@ public abstract class ServerEvent extends Event {
     }
 
     /**
-     * Fired when the server is about to stop.
-     * Fired from {@link MinecraftServer#stopServer()}.
+     * Fired when the server is about to stop. Fired from
+     * {@link MinecraftServer#stopServer()}.
      * 
      * This event is not cancelable.
      */
@@ -79,8 +79,8 @@ public abstract class ServerEvent extends Event {
     }
 
     /**
-     * Fired immediately after the server has stopped.
-     * Fired from {@link MinecraftServer#stopServer()}.
+     * Fired immediately after the server has stopped. Fired from
+     * {@link MinecraftServer#stopServer()}.
      * 
      * This event is not cancelable.
      */

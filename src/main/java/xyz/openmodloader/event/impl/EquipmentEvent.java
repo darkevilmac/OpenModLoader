@@ -14,8 +14,8 @@ import xyz.openmodloader.event.Event;
 
 /**
  * Parent class for equipment related events. All events that fall within this
- * scope should extend this class. They should usually also be added as
- * inner classes, although this is not an absolute requirement.
+ * scope should extend this class. They should usually also be added as inner
+ * classes, although this is not an absolute requirement.
  */
 public abstract class EquipmentEvent extends Event {
 
@@ -35,8 +35,8 @@ public abstract class EquipmentEvent extends Event {
     protected EntityEquipmentSlot slot;
 
     /**
-     * Constructor for the base equipment events. This constructor should only be
-     * accessed through super calls.
+     * Constructor for the base equipment events. This constructor should only
+     * be accessed through super calls.
      *
      * @param entity The entity that has fired this event.
      * @param equipment The equipment that was used
@@ -101,16 +101,17 @@ public abstract class EquipmentEvent extends Event {
     /**
      * Fired whenever an equipment is added to an entity.
      * 
-     * Fired from {@link EntityLiving#setItemStackToSlot(EntityEquipmentSlot, ItemStack)},
-     * {@link EntityArmorStand#setItemStackToSlot(EntityEquipmentSlot, ItemStack)},
-     * {@link EntityPlayer#setItemStackToSlot(EntityEquipmentSlot, ItemStack)},
-     * {@link ContainerPlayer#transferStackInSlot(EntityPlayer, int)}.
+     * Fired from
+     * {@link EntityLiving#setItemStackToSlot(EntityEquipmentSlot, ItemStack)},
+     * {@link EntityArmorStand#setItemStackToSlot(EntityEquipmentSlot, ItemStack)}
+     * , {@link EntityPlayer#setItemStackToSlot(EntityEquipmentSlot, ItemStack)}
+     * , {@link ContainerPlayer#transferStackInSlot(EntityPlayer, int)}.
      */
     public static class Equip extends EquipmentEvent {
 
         /**
-         * Constructor for this Equip event which is fired when a piece of equipment
-         * is equipped.
+         * Constructor for this Equip event which is fired when a piece of
+         * equipment is equipped.
          *
          * @param entity The entity that equipped the equipment
          * @param equipment The equipment that was equipped
@@ -134,16 +135,17 @@ public abstract class EquipmentEvent extends Event {
     /**
      * Fired whenever an equipment is removed from an entity.
      * 
-     * Fired from {@link EntityLiving#setItemStackToSlot(EntityEquipmentSlot, ItemStack)},
-     * {@link EntityArmorStand#setItemStackToSlot(EntityEquipmentSlot, ItemStack)},
-     * {@link EntityPlayer#setItemStackToSlot(EntityEquipmentSlot, ItemStack)},
-     * {@link ContainerPlayer#transferStackInSlot(EntityPlayer, int)}.
+     * Fired from
+     * {@link EntityLiving#setItemStackToSlot(EntityEquipmentSlot, ItemStack)},
+     * {@link EntityArmorStand#setItemStackToSlot(EntityEquipmentSlot, ItemStack)}
+     * , {@link EntityPlayer#setItemStackToSlot(EntityEquipmentSlot, ItemStack)}
+     * , {@link ContainerPlayer#transferStackInSlot(EntityPlayer, int)}.
      */
     public static class Unequip extends EquipmentEvent {
 
         /**
-         * Constructor for this Equip event which is fired when a piece of equipment
-         * is unequipped.
+         * Constructor for this Equip event which is fired when a piece of
+         * equipment is unequipped.
          *
          * @param entity The entity that unequipped the equipment
          * @param equipment The equipment that was unequipped

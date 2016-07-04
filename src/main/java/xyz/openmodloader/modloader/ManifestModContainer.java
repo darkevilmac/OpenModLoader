@@ -1,7 +1,10 @@
 package xyz.openmodloader.modloader;
 
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Set;
@@ -115,7 +118,8 @@ class ManifestModContainer implements ModContainer {
             try {
                 InputStream in = null;
                 if (logoBytes == null) {
-                    in = new URL(getModFile().toURI().toURL().toString() + '/' + logo).openStream();;
+                    in = new URL(getModFile().toURI().toURL().toString() + '/' + logo).openStream();
+                    ;
                 } else {
                     in = new ByteArrayInputStream(logoBytes);
                 }

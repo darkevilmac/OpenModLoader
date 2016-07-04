@@ -4,9 +4,7 @@ import xyz.openmodloader.launcher.OMLStrippableTransformer;
 
 public enum Side {
 
-    CLIENT,
-    SERVER,
-    UNIVERSAL;
+    CLIENT, SERVER, UNIVERSAL;
 
     public static boolean isClient() {
         return getCurrent() == CLIENT;

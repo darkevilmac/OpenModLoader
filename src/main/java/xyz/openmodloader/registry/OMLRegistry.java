@@ -23,7 +23,6 @@ public class OMLRegistry {
         return (NamespacedRegistry<ResourceLocation, T>) REGISTRY_MAP.get(classRegistry.getName());
     }
 
-
     public static NamespacedRegistry<ResourceLocation, ?> registerRegistry(Class<?> classRegistry, ResourceLocation defaultKey) {
         REGISTRY_MAP.put(classRegistry.getName(), new NamespacedRegistry<>(defaultKey));
 

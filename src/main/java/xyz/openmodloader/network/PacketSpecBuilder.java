@@ -1,11 +1,11 @@
 package xyz.openmodloader.network;
 
-import xyz.openmodloader.OpenModLoader;
-import xyz.openmodloader.launcher.strippable.Side;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
+
+import xyz.openmodloader.OpenModLoader;
+import xyz.openmodloader.launcher.strippable.Side;
 
 /**
  * Packet specification builder
@@ -24,13 +24,16 @@ public class PacketSpecBuilder {
     }
 
     /**
-     * Adds a data type with the given ID to the allowed data types for this packet
+     * Adds a data type with the given ID to the allowed data types for this
+     * packet
+     * 
      * @param id The ID to add the data type as
      * @param type The type to be added
      * @return This spec builder
      */
     public PacketSpecBuilder with(String id, DataType type) {
-        if (types.containsKey(id)) throw new IllegalArgumentException(String.format("ID %s is already set to DataType %s", id, types.get(id)));
+        if (types.containsKey(id))
+            throw new IllegalArgumentException(String.format("ID %s is already set to DataType %s", id, types.get(id)));
 
         types.put(id, type);
 
@@ -38,13 +41,16 @@ public class PacketSpecBuilder {
     }
 
     /**
-     * Sets the handler for this packet spec and adds the finalized spec to the {@link ChannelBuilder}
-     * This handler will be executed on the Netty I/O thread.
+     * Sets the handler for this packet spec and adds the finalized spec to the
+     * {@link ChannelBuilder} This handler will be executed on the Netty I/O
+     * thread.
+     * 
      * @param handler The packet handler
      * @return The channel builder
      */
     public ChannelBuilder handle(BiConsumer<Context, Packet> handler) {
-        if (this.handler != null) throw new IllegalStateException(String.format("Packet %s already has a handler, %s", name, this.handler));
+        if (this.handler != null)
+            throw new IllegalStateException(String.format("Packet %s already has a handler, %s", name, this.handler));
 
         this.handler = handler;
         builder.addPacket(new PacketSpec(this));
@@ -53,14 +59,17 @@ public class PacketSpecBuilder {
     }
 
     /**
-     * Sets the handler for this packet spec and adds the finalized spec to the {@link ChannelBuilder}
-     * These handlers will be executed on the Netty I/O thread.
+     * Sets the handler for this packet spec and adds the finalized spec to the
+     * {@link ChannelBuilder} These handlers will be executed on the Netty I/O
+     * thread.
+     * 
      * @param clientHandler The client-side handler
      * @param serverHandler The server-side handler
      * @return The channel builder
      */
     public ChannelBuilder handle(BiConsumer<Context, Packet> clientHandler, BiConsumer<Context, Packet> serverHandler) {
-        if (this.handler != null) throw new IllegalStateException(String.format("Packet %s already has a handler, %s", name, this.handler));
+        if (this.handler != null)
+            throw new IllegalStateException(String.format("Packet %s already has a handler, %s", name, this.handler));
 
         this.handler = (context, packet) -> {
             if (context.getSide() == Side.CLIENT) {
@@ -76,8 +85,10 @@ public class PacketSpecBuilder {
     }
 
     /**
-     * Sets the handler for this packet spec and adds the finalized spec to the {@link ChannelBuilder}
-     * This handler will be executed on the main Minecraft thread
+     * Sets the handler for this packet spec and adds the finalized spec to the
+     * {@link ChannelBuilder} This handler will be executed on the main
+     * Minecraft thread
+     * 
      * @param handler The handler
      * @return The channel builder
      */
@@ -90,8 +101,10 @@ public class PacketSpecBuilder {
     }
 
     /**
-     * Sets the handler for this packet spec and adds the finalized spec to the {@link ChannelBuilder}
-     * These handlers will be executed on the main Minecraft thread.
+     * Sets the handler for this packet spec and adds the finalized spec to the
+     * {@link ChannelBuilder} These handlers will be executed on the main
+     * Minecraft thread.
+     * 
      * @param clientHandler The client-side handler
      * @param serverHandler The server-side handler
      * @return The channel builder

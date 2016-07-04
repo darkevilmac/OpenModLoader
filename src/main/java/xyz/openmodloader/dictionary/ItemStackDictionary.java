@@ -1,14 +1,13 @@
 package xyz.openmodloader.dictionary;
 
+import java.util.function.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import java.util.function.Predicate;
-
 /**
- * An extended version of Dictionary for ItemStacks,
- * with a few utility methods.
+ * An extended version of Dictionary for ItemStacks, with a few utility methods.
  */
 public class ItemStackDictionary extends Dictionary<String, ItemStack> {
 
@@ -31,10 +30,14 @@ public class ItemStackDictionary extends Dictionary<String, ItemStack> {
      */
     public static Predicate<ItemStack> matcherOf(ItemStack value, boolean checkNBT) {
         return (stack) -> {
-            if (value == stack) return true;
-            if (value == null || stack == null) return false;
-            if (value.getItem() != stack.getItem()) return false;
-            if (value.getMetadata() != WILDCARD_METADATA && value.getMetadata() != stack.getMetadata()) return false;
+            if (value == stack)
+                return true;
+            if (value == null || stack == null)
+                return false;
+            if (value.getItem() != stack.getItem())
+                return false;
+            if (value.getMetadata() != WILDCARD_METADATA && value.getMetadata() != stack.getMetadata())
+                return false;
             return !checkNBT || ItemStack.areItemStackTagsEqual(value, stack);
         };
     }

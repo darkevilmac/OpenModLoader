@@ -18,9 +18,9 @@ public class EventBus {
     /**
      * Registers a handler for the given event type.
      *
-     * @param clazz   The event class.
+     * @param clazz The event class.
      * @param handler The event handler.
-     * @param <T>     The event type.
+     * @param <T> The event type.
      */
     public <T extends Event> void register(Class<T> clazz, Consumer<T> handler) {
         ConcurrentLinkedQueue<Consumer<?>> handlers = map.get(clazz);
@@ -32,7 +32,9 @@ public class EventBus {
     }
 
     /**
-     * Registers all the methods of the given object that take a single parameter that extends {@link Event} and have {@link EventHandler}
+     * Registers all the methods of the given object that take a single
+     * parameter that extends {@link Event} and have {@link EventHandler}
+     * 
      * @param object
      */
     public void register(Object object) {
@@ -41,7 +43,7 @@ public class EventBus {
                 Parameter[] params = m.getParameters();
                 if (params.length == 1 && Event.class.isAssignableFrom(params[0].getType())) {
                     m.setAccessible(true);
-                    register((Class<? extends Event>)params[0].getType(), (e) -> {
+                    register((Class<? extends Event>) params[0].getType(), (e) -> {
                         try {
                             m.invoke(object, e);
                         } catch (ReflectiveOperationException ex) {
@@ -55,10 +57,12 @@ public class EventBus {
 
     /**
      * Posts an event to the event bus, iterating over the registered listeners
-     * until A) the event is canceled or B) all handlers have executed the event.
+     * until A) the event is canceled or B) all handlers have executed the
+     * event.
      *
      * @param event The event to post to the bus
-     * @return {@code true} if the event fired successfully or {@code false} if it was canceled
+     * @return {@code true} if the event fired successfully or {@code false} if
+     *         it was canceled
      */
     public <T extends Event> boolean post(T event) {
         Class<? extends Event> clazz = event.getClass();

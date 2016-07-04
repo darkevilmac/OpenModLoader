@@ -1,5 +1,8 @@
 package xyz.openmodloader.client.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -7,9 +10,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.text.ITextComponent;
 import xyz.openmodloader.launcher.strippable.Side;
 import xyz.openmodloader.launcher.strippable.Strippable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Strippable(side = Side.CLIENT)
 public class GuiSnackbar extends Gui {

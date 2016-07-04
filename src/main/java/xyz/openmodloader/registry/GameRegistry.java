@@ -20,7 +20,7 @@ import xyz.openmodloader.world.generation.WorldGenerator;
  * etc are registered here.
  */
 public class GameRegistry {
-    
+
     /**
      * Initializes the registry.
      */
@@ -30,7 +30,7 @@ public class GameRegistry {
         registerHorseArmor(new ResourceLocation("gold"), HorseArmorType.GOLD);
         registerHorseArmor(new ResourceLocation("diamond"), HorseArmorType.DIAMOND);
     }
-    
+
     /**
      * Registers a new horse armor.
      *
@@ -40,7 +40,7 @@ public class GameRegistry {
     public static void registerHorseArmor(ResourceLocation identifier, HorseArmorType horseArmor) {
         OMLRegistry.getRegistry(HorseArmorType.class).register(identifier, horseArmor);
     }
-    
+
     /**
      * Registers a block.
      *
@@ -66,13 +66,9 @@ public class GameRegistry {
         } else if (identifier == null) {
             throw new NullPointerException("The identifier cannot be null!");
         } else if (blockRegistry.containsKey(identifier)) {
-            throw new RuntimeException(
-                    String.format("The ID %s has already been registered for %s. It will not be registered again.",
-                            identifier, blockRegistry.getObject(identifier)));
+            throw new RuntimeException(String.format("The ID %s has already been registered for %s. It will not be registered again.", identifier, blockRegistry.getObject(identifier)));
         } else if (itemRegistry.containsKey(identifier)) {
-            throw new RuntimeException(
-                    String.format("The ID %s has already been registered for %s. It will not be registered again.",
-                            identifier, itemRegistry.getObject(identifier)));
+            throw new RuntimeException(String.format("The ID %s has already been registered for %s. It will not be registered again.", identifier, itemRegistry.getObject(identifier)));
         }
         blockRegistry.register(identifier, block);
         for (IBlockState state : block.getBlockState().getValidStates()) {
@@ -95,9 +91,7 @@ public class GameRegistry {
         } else if (identifier == null) {
             throw new NullPointerException("The identifier cannot be null!");
         } else if (itemRegistry.containsKey(identifier)) {
-            throw new RuntimeException(
-                    String.format("The ID %s has already been registered for %s. It will not be registered again.",
-                            identifier, itemRegistry.getObject(identifier)));
+            throw new RuntimeException(String.format("The ID %s has already been registered for %s. It will not be registered again.", identifier, itemRegistry.getObject(identifier)));
         }
         itemRegistry.register(identifier, item);
     }
@@ -115,9 +109,7 @@ public class GameRegistry {
         } else if (identifier == null) {
             throw new NullPointerException("The identifier cannot be null!");
         } else if (registry.containsKey(identifier)) {
-            throw new RuntimeException(
-                    String.format("The ID %s has already been registered for %s. It will not be registered again.",
-                            identifier, registry.getObject(identifier)));
+            throw new RuntimeException(String.format("The ID %s has already been registered for %s. It will not be registered again.", identifier, registry.getObject(identifier)));
         }
         registry.register(identifier, gen);
     }
@@ -128,18 +120,17 @@ public class GameRegistry {
      * @param id the generator id
      * @param ore the ore
      * @param replaceables the blocks the ore may spawn in, usually stone for
-     *            the overworld and netherrack for the nether
+     *        the overworld and netherrack for the nether
      * @param veinType the vein type
      * @param veinSize the vein size
      * @param minY the minimum Y level the ore may spawn at
      * @param maxY the maximum Y level the ore may spawn at
      * @param dimensions the dimensions the ore may spawn in - may be
-     *            {@link Short#MAX_VALUE} as a wildcard
+     *        {@link Short#MAX_VALUE} as a wildcard
      * @param attempts the number of attempts at spawning the ore per chunk
      * @see OreVeinType
      */
-    public static void registerOreGen(ResourceLocation id, IBlockState ore, IBlockState[] replaceables, int veinSize, int minY,
-            int maxY, int[] dimensions, int attempts) {
+    public static void registerOreGen(ResourceLocation id, IBlockState ore, IBlockState[] replaceables, int veinSize, int minY, int maxY, int[] dimensions, int attempts) {
         Set<IBlockState> replaceables0 = ImmutableSet.copyOf(replaceables);
         int[] dimensions0 = Arrays.copyOf(dimensions, dimensions.length);
         WorldGenMinable mineable = new WorldGenMinable(ore, veinSize, (b) -> replaceables0.contains(b));

@@ -10,12 +10,12 @@ import xyz.openmodloader.item.HorseArmor;
 public class ItemTestHorseArmor extends Item implements HorseArmor {
 
     public static final HorseArmorType TYPE = new HorseArmorType(5, "omltest", "omltest");
-    
-    public ItemTestHorseArmor () {      
+
+    public ItemTestHorseArmor() {
         this.setCreativeTab(CreativeTabs.COMBAT);
         this.setUnlocalizedName("oml.horsearmor");
     }
-    
+
     @Override
     public HorseArmorType getArmorType(ItemStack stack) {
         return TYPE;
