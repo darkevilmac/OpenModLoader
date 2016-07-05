@@ -31,14 +31,12 @@ public class ModLoader {
     private static final List<ModInfo> MODS = new ArrayList<>();
 
     /**
-     * A map of all loaded mods. Key is the mod class and value is the
-     * ModInfo.
+     * A map of all loaded mods. Key is the mod class and value is the ModInfo.
      */
     private static final Map<Mod, ModInfo> MODS_MAP = new HashMap<>();
 
     /**
-     * A map of all loaded mods. Key is the mod id and value is the
-     * ModInfo.
+     * A map of all loaded mods. Key is the mod id and value is the ModInfo.
      */
     private static final Map<String, ModInfo> ID_MAP = new HashMap<>();
 
@@ -178,5 +176,16 @@ public class ModLoader {
      */
     public static boolean isModLoaded(String id) {
         return ID_MAP.containsKey(id);
+    }
+
+    /**
+     * Adds a new mod info to the loader. This will not load a new mod, but
+     * allows new mod list entries to be added.
+     * 
+     * @param info The mod info to add.
+     */
+    public static void addModInfo(ModInfo info) {
+        MODS.add(info);
+        ID_MAP.put(info.getModID(), info);
     }
 }
