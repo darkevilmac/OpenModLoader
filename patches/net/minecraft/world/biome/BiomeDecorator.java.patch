@@ -1,0 +1,10 @@
+--- /net/minecraft/world/biome
++++ /net/minecraft/world/biome
+@@ -85,6 +85,7 @@
+             this.diamondGen = new WorldGenMinable(Blocks.DIAMOND_ORE.getDefaultState(), this.chunkProviderSettings.diamondSize);
+             this.lapisGen = new WorldGenMinable(Blocks.LAPIS_ORE.getDefaultState(), this.chunkProviderSettings.lapisSize);
+             this.genDecorations(var3, var1, var2);
++            xyz.openmodloader.world.generation.WorldGenHooks.runGenerators(var3, var1, var2, chunkPos);
+             this.decorating = false;
+         }
+     }

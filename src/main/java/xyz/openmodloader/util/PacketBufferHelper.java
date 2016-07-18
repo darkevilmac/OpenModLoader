@@ -1,12 +1,12 @@
 package xyz.openmodloader.util;
 
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.text.ITextComponent;
-
 import java.lang.reflect.Array;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.text.ITextComponent;
 
 /**
  * Helper class for buffer serialization/deserialization
@@ -14,6 +14,7 @@ import java.util.function.Function;
 public class PacketBufferHelper {
     /**
      * Writes a byte to the buffer
+     * 
      * @param buf The buffer to serialize to
      * @param value The byte to serialize
      */
@@ -23,6 +24,7 @@ public class PacketBufferHelper {
 
     /**
      * Writes a short to the buffer
+     * 
      * @param buf The buffer to serialize to
      * @param value The short to serialize
      */
@@ -32,6 +34,7 @@ public class PacketBufferHelper {
 
     /**
      * Writes a char to the buffer
+     * 
      * @param buf The buffer to serialize to
      * @param value The char to serialize
      */
@@ -41,6 +44,7 @@ public class PacketBufferHelper {
 
     /**
      * Writes a string to the buffer
+     * 
      * @param buf The buffer to serialize to
      * @param value The string to serialize
      */
@@ -51,6 +55,7 @@ public class PacketBufferHelper {
 
     /**
      * Reads a string from the buffer
+     * 
      * @param buf The buffer to deserialize form
      * @return The deserialized string
      */
@@ -60,6 +65,7 @@ public class PacketBufferHelper {
 
     /**
      * Writes a text component to the buffer
+     * 
      * @param buf The buffer to serialize to
      * @param value The text component to serialize
      */
@@ -69,6 +75,7 @@ public class PacketBufferHelper {
 
     /**
      * Reads a text component from the buffer
+     * 
      * @param buf The buffer to deserialize form
      * @return The deserialized text component
      */
@@ -78,6 +85,7 @@ public class PacketBufferHelper {
 
     /**
      * Writes an array to the buffer
+     * 
      * @param buf The buffer to serialize to
      * @param value The array to serialize
      * @param writer The function that handles writing to the buffer
@@ -91,6 +99,7 @@ public class PacketBufferHelper {
 
     /**
      * Reads an array from the buffer
+     * 
      * @param buf The buffer to deserialize form
      * @param reader The function that handles reading from a buffer
      * @return The deserialized array
@@ -105,6 +114,7 @@ public class PacketBufferHelper {
 
     /**
      * Writes an NBT list to the buffer
+     * 
      * @param buf The buffer to serialize to
      * @param value The NBT list to serialize
      */
@@ -117,6 +127,7 @@ public class PacketBufferHelper {
 
     /**
      * Reads an NBT list from the buffer
+     * 
      * @param buf The buffer to deserialize form
      * @return The deserialized NBT list
      */

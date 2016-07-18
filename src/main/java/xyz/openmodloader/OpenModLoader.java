@@ -26,12 +26,12 @@ public final class OpenModLoader {
     private static Channel channel;
     private static SidedHandler sidedHandler;
 
-    private OpenModLoader() {}
+    private OpenModLoader() {
+    }
 
     /**
-     * Initializes the API and starts mod loading.
-     * Called from {@link Minecraft#startGame()} and
-     * {@link DedicatedServer#startServer()}.
+     * Initializes the API and starts mod loading. Called from
+     * {@link Minecraft#startGame()} and {@link DedicatedServer#startServer()}.
      *
      * @param sidedHandler the sided handler
      */
@@ -46,8 +46,8 @@ public final class OpenModLoader {
         getSidedHandler().onInitialize();
         channel = ChannelManager.create("oml")
                 .createPacket("snackbar")
-                    .with("component", DataTypes.TEXT_COMPONENT)
-                    .handle((context, packet) -> getSidedHandler().openSnackbar(packet.get("component", DataTypes.TEXT_COMPONENT)))
+                .with("component", DataTypes.TEXT_COMPONENT)
+                .handle((context, packet) -> getSidedHandler().openSnackbar(packet.get("component", DataTypes.TEXT_COMPONENT)))
                 .build();
     }
 
@@ -70,9 +70,8 @@ public final class OpenModLoader {
     }
 
     /**
-     * Gets the OML logger. Primarily intended for internal use.
-     * Mods should call {@link LogManager#getLogger(String)} to get
-     * a properly named logger.
+     * Gets the OML logger. Primarily intended for internal use. Mods should
+     * call {@link LogManager#getLogger(String)} to get a properly named logger.
      *
      * @return the OML logger
      */

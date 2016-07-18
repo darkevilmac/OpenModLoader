@@ -1,0 +1,11 @@
+--- /net/minecraft/network
++++ /net/minecraft/network
+@@ -723,7 +723,7 @@
+                 this.handleSlashCommand(var2);
+             } else {
+                 TextComponentTranslation var6 = new TextComponentTranslation("chat.type.text", new Object[]{this.playerEntity.getDisplayName(), var2});
+-                this.serverController.getPlayerList().sendChatMsgImpl(var6, false);
++                this.serverController.getPlayerList().sendChatMsgImpl(playerEntity, var6, false);
+             }
+ 
+             this.chatSpamThresholdCount += 20;

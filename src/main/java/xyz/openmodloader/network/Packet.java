@@ -1,9 +1,10 @@
 package xyz.openmodloader.network;
 
-import com.google.common.collect.ImmutableMap;
-import net.minecraft.network.PacketBuffer;
-
 import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
+
+import net.minecraft.network.PacketBuffer;
 
 /**
  * Default OML packet implementation.
@@ -22,19 +23,23 @@ public class Packet extends AbstractPacket {
 
     /**
      * Retrieves a value from this packet
+     * 
      * @param id The ID of the thing being retrieved
      * @param type The {@link DataType} type of the thing being stored
      * @param <T> The type of the value
      * @return The value stored
      */
     public <T> T get(String id, DataType<T> type) {
-        if (!values.containsKey(id)) throw new IllegalArgumentException("No such key " + id);
-        if (!types.get(id).equals(type)) throw new IllegalArgumentException(String.format("Wrong type for key %s, %s is registered but got %s", id, types.get(id), type));
-        return (T)values.get(id);
+        if (!values.containsKey(id))
+            throw new IllegalArgumentException("No such key " + id);
+        if (!types.get(id).equals(type))
+            throw new IllegalArgumentException(String.format("Wrong type for key %s, %s is registered but got %s", id, types.get(id), type));
+        return (T) values.get(id);
     }
 
     /**
      * Writes this packet to the given buffer
+     * 
      * @param buf The buffer
      * @return The buffer for convienience
      */
@@ -48,6 +53,7 @@ public class Packet extends AbstractPacket {
 
     /**
      * Reads this packet from the given buffer
+     * 
      * @param buf The buffer
      */
     @Override

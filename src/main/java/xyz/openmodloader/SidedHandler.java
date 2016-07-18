@@ -12,9 +12,9 @@ public interface SidedHandler {
 
     void openSnackbar(ITextComponent component);
 
-	EntityPlayerSP getClientPlayer();
+    EntityPlayerSP getClientPlayer();
 
-	void handleOnMainThread(Runnable runnable);
+    void handleOnMainThread(Runnable runnable);
 
     MinecraftServer getServer();
 }

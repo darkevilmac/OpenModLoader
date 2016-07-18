@@ -107,7 +107,8 @@ public class EntityEvent extends Event {
          * dimensions.
          *
          * @param entity The entity that has fired this event.
-         * @param previousDimension The dimension this entity is travelling from.
+         * @param previousDimension The dimension this entity is travelling
+         *        from.
          * @param newDimension The dimension this entity is travelling to.
          */
         public ChangeDimension(Entity entity, int previousDimension, int newDimension) {
@@ -174,7 +175,8 @@ public class EntityEvent extends Event {
         protected final Entity riding;
 
         /**
-         * Constructor for the new event that is fired when an entity mounts another entity.
+         * Constructor for the new event that is fired when an entity mounts
+         * another entity.
          *
          * @param entity The entity that has fired this event.
          * @param riding The entity this entity is riding.
@@ -205,7 +207,8 @@ public class EntityEvent extends Event {
     public static class Dismount extends Mount {
 
         /**
-         * Constructor for the new event that is fired when an entity mounts another entity.
+         * Constructor for the new event that is fired when an entity mounts
+         * another entity.
          *
          * @param entity The entity that has fired this event.
          * @param riding The entity this entity was riding.
@@ -226,7 +229,8 @@ public class EntityEvent extends Event {
         protected final EntityLightningBolt lightningBolt;
 
         /**
-         * Constructor for the new event fired when an entity is struck by lightning.
+         * Constructor for the new event fired when an entity is struck by
+         * lightning.
          *
          * @param entity The entity that has fired this event.
          * @param lightningBolt the lightning bolt that struck this entity.

@@ -1,13 +1,13 @@
 package xyz.openmodloader.event.impl;
 
+import java.util.List;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.event.Event;
-
-import java.util.List;
 
 /**
  * Parent class for block related events. All events that fall within this scope

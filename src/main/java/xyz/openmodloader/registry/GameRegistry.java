@@ -1,78 +1,231 @@
 package xyz.openmodloader.registry;
 
-import xyz.openmodloader.OpenModLoader;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.HorseArmorType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.gen.feature.WorldGenMinable;
+import xyz.openmodloader.OpenModLoader;
+import xyz.openmodloader.dictionary.ItemStackDictionary;
+import xyz.openmodloader.event.impl.FuelEvent;
+import xyz.openmodloader.world.generation.WorldGenerator;
 
+/**
+ * The anchor point for registering content. Blocks, items, world generators,
+ * etc are registered here.
+ */
 public class GameRegistry {
-    
+
+    /**
+     * Initializes the registry.
+     */
     public static void init() {
+        Registries.register(HorseArmorType.class);
         registerHorseArmor(new ResourceLocation("none"), HorseArmorType.NONE);
         registerHorseArmor(new ResourceLocation("iron"), HorseArmorType.IRON);
         registerHorseArmor(new ResourceLocation("gold"), HorseArmorType.GOLD);
         registerHorseArmor(new ResourceLocation("diamond"), HorseArmorType.DIAMOND);
+        Registries.register(WorldGenerator.class);
     }
-    
+
     /**
-     * Registers a new horse armor
-     * 
-     * @param identifier
-     * @param horseArmor
+     * Registers a horse armor.
+     *
+     * @param id the ID of the horse armor. Must be unique.
+     * @param type the horse armor type
      */
-    public static void registerHorseArmor(ResourceLocation identifier, HorseArmorType horseArmor) {
-        OMLRegistry.getRegistry(HorseArmorType.class).register(identifier, horseArmor);
+    public static void registerHorseArmor(ResourceLocation id, HorseArmorType type) {
+        AutomaticNamespacedRegistry<ResourceLocation, HorseArmorType> registry = Registries.get(HorseArmorType.class);
+        if (type == null) {
+            throw new NullPointerException("Attempted to register a null horse armor");
+        } else if (id == null) {
+            throw new NullPointerException("Attempted to register a horse armor with a null ID");
+        } else if (registry.containsKey(id)) {
+            throw new IllegalArgumentException(String.format("The horse armor ID \"%s\" has already been registered", id));
+        }
+        registry.register(id, type);
     }
-    
-    public static void registerBlock(Block block, ResourceLocation identifier) {
-        registerBlock(block, new ItemBlock(block), identifier);
+
+    /**
+     * Registers a block with a block item.
+     *
+     * @param id the ID of the block. Must be unique.
+     * @param block the block
+     */
+    public static void registerBlock(ResourceLocation id, Block block) {
+        registerBlock(id, block, new ItemBlock(block));
     }
 
-    public static void registerBlock(Block block, ItemBlock itemBlock, ResourceLocation identifier) {
-        NamespacedRegistry<ResourceLocation, Block> blockRegistry = OMLRegistry.getRegistry(Block.class);
-        NamespacedRegistry<ResourceLocation, Item> itemRegistry = OMLRegistry.getRegistry(Item.class);
-        if (block == null || itemBlock == null) {
-            OpenModLoader.getLogger().warn("The Block or ItemBlock cannot be null");
-            return;
+    /**
+     * Registers a block.
+     *
+     * @param id the ID of the block. Must be unique.
+     * @param block the block
+     * @param item the block item.
+     *             null if the block does not have an item.
+     */
+    public static void registerBlock(ResourceLocation id, Block block, ItemBlock item) {
+        AutomaticNamespacedRegistry<ResourceLocation, Block> blockRegistry = Registries.get(Block.class);
+        AutomaticNamespacedRegistry<ResourceLocation, Item> itemRegistry = Registries.get(Item.class);
+        if (block == null) {
+            throw new NullPointerException("Attempted to register a null block");
+        } else if (id == null) {
+            throw new NullPointerException("Attempted to register a block with a null ID");
+        } else if (blockRegistry.containsKey(id)) {
+            throw new IllegalArgumentException(String.format("The block ID \"%s\" has already been registered", id));
+        } else if (itemRegistry.containsKey(id)) {
+            throw new IllegalArgumentException(String.format("The item ID \"%s\" has already been registered", id));
         }
-
-        if (identifier == null) {
-            OpenModLoader.getLogger().warn("The Block Identifier cannot be null");
-            return;
-        }
-        if (blockRegistry.containsKey(identifier)) {
-            OpenModLoader.getLogger().warn("The ID %s has already been registered for %s. It will not be registered again.", identifier, blockRegistry.getObject(identifier));
-            return;
-        }
-
-        blockRegistry.register(identifier, block);
+        blockRegistry.register(id, block);
+        int integerID = blockRegistry.getIDForObject(block);
         for (IBlockState state : block.getBlockState().getValidStates()) {
-            Block.BLOCK_STATE_IDS.put(state, OMLRegistry.getRegistry(Block.class).getIDForObject(block) << 4 | block.getMetaFromState(state));
+            Block.BLOCK_STATE_IDS.put(state, integerID << 4 | block.getMetaFromState(state));
         }
-
-        itemRegistry.register(Block.getIdFromBlock(itemBlock.getBlock()), Block.REGISTRY.getNameForObject(itemBlock.getBlock()), itemBlock);
-        OMLRegistry.getBlockItemMap().put(block, itemBlock);
+        if (item != null) {
+            Registries.get(Item.class).register(integerID, id, item);
+            Registries.getBlockItemMap().put(block, item);
+        }
     }
 
-    public static void registerItem(Item item, ResourceLocation identifier) {
-        NamespacedRegistry<ResourceLocation, Item> itemRegistry = OMLRegistry.getRegistry(Item.class);
-
+    /**
+     * Registers an item.
+     *
+     * @param id the ID of the item. Must be unique.
+     * @param item the item
+     */
+    public static void registerItem(ResourceLocation id, Item item) {
+        AutomaticNamespacedRegistry<ResourceLocation, Item> registry = Registries.get(Item.class);
         if (item == null) {
-            OpenModLoader.getLogger().warn("The Item cannot be null");
-            return;
+            throw new NullPointerException("Attempted to register a null item");
+        } else if (id == null) {
+            throw new NullPointerException("Attempted to register an item with a null ID");
+        } else if (registry.containsKey(id)) {
+            throw new IllegalArgumentException(String.format("The item ID %s has already been registered", id));
         }
+        registry.register(id, item);
+    }
 
-        if (identifier == null) {
-            OpenModLoader.getLogger().warn("The Block Identifier cannot be null");
-            return;
+    /**
+     * Registers a world generator.
+     *
+     * @param id the ID of the generator. Must be unique.
+     * @param generator the generator
+     */
+    public static void registerWorldGen(ResourceLocation id, WorldGenerator generator) {
+        AutomaticNamespacedRegistry<ResourceLocation, WorldGenerator> registry = Registries.get(WorldGenerator.class);
+        if (generator == null) {
+            throw new NullPointerException("Attempted to register a null world generator");
+        } else if (id == null) {
+            throw new NullPointerException("Attempted to register a world generator with a null ID");
+        } else if (registry.containsKey(id)) {
+            throw new IllegalArgumentException(String.format("The world generator ID \"%s\" has already been registered", id));
         }
-        if (itemRegistry.containsKey(identifier)) {
-            OpenModLoader.getLogger().warn("The ID %s has already been registered for %s. It will not be registered again.", identifier, itemRegistry.getObject(identifier));
-            return;
-        }
-        itemRegistry.register(identifier, item);
+        registry.register(id, generator);
+    }
+
+    /**
+     * Registers an ore generator to the world generator registry.
+     *
+     * @param id the generator ID. Must be unique.
+     * @param ore the ore
+     * @param replaceables the blocks the ore may spawn in, usually stone for
+     *        the overworld and netherrack for the nether
+     * @param veinSize the vein size
+     * @param minY the minimum Y level the ore may spawn at
+     * @param maxY the maximum Y level the ore may spawn at
+     * @param dimensions the dimensions the ore may spawn in. May be
+     *        {@link Short#MAX_VALUE} as a wildcard.
+     * @param attempts the number of attempts at spawning the ore per chunk
+     */
+    public static void registerOreGen(ResourceLocation id, IBlockState ore, IBlockState[] replaceables, int veinSize, int minY, int maxY, int[] dimensions, int attempts) {
+        List<IBlockState> replaceableList = Arrays.asList(replaceables);
+        WorldGenMinable generator = new WorldGenMinable(ore, veinSize, replaceableList::contains);
+        registerWorldGen(id, (biome, world, random, chunkPos) -> {
+            for (int dimension : dimensions) {
+                if (dimension != world.provider.getDimensionType().getId() && dimension != Short.MAX_VALUE) {
+                    continue;
+                }
+                for (int attempt = 0; attempt < attempts; attempt++) {
+                    int xOffset = world.rand.nextInt(16);
+                    int yOffset = world.rand.nextInt(maxY - minY + 1) + minY;
+                    int zOffset = world.rand.nextInt(16);
+                    BlockPos pos = chunkPos.add(xOffset, yOffset, zOffset);
+                    generator.generate(world, world.rand, pos);
+                }
+                return;
+            }
+        });
+    }
+
+    /**
+     * Registers an ore generator to the world generator registry.
+     *
+     * @param id the generator ID. Must be unique.
+     * @param ore the ore
+     * @param replaceable the block the ore may spawn in, usually stone for
+     *        the overworld and netherrack for the nether
+     * @param veinSize the vein size
+     * @param minY the minimum Y level the ore may spawn at
+     * @param maxY the maximum Y level the ore may spawn at
+     * @param dimension the dimension the ore may spawn in. May be
+     *        {@link Short#MAX_VALUE} as a wildcard.
+     * @param attempts the number of attempts at spawning the ore per chunk
+     */
+    public static void registerOreGen(ResourceLocation id, IBlockState ore, IBlockState replaceable, int veinSize, int minY, int maxY, int dimension, int attempts) {
+        registerOreGen(id, ore, new IBlockState[]{replaceable}, veinSize, minY, maxY, new int[]{dimension}, attempts);
+    }
+
+    /**
+     * Registers a block as a fuel.
+     *
+     * @param block the block
+     * @param duration the fuel's burn time duration (in ticks)
+     */
+    public static void registerFuel(Block block, int duration) {
+        registerFuel(new ItemStack(block, 1, ItemStackDictionary.WILDCARD_METADATA), duration);
+    }
+
+    /**
+     * Registers an item as a fuel.
+     *
+     * @param item the item
+     * @param duration the fuel's burn time duration (in ticks)
+     */
+    public static void registerFuel(Item item, int duration) {
+        registerFuel(new ItemStack(item, 1, ItemStackDictionary.WILDCARD_METADATA), duration);
+    }
+
+    /**
+     * Registers a NBT-insensitive item stack as a fuel.
+     *
+     * @param stack the item stack
+     * @param duration the fuel's burn time duration (in ticks)
+     */
+    public static void registerFuel(ItemStack stack, int duration) {
+        registerFuel(stack, false, duration);
+    }
+
+    /**
+     * Registers an item stack as a fuel.
+     *
+     * @param stack the item stack
+     * @param checkNBT set to true to check NBT tags
+     * @param duration the fuel's burn time duration (in ticks)
+     */
+    public static void registerFuel(ItemStack stack, boolean checkNBT, int duration) {
+        Predicate<ItemStack> matcher = ItemStackDictionary.matcherOf(stack, checkNBT);
+        OpenModLoader.getEventBus().register(FuelEvent.class, (event) -> {
+            if (matcher.test(event.getStack())) {
+                event.setDuration(duration);
+            }
+        });
     }
 }

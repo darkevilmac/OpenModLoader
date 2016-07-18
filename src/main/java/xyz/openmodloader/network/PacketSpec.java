@@ -16,6 +16,7 @@ public class PacketSpec {
 
     /**
      * Creates a finalized immutable packet from the builder
+     * 
      * @param builder The packet spec builder
      */
     PacketSpec(PacketSpecBuilder builder) {

@@ -2,6 +2,7 @@ package xyz.openmodloader.network;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+
 import net.minecraft.network.PacketBuffer;
 
 /**
@@ -21,16 +22,19 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Creates a packet builder for sending a packet
+     * 
      * @param id The ID of the packet to create the builder for
      * @return The builder packet
      */
     public PacketBuilder send(String id) {
-        if (!specs.containsKey(id)) throw new IllegalArgumentException("Invalid PacketSpec name " + id);
+        if (!specs.containsKey(id))
+            throw new IllegalArgumentException("Invalid PacketSpec name " + id);
         return new PacketBuilder(this, specs.get(id));
     }
 
     /**
      * Writes the given packet to the buffer
+     * 
      * @param buf The buffer to write to
      * @param packet The packet to write
      */
@@ -41,6 +45,7 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Reads a packet from the given buffer
+     * 
      * @param buf The buffer to read from
      * @return The packet that was read
      */
@@ -54,6 +59,7 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Handles a packet
+     * 
      * @param packet The packet to handle
      */
     @Override
@@ -63,6 +69,7 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Gets the packet specification corresponding to the given name.
+     * 
      * @param name The name of the spec
      * @return The packet specification
      */
@@ -72,6 +79,7 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Gets the packet specification corresponding to the given ID
+     * 
      * @param id The ID of the spec
      * @return The packet specification
      */
@@ -81,6 +89,7 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Gets the name corresponding to the given packet specification
+     * 
      * @param spec The spec
      * @return The name
      */
@@ -90,6 +99,7 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Gets the name corresponding to the packet specification with the given ID
+     * 
      * @param id The ID of the spec
      * @return The name
      */
@@ -99,6 +109,7 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Gets the ID corresponding to the given packet specification
+     * 
      * @param spec The spec
      * @return The ID
      */
@@ -108,6 +119,7 @@ public class Channel extends AbstractChannel<Packet> {
 
     /**
      * Gets the ID corresponding to the packet specification with the given name
+     * 
      * @param name The name of the spec
      * @return The ID
      */

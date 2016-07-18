@@ -13,9 +13,7 @@ import com.typesafe.config.ConfigRenderOptions;
 import com.typesafe.config.ConfigValueFactory;
 
 /**
- * The base config class.
- * Example:
- * <code>
+ * The base config class. Example: <code>
  * <br>Config config = new Config("example.conf");
  * <br>Config category1 = config.getConfig("category1", "Enables and disables blocks");
  * <br>if (category1.getBoolean("block1", true, "Enables block1"))
@@ -30,7 +28,8 @@ public class Config {
     public static final File CONFIG_DIR = new File("./config");
 
     /**
-     * Creates a new config within the config directory, using the filename provided.
+     * Creates a new config within the config directory, using the filename
+     * provided.
      * 
      * @param file The name of the config file. Must be a .conf file.
      */
@@ -41,8 +40,8 @@ public class Config {
     /**
      * Creates a new config using the file provided.
      *
-     * @param file The file to use for the config.
-     * Must be a .conf file located within the config directory.
+     * @param file The file to use for the config. Must be a .conf file located
+     *        within the config directory.
      */
     public Config(File file) {
         if (!file.getName().endsWith(".conf")) {
@@ -66,19 +65,18 @@ public class Config {
     }
 
     /**
-     * Gets a boolean from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a boolean from the config. If the property doesn't exist, a new one
+     * is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested boolean property, or the defaultValue if it doesn't exist.
+     * @return The requested boolean property, or the defaultValue if it doesn't
+     *         exist.
      */
     public boolean getBoolean(String name, boolean defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -87,19 +85,18 @@ public class Config {
     }
 
     /**
-     * Gets an integer from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets an integer from the config. If the property doesn't exist, a new one
+     * is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested integer property, or the defaultValue if it doesn't exist.
+     * @return The requested integer property, or the defaultValue if it doesn't
+     *         exist.
      */
     public int getInt(String name, int defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -108,19 +105,18 @@ public class Config {
     }
 
     /**
-     * Gets a long from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a long from the config. If the property doesn't exist, a new one is
+     * added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested long property, or the defaultValue if it doesn't exist.
+     * @return The requested long property, or the defaultValue if it doesn't
+     *         exist.
      */
     public long getLong(String name, long defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -129,19 +125,18 @@ public class Config {
     }
 
     /**
-     * Gets a double from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a double from the config. If the property doesn't exist, a new one
+     * is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested double property, or the defaultValue if it doesn't exist.
+     * @return The requested double property, or the defaultValue if it doesn't
+     *         exist.
      */
     public double getDouble(String name, double defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -150,19 +145,18 @@ public class Config {
     }
 
     /**
-     * Gets a string from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a string from the config. If the property doesn't exist, a new one
+     * is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested string property, or the defaultValue if it doesn't exist.
+     * @return The requested string property, or the defaultValue if it doesn't
+     *         exist.
      */
     public String getString(String name, String defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -171,15 +165,14 @@ public class Config {
     }
 
     /**
-     * Gets a subconfig from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a subconfig from the config. If the property doesn't exist, a new
+     * one is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested subconfig property, or the defaultValue if it doesn't exist.
+     * @return The requested subconfig property, or the defaultValue if it
+     *         doesn't exist.
      */
     public Config getConfig(String name, String comment) {
         if (!config.hasPath(name)) {
@@ -192,19 +185,18 @@ public class Config {
     }
 
     /**
-     * Gets a list of booleans from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a list of booleans from the config. If the property doesn't exist, a
+     * new one is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested boolean list property, or the defaultValue if it doesn't exist.
+     * @return The requested boolean list property, or the defaultValue if it
+     *         doesn't exist.
      */
     public List<Boolean> getBooleanList(String name, List<Boolean> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -213,19 +205,18 @@ public class Config {
     }
 
     /**
-     * Gets a list of integers from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a list of integers from the config. If the property doesn't exist, a
+     * new one is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested integer list property, or the defaultValue if it doesn't exist.
+     * @return The requested integer list property, or the defaultValue if it
+     *         doesn't exist.
      */
     public List<Integer> getIntList(String name, List<Integer> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -234,19 +225,18 @@ public class Config {
     }
 
     /**
-     * Gets a list of longs from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a list of longs from the config. If the property doesn't exist, a
+     * new one is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested long list property, or the defaultValue if it doesn't exist.
+     * @return The requested long list property, or the defaultValue if it
+     *         doesn't exist.
      */
     public List<Long> getLongList(String name, List<Long> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -255,19 +245,18 @@ public class Config {
     }
 
     /**
-     * Gets a list of doubles from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a list of doubles from the config. If the property doesn't exist, a
+     * new one is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested double list property, or the defaultValue if it doesn't exist.
+     * @return The requested double list property, or the defaultValue if it
+     *         doesn't exist.
      */
     public List<Double> getDoubleList(String name, List<Double> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -276,19 +265,18 @@ public class Config {
     }
 
     /**
-     * Gets a list of strings from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a list of strings from the config. If the property doesn't exist, a
+     * new one is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested string list property, or the defaultValue if it doesn't exist.
+     * @return The requested string list property, or the defaultValue if it
+     *         doesn't exist.
      */
     public List<String> getStringList(String name, List<String> defaultValue, String comment) {
         if (!config.hasPath(name)) {
-            config = config.withValue(name, ConfigValueFactory.fromAnyRef(defaultValue, comment));
+            config = config.withValue(name, ConfigValueFactory.fromIterable(defaultValue, comment == null ? "missing comment" : comment));
             if (parent != null) {
                 parent.update(this);
             }
@@ -297,15 +285,14 @@ public class Config {
     }
 
     /**
-     * Gets a list of subconfigs from the config.
-     * If the property doesn't exist,
-     * a new one is added, with the provided
-     * default value.
+     * Gets a list of subconfigs from the config. If the property doesn't exist,
+     * a new one is added, with the provided default value.
      *
      * @param name The name of the property
      * @param defaultValue The default value of the property.
      * @param comment The comment to set for the property.
-     * @return The requested subconfig list property, or the defaultValue if it doesn't exist.
+     * @return The requested subconfig list property, or the defaultValue if it
+     *         doesn't exist.
      */
     public List<Config> getConfigList(String name, String comment) {
         if (!config.hasPath(name)) {
@@ -318,8 +305,7 @@ public class Config {
     }
 
     /**
-     * Checks whether a property with
-     * the specified name exists.
+     * Checks whether a property with the specified name exists.
      *
      * @param name The name of the property.
      * @return true, if the property exists.

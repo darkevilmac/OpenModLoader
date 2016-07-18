@@ -34,19 +34,19 @@ public class GuiLoadError extends GuiScreen {
         this.drawCenteredString(this.fontRendererObj, "More information may be found in the log.", this.width / 2, i += 13, 16777215);
         if (!missing.isEmpty()) {
             this.drawCenteredString(this.fontRendererObj, "Missing Dependencies:", this.width / 2, i += 20, 16777215);
-            for (Object dep: missing) {
+            for (Object dep : missing) {
                 this.drawCenteredString(this.fontRendererObj, String.valueOf(dep), this.width / 2, i += 13, 16777215);
             }
         }
         if (!outdated.isEmpty()) {
             this.drawCenteredString(this.fontRendererObj, "Outdated Dependencies:", this.width / 2, i += 20, 16777215);
-            for (Object dep: outdated) {
+            for (Object dep : outdated) {
                 this.drawCenteredString(this.fontRendererObj, String.valueOf(dep), this.width / 2, i += 13, 16777215);
             }
         }
         if (!duplicates.isEmpty()) {
             this.drawCenteredString(this.fontRendererObj, "Duplicate Mods:", this.width / 2, i += 20, 16777215);
-            for (Object dep: duplicates) {
+            for (Object dep : duplicates) {
                 this.drawCenteredString(this.fontRendererObj, String.valueOf(dep), this.width / 2, i += 13, 16777215);
             }
         }

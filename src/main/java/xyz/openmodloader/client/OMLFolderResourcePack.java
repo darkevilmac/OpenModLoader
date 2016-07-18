@@ -9,13 +9,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.client.resources.FolderResourcePack;
 import net.minecraft.util.ResourceLocation;
-import xyz.openmodloader.modloader.ModContainer;
+import xyz.openmodloader.modloader.ModInfo;
 
 public class OMLFolderResourcePack extends FolderResourcePack {
 
-    private static final ResourceLocation ICON_MISSING = new ResourceLocation("textures/misc/unknown_server.png");    private ModContainer mod;
+    private static final ResourceLocation ICON_MISSING = new ResourceLocation("textures/misc/unknown_server.png");
+    private ModInfo mod;
 
-    public OMLFolderResourcePack(ModContainer mod) {
+    public OMLFolderResourcePack(ModInfo mod) {
         super(mod.getModFile());
         this.mod = mod;
     }
@@ -26,13 +27,12 @@ public class OMLFolderResourcePack extends FolderResourcePack {
             return super.getInputStreamByName(name);
         } catch (IOException e) {
             if ("pack.mcmeta".equals(name)) {
-                return new ByteArrayInputStream(
-                            ("{\n" +
-                            "\"pack\": {\n" +
-                            "\"description\": \"OML dummy resource pack for " + mod.getModID() + "\",\n" +
-                            "\"pack_format\": 1\n" +
-                            "}\n" +
-                            "}").getBytes());
+                return new ByteArrayInputStream(("{\n" +
+                        "\"pack\": {\n" +
+                        "\"description\": \"OML dummy resource pack for " + mod.getModID() + "\",\n" +
+                        "\"pack_format\": 1\n" +
+                        "}\n" +
+                        "}").getBytes());
             } else {
                 throw e;
             }

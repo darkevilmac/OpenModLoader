@@ -1,0 +1,9 @@
+--- /net/minecraft/world/biome
++++ /net/minecraft/world/biome
+@@ -11,5 +11,6 @@
+     }
+ 
+     public void decorate(World var1, Random var2, Biome var3, BlockPos var4) {
++        xyz.openmodloader.world.generation.WorldGenHooks.runGenerators(var3, var1, var2, chunkPos);
+     }
+ }

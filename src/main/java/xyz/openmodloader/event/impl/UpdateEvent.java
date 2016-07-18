@@ -156,6 +156,7 @@ public class UpdateEvent extends Event {
 
         /**
          * Creates a new instance of the armor update event.
+         * 
          * @param player The player whose armor is being ticked
          * @param stack The stack containing the armor being ticked
          */
@@ -183,7 +184,10 @@ public class UpdateEvent extends Event {
         }
 
         /**
-         * Internal handle method that posts the event and invokes the {@link net.minecraft.item.Item#onArmorTick(EntityPlayer, ItemStack)} method of the armor
+         * Internal handle method that posts the event and invokes the
+         * {@link net.minecraft.item.Item#onArmorTick(EntityPlayer, ItemStack)}
+         * method of the armor
+         * 
          * @param player The player whose armor is being ticked
          * @param stack The stack containing the armor being ticked
          */

@@ -1,16 +1,16 @@
 package xyz.openmodloader.dictionary;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Shapeless recipe that uses the material dictionary
@@ -23,7 +23,7 @@ public class ShapelessMaterialRecipe implements IRecipe {
     /**
      * Creates a new shapeless material recipe
      *
-     * @param output   recipe output
+     * @param output recipe output
      * @param matchers recipe input
      */
     public ShapelessMaterialRecipe(ItemStack output, List<Predicate<ItemStack>> matchers) {
@@ -35,9 +35,9 @@ public class ShapelessMaterialRecipe implements IRecipe {
      * Creates a new shapeless material recipe
      *
      * @param output recipe output
-     * @param input  recipe input. Valid ingredients include item stacks,
-     *               items, blocks, {@link Dictionaries#MATERIALS material IDs},
-     *               and {@link ItemStackDictionary item stack matchers}.
+     * @param input recipe input. Valid ingredients include item stacks, items,
+     *        blocks, {@link Dictionaries#MATERIALS material IDs}, and
+     *        {@link ItemStackDictionary item stack matchers}.
      * @see net.minecraft.item.crafting.CraftingManager
      */
     public ShapelessMaterialRecipe(Block output, Object... input) {
@@ -48,9 +48,9 @@ public class ShapelessMaterialRecipe implements IRecipe {
      * Creates a new shapeless material recipe
      *
      * @param output recipe output
-     * @param input  recipe input. Valid ingredients include item stacks,
-     *               items, blocks, {@link Dictionaries#MATERIALS material IDs},
-     *               and {@link ItemStackDictionary item stack matchers}.
+     * @param input recipe input. Valid ingredients include item stacks, items,
+     *        blocks, {@link Dictionaries#MATERIALS material IDs}, and
+     *        {@link ItemStackDictionary item stack matchers}.
      * @see net.minecraft.item.crafting.CraftingManager
      */
     public ShapelessMaterialRecipe(Item output, Object... input) {
@@ -61,9 +61,9 @@ public class ShapelessMaterialRecipe implements IRecipe {
      * Creates a new shapeless material recipe
      *
      * @param output recipe output
-     * @param input  recipe input. Valid ingredients include item stacks,
-     *               items, blocks, {@link Dictionaries#MATERIALS material IDs},
-     *               and {@link ItemStackDictionary item stack matchers}.
+     * @param input recipe input. Valid ingredients include item stacks, items,
+     *        blocks, {@link Dictionaries#MATERIALS material IDs}, and
+     *        {@link ItemStackDictionary item stack matchers}.
      * @see net.minecraft.item.crafting.CraftingManager
      */
     public ShapelessMaterialRecipe(ItemStack output, Object... input) {
@@ -109,15 +109,14 @@ public class ShapelessMaterialRecipe implements IRecipe {
     public boolean matches(InventoryCrafting inv, World world) {
         List<Predicate<ItemStack>> remaining = new ArrayList<>(matchers);
 
-        matching:
-        for (int slot = 0; slot < inv.getSizeInventory(); slot++) {
+        matching: for (int slot = 0; slot < inv.getSizeInventory(); slot++) {
             ItemStack stack = inv.getStackInSlot(slot);
 
             if (stack == null) {
                 continue;
             }
 
-            for (Iterator<Predicate<ItemStack>> iterator = remaining.iterator(); iterator.hasNext(); ) {
+            for (Iterator<Predicate<ItemStack>> iterator = remaining.iterator(); iterator.hasNext();) {
                 Predicate<ItemStack> matcher = iterator.next();
 
                 if (matcher.test(stack)) {

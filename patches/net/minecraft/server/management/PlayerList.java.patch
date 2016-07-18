@@ -1,11 +1,21 @@
 --- /net/minecraft/server/management
 +++ /net/minecraft/server/management
-@@ -823,6 +823,8 @@
+@@ -822,14 +822,16 @@
+ 
      }
  
-     public void sendChatMsgImpl(ITextComponent var1, boolean var2) {
-+        var1 = xyz.openmodloader.event.impl.MessageEvent.Chat.handle(var1, xyz.openmodloader.launcher.strippable.Side.SERVER);
+-    public void sendChatMsgImpl(ITextComponent var1, boolean var2) {
++    public void sendChatMsgImpl(net.minecraft.command.ICommandSender sender, ITextComponent var1, boolean var2) {
++        var1 = xyz.openmodloader.event.impl.MessageEvent.Chat.handle(var1, sender);
 +        if (var1 == null) return;
          this.mcServer.addChatMessage(var1);
          int var3 = var2?1:0;
          this.sendPacketToAllPlayers(new SPacketChat(var1, (byte)var3));
+     }
+ 
+     public void sendChatMsg(ITextComponent var1) {
+-        this.sendChatMsgImpl(var1, true);
++        this.sendChatMsgImpl(mcServer, var1, true);
+     }
+ 
+     public StatisticsManagerServer getPlayerStatsFile(EntityPlayer var1) {

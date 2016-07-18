@@ -1,5 +1,7 @@
 package xyz.openmodloader.event.impl;
 
+import java.util.List;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.entity.EntityLivingBase;
@@ -7,8 +9,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.event.Event;
-
-import java.util.List;
 
 /**
  * Parent class for enchantment related events. All events that fall within this

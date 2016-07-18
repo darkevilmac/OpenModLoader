@@ -58,7 +58,7 @@ public class OMLTweaker implements ITweaker {
         try {
             Class<?> cls = Class.forName("xyz.openmodloader.modloader.ModLoader", true, classLoader);
             cls.getMethod("registerMods").invoke(null);
-            //have to use reflection, cause class loader wizardry
+            // have to use reflection, cause class loader wizardry
             Field field = cls.getDeclaredField("ID_MAP");
             field.setAccessible(true);
             Map<String, ?> map = (Map<String, ?>) field.get(null);

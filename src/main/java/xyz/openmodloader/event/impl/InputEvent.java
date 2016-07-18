@@ -1,6 +1,5 @@
 package xyz.openmodloader.event.impl;
 
-import org.lwjgl.input.Keyboard;
 import xyz.openmodloader.OpenModLoader;
 import xyz.openmodloader.event.Event;
 

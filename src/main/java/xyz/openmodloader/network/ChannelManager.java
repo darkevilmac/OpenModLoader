@@ -13,16 +13,19 @@ public class ChannelManager {
 
     /**
      * Creates a new channel builder
+     * 
      * @param name The name of the channel
      * @return The channel builder
      */
     public static ChannelBuilder create(String name) {
-        if (exists(name)) throw new IllegalArgumentException(String.format("Channel %s already exists", name));
+        if (exists(name))
+            throw new IllegalArgumentException(String.format("Channel %s already exists", name));
         return new ChannelBuilder(name);
     }
 
     /**
      * Registers the given channel for the given name
+     * 
      * @param name The name of the channel
      * @param channel The channel
      */
@@ -32,6 +35,7 @@ public class ChannelManager {
 
     /**
      * Retrieves the channel with the given name
+     * 
      * @param name The name of the channel
      * @param <T> The packet type of the channel
      * @return The channel
@@ -42,6 +46,7 @@ public class ChannelManager {
 
     /**
      * Retrieves the channel with the given ID
+     * 
      * @param id The ID of the channel
      * @param <T> The packet type of the channel
      * @return The channel
@@ -52,6 +57,7 @@ public class ChannelManager {
 
     /**
      * Retrieves the name of the given channel
+     * 
      * @param channel The channel
      * @return The name of the channel
      */
@@ -61,6 +67,7 @@ public class ChannelManager {
 
     /**
      * Retrieves the name of the channel with the given ID
+     * 
      * @param id The ID
      * @return The name
      */
@@ -70,6 +77,7 @@ public class ChannelManager {
 
     /**
      * Retrieves the ID of the given channel
+     * 
      * @param channel The channel
      * @return The ID
      */
@@ -79,6 +87,7 @@ public class ChannelManager {
 
     /**
      * Retrieves the ID of the channel with the given name
+     * 
      * @param name The name
      * @return The ID
      */
@@ -88,6 +97,7 @@ public class ChannelManager {
 
     /**
      * Checks if a channel with the given name is already registered
+     * 
      * @param name The name
      * @return If the channel exists
      */

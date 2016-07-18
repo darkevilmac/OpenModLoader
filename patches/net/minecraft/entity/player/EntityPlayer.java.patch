@@ -1,6 +1,17 @@
 --- /net/minecraft/entity/player
 +++ /net/minecraft/entity/player
-@@ -1174,7 +1174,8 @@
+@@ -831,6 +831,10 @@
+ 
+     protected void damageEntity(DamageSource var1, float var2) {
+         if(!this.isEntityInvulnerable(var1)) {
++            xyz.openmodloader.event.impl.LivingEvent.Hurt event = xyz.openmodloader.event.impl.LivingEvent.Hurt.handle(this, var1, var2);
++            if (event.isCanceled()) return;
++            var1 = event.getSource();
++            var2 = event.getDamage();
+             var2 = this.applyArmorCalculations(var1, var2);
+             var2 = this.applyPotionDamageCalculations(var1, var2);
+             float var3 = var2;
+@@ -1174,7 +1178,8 @@
  
          this.setSize(0.2F, 0.2F);
          if(this.worldObj.isBlockLoaded(var1)) {
@@ -10,7 +21,7 @@
              float var3 = 0.5F;
              float var8 = 0.5F;
              switch(var7) {
-@@ -1255,7 +1256,7 @@
+@@ -1255,7 +1260,7 @@
      }
  
      private boolean isInBed() {
@@ -19,7 +30,7 @@
      }
  
      @Nullable
-@@ -1279,7 +1280,8 @@
+@@ -1279,7 +1284,8 @@
      )
      public float getBedOrientationInDegrees() {
          if(this.playerLocation != null) {
@@ -29,18 +40,17 @@
              switch(var1) {
              case SOUTH:
                  return 90.0F;
-@@ -1653,8 +1655,8 @@
-             this.playEquipSound(var2);
-             this.inventory.offHandInventory[0] = var2;
-         } else if(var1.getSlotType() == EntityEquipmentSlot.a.ARMOR) {
--            this.playEquipSound(var2);
--            this.inventory.armorInventory[var1.getIndex()] = var2;
-+            xyz.openmodloader.event.impl.ArmorEvent event = xyz.openmodloader.event.impl.ArmorEvent.handle(this, var2, var1);
-+            if (event != null) { this.inventory.armorInventory[event.getSlot().getIndex()] = event.getArmor(); this.playEquipSound(var2); } else {inventory.addItemStackToInventory(var2); return;}
-         }
- 
+@@ -1646,6 +1652,9 @@
      }
-@@ -1867,6 +1869,17 @@
+ 
+     public void setItemStackToSlot(EntityEquipmentSlot var1, @Nullable ItemStack var2) {
++        xyz.openmodloader.event.impl.EquipmentEvent event = xyz.openmodloader.event.impl.EquipmentEvent.Equip.handle(this, var2, var1);
++        if (event == null) return;
++        var1 = event.getSlot(); var2 = event.getEquipment();
+         if(var1 == EntityEquipmentSlot.MAINHAND) {
+             this.playEquipSound(var2);
+             this.inventory.mainInventory[this.inventory.currentItem] = var2;
+@@ -1867,6 +1876,17 @@
          return this.capabilities.isCreativeMode && this.canCommandSenderUseCommand(2, "");
      }
  
@@ -49,7 +59,7 @@
 +     * Opens a GUI for this player from the given owner, GUI ID, and context
 +     * @param owner The owner of the GUI handler
 +     * @param guiID The ID of the GUI
-+     * @param context The context
++     * @param context The context with which to open the GUI
 +     */
 +    public void openGUI(String owner, String guiID, xyz.openmodloader.gui.GUIContext context) {
 +        xyz.openmodloader.gui.GUIManager.open(this, owner, guiID, context);
