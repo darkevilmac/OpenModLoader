@@ -1,10 +1,7 @@
 package xyz.openmodloader.modloader;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.Set;
@@ -120,10 +117,9 @@ class ManifestModInfo implements ModInfo {
     public ResourceLocation getLogoTexture() {
         if (logoTexture == null && (logoBytes != null || logo != null)) {
             try {
-                InputStream in = null;
+                InputStream in;
                 if (logoBytes == null) {
                     in = new URL(getModFile().toURI().toURL().toString() + '/' + logo).openStream();
-                    ;
                 } else {
                     in = new ByteArrayInputStream(logoBytes);
                 }
@@ -132,6 +128,9 @@ class ManifestModInfo implements ModInfo {
                 this.logoTexture = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("mods/" + getModID(), texture);
                 in.close();
                 logoBytes = null;
+            } catch (FileNotFoundException fne) {
+                OpenModLoader.getLogger().error(String.format("Could not get logo for mod \"%s\"; the file was not found. Using missing icon.", name));
+                return null;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
