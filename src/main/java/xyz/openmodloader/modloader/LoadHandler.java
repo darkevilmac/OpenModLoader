@@ -170,7 +170,12 @@ class LoadHandler {
                             ManifestModInfo mod = registerMod(file, manifest);
                             // load the logo (oh I hate this code...)
                             if (mod.getLogo() != null) {
-                                try (InputStream in = jar.getInputStream(jar.getJarEntry(mod.getLogo()))) {
+                                JarEntry e = jar.getJarEntry(mod.getLogo());
+                                if (e == null) {
+                                    jar.close();
+                                    throw new RuntimeException("Unable to find logo file '" + mod.getLogo() + "' for mod '" + mod.getName() + "'");
+                                }
+                                try (InputStream in = jar.getInputStream(e)) {
                                     mod.setLogo(IOUtils.toByteArray(in));
                                 }
                             }

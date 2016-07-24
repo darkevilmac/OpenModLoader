@@ -115,24 +115,25 @@ class ManifestModInfo implements ModInfo {
 
     @Override
     public ResourceLocation getLogoTexture() {
-        if (logoTexture == null && (logoBytes != null || logo != null)) {
-            try {
-                InputStream in;
-                if (logoBytes == null) {
-                    in = new URL(getModFile().toURI().toURL().toString() + '/' + logo).openStream();
-                } else {
-                    in = new ByteArrayInputStream(logoBytes);
+        if (logoTexture == null) {
+            if (logoBytes != null || logo != null) {
+                try {
+                    InputStream in;
+                    if (logoBytes == null) {
+                        in = new URL(getModFile().toURI().toURL().toString() + '/' + logo).openStream();
+                    } else {
+                        in = new ByteArrayInputStream(logoBytes);
+                    }
+                    BufferedImage image = TextureUtil.readBufferedImage(in);
+                    DynamicTexture texture = new DynamicTexture(image);
+                    this.logoTexture = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("mods/" + getModID(), texture);
+                    in.close();
+                    logoBytes = null;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-                BufferedImage image = TextureUtil.readBufferedImage(in);
-                DynamicTexture texture = new DynamicTexture(image);
-                this.logoTexture = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("mods/" + getModID(), texture);
-                in.close();
-                logoBytes = null;
-            } catch (FileNotFoundException fne) {
-                OpenModLoader.getLogger().error(String.format("Could not get logo for mod \"%s\"; the file was not found. Using missing icon.", name));
-                return null;
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            } else {
+                logoTexture = new ResourceLocation("textures/misc/unknown_server.png");
             }
         }
         return logoTexture;
