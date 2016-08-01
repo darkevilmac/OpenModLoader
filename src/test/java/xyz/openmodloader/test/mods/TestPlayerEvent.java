@@ -8,6 +8,7 @@ import xyz.openmodloader.event.impl.EntityEvent;
 import xyz.openmodloader.event.impl.PlayerEvent;
 import xyz.openmodloader.event.impl.player.EventAchievement;
 import xyz.openmodloader.event.impl.player.EventArrow;
+import xyz.openmodloader.event.impl.player.EventSetSpawn;
 import xyz.openmodloader.event.impl.player.EventTakeSlot;
 import xyz.openmodloader.test.TestMod;
 
@@ -27,6 +28,7 @@ public class TestPlayerEvent implements TestMod {
         OpenModLoader.getEventBus().register(EventAchievement.class, this::onAchievement);
         OpenModLoader.getEventBus().register(EventArrow.Nock.class, this::onNock);
         OpenModLoader.getEventBus().register(EventArrow.Loose.class, this::onLoose);
+        OpenModLoader.getEventBus().register(EventSetSpawn.class, this::onSetSpawn);
     }
 
     private void onCraft(EventTakeSlot.Craft event) {
@@ -94,5 +96,10 @@ public class TestPlayerEvent implements TestMod {
             e.vel *= 0.2F;
         }
         LOGGER.info(tolog);
+    }
+
+    private void onSetSpawn(EventSetSpawn e) {
+        LOGGER.info(String.format("%s is changing from %s to %s and force is being set to %s",
+                e.getPlayer().getName(), e.getOldSpawn().toString(), e.getNewSpawn().toString(), e.isForced()));
     }
 }

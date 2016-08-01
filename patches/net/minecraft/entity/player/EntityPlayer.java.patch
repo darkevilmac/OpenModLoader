@@ -40,7 +40,18 @@
              switch(var1) {
              case SOUTH:
                  return 90.0F;
-@@ -1646,6 +1652,9 @@
+@@ -1322,6 +1328,10 @@
+     }
+ 
+     public void setSpawnPoint(BlockPos var1, boolean var2) {
++	    xyz.openmodloader.event.impl.player.EventSetSpawn result = xyz.openmodloader.event.impl.player.EventSetSpawn.handle(this, spawnChunk, var1, var2);
++	    if (result.isCanceled()) return;
++	    var1 = result.getNewSpawn();
++	    var2 = result.isForced();
+         if(var1 != null) {
+             this.spawnChunk = var1;
+             this.spawnForced = var2;
+@@ -1646,6 +1656,9 @@
      }
  
      public void setItemStackToSlot(EntityEquipmentSlot var1, @Nullable ItemStack var2) {
